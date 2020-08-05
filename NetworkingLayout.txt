@@ -1,0 +1,20 @@
+
+
+
+Networking:
+
+Host:
+	
+	Recieves and Buffers input for clients to read
+
+	Controls Data Structures for Clients
+	
+
+Client:
+	
+	Holds Game/UI loop
+	
+	Communicates to hosts and recieves data from host
+
+
+
