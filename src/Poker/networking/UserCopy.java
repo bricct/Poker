@@ -5,7 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 
-public class User {
+public class UserCopy {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 			
@@ -23,7 +23,7 @@ public class User {
 				public void actionPerformed(ActionEvent e)
 				  {
 				    try {
-				    	client2.sendMessage(id + " poopie weiner");
+				    	client2.sendMessage(id + " farty poopoo");
 				    } catch (Exception ee) {
 				    	System.out.println("oopsies");
 				    	ee.printStackTrace();
