@@ -1,0 +1,16 @@
+Host:
+	controls server handling
+	stores and assigns user ids
+	opens connection
+	contains data structures
+	has game loop
+	controls database connections/user logins
+
+
+
+User:
+	assigned unique id
+	requests logins
+	connects to server through host
+	has game loop
+	
