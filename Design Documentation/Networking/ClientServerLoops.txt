@@ -1,0 +1,28 @@
+
+
+Client Loop:
+
+check for message:
+	process messages and execute commands
+
+update UI
+
+check for input:
+	if theres input:
+		send message to server
+
+update UI
+
+
+
+
+Server Loop:
+
+check for messages from clients:
+	parse messages:
+		update gamestate:
+			handle data structures
+		
+		spread messages to clients
+
+		
