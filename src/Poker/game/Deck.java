@@ -47,7 +47,7 @@ public class Deck {
 
 
     /**
-     * Shuffles the deck using collections.shuffle(0.)
+     * Shuffles the deck using collections.shuffle()
      */
     public void shuffle()
     {

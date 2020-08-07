@@ -5,7 +5,7 @@ package poker.game;
  * It is defined by it's value (2-A) and its suit (1-4)
  * 
  */
-public class Card 
+public class Card implements Comparable<Card>
 {
     private int value; //2-14
     private int suit; //1-4, diamond lowest spade highest
@@ -70,4 +70,36 @@ public class Card
             }
         }
     }
+
+    /**
+     * @param other card to compare to
+     * @return int for less than or greater than
+     */
+    @Override
+    public int compareTo(Card other)
+    {
+        if(this.value == other.value)
+        {
+            if(this.suit > other.suit)
+            {
+                return 1;
+            }else if(this.suit < other.suit){
+                return -1;
+            }else
+            {
+                return 0;
+            }
+        }else
+        {
+            if(this.value > other.value)
+            {
+                return 1;
+            }else
+            {
+                return -1;
+            }
+        }
+    }
+
+
 }
