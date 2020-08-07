@@ -24,8 +24,7 @@ public class Card
         }else
         {
             throw new IllegalArgumentException("Suit or value argument not within range");
-        }
-        
+        }    
     }
 
     /**
@@ -42,5 +41,33 @@ public class Card
     public int suit()
     {
         return suit;
+    }
+
+    /**
+     * Comparator function for two cards
+     *
+     * @param other the other card
+     * @return return true if this card is stronger than other card
+     */
+    public boolean stronger(Card other)
+    {
+        if(this.value == other.value)
+        {
+            if(this.suit > other.suit)
+            {
+                return true;
+            }else{
+                return false;
+            }
+        }else
+        {
+            if(this.value > other.value)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
     }
 }
