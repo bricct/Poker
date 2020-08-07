@@ -1,4 +1,4 @@
-package Poker.networking;
+package poker.networking;
 
 public class Host {
 

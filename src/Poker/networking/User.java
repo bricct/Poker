@@ -1,4 +1,6 @@
- import java.awt.EventQueue;
+package poker.networking;
+
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
