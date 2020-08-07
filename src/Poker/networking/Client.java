@@ -28,7 +28,7 @@ public class Client {
 				
 				this.client_id = Integer.parseInt(getMessage());
 				
-				outToServer.writeUTF(this.client_id + " new client connected");
+				outToServer.writeUTF(this.client_id + " connected");
 				
 				return this.client_id;
 			} catch (NumberFormatException e) { 
@@ -52,6 +52,7 @@ public class Client {
 	public String getMessage() throws Exception {
 		return this.inFromServer.readUTF();
 	}
+	
 	
 	
 	
