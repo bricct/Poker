@@ -1,6 +1,6 @@
-package Poker.ui;
+package poker.ui;
 
-import Poker.components.*;
+import poker.ui.components.*;
 
 import javax.swing.*;
 import javax.swing.border.*;
