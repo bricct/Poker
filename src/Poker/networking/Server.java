@@ -1,103 +1,112 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.concurrent.atomic.AtomicInteger;
-
-class Multi extends Thread{
-private Socket s;
-DataInputStream infromClient;
-DataOutputStream outToClient;
-private AtomicInteger clients;
-private PriorityQueue<String> cmds;
-Multi() throws IOException{
-
-
-}
-Multi(Socket s, AtomicInteger clients, PriorityQueue<String> cmds) throws IOException{
-    this.s=s;
-    this.clients = clients;
-    this.cmds = cmds;
-    infromClient = new DataInputStream(s.getInputStream());
-    outToClient = new DataOutputStream(s.getOutputStream());
-}
-	public void run(){  
-		
-		int id = clients.incrementAndGet();
-		
-        try {
-			outToClient.writeUTF(Integer.toString(id));
-			System.out.println("just wrote " + id + " to client");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
-		
-		
-		while(true) {
-			try {
-		        this.readCommand();
-		    } catch (IOException ex) {
-		        cmds.add("client " + id + " disconnected");
-		        try {
-					s.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		        break;
-		    }
-			try {
-				sleep(50);
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-				break;
-			}
-		}
-		
-	}
-	
-	
-	private synchronized void readCommand() throws IOException { 
-		String msg = infromClient.readUTF();
-        this.cmds.add(msg);
-	}
-	
-	
-}
 
 
 
 public class Server {
 
-public static void main(String args[]) throws IOException, 
-InterruptedException{   
-	AtomicInteger clients = new AtomicInteger(0);
-	PriorityQueue<String> commands = new PriorityQueue<>();
-    while(clients.intValue() < 2){
-        ServerSocket ss=new ServerSocket(11112);
-        System.out.println("Waiting for Clients to connect"); 
-        Socket s=ss.accept();
-        Multi t=new Multi(s, clients, commands);
-        t.start();
-        Thread.sleep(200);
-        ss.close();
-    }    
-    
-    while(true) {
-    	String cmd = commands.poll();
-    	if (cmd != null) {
-    		System.out.println(cmd);
-			System.out.println(commands.size());
-    	}
-    	Thread.sleep(20);
-    }
-
-
-
-
-    }   
+	private AtomicInteger clients;
+	private PriorityQueue<String> commands;
+	private ArrayList<CThread> threads;
+	private HashSet<Integer> disconnected;
+	
+	
+	public Server(int players) throws IOException, InterruptedException{   
+		
+		
+		this.clients = new AtomicInteger(0);
+		this.commands = new PriorityQueue<>();
+		this.threads = new ArrayList<>();
+		this.disconnected = new HashSet<Integer>();
+		
+	    while(clients.intValue() < players){
+	        ServerSocket ss=new ServerSocket(11112);
+	        System.out.println("Waiting for Clients to connect"); 
+	        Socket s=ss.accept();
+	        CThread t=new CThread(s, clients.incrementAndGet(), commands);
+	        threads.add(t);
+	        t.start();
+	        Thread.sleep(200);
+	        ss.close();
+	    }    
+	    
+	    while(true) {
+	    	String cmd = commands.poll();
+	    	if (cmd != null) {
+	    		System.out.println(cmd);
+	    		executeCmd(cmd);
+	    	}
+	    	Thread.sleep(20);
+	    }
+	
+	
+	
+	
+	    }
+	
+	
+	public int executeCmd(String process) {
+		String[] args = process.split(" ");
+		
+		if (args.length <= 1)  {
+			return -1;
+		}
+		
+		int id;
+		try {
+			id = Integer.parseInt(args[0]);
+		} catch (NumberFormatException e) {
+			return -1;
+		}
+		
+		String cmd = args[1];
+		
+		if (cmd.equals("disconnected")) disconnected.add(new Integer(id));
+			
+		if (cmd.equals("fold")) {
+			//do something
+			distributeCmd(id, cmd);
+		} else if (cmd.equals("raise")) {
+			//do something
+			distributeCmd(id, cmd);
+		} else if (cmd.equals("check")) {
+			//do something
+			distributeCmd(id, cmd);
+		} else if (cmd.equals("call")) {
+			//do something
+			distributeCmd(id, cmd);
+		} else {
+			//distributeCmd(id, cmd);
+			return -1;
+		}
+			
+		return 0;
+	}
+	
+	private void distributeCmd(int id, String cmd) {
+		
+		for (int i = 0; i < this.threads.size(); i++) {
+			if (i != id - 1) {
+				if (!disconnected.contains(new Integer(id))) {
+					try {
+						threads.get(i).sendMessage(id +" "+ cmd);
+						System.out.println("forwarding message " + id + " " + cmd + " to client " + (i+1));
+					} catch (IOException e) {
+						System.out.println("someting wong");
+					}
+				}
+			}
+			
+		}
+		
+		
+	}
+	
+	
+	
 }
