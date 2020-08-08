@@ -44,6 +44,16 @@ public class Card implements Comparable<Card>
     }
 
     /**
+     * hash function for Card class using its string id
+     * @return hashvalue of Card class
+     */
+    @Override
+    public int hashCode()
+    {
+        return value * 100 + suit;
+    }
+
+    /**
      * Comparator function for two cards
      *
      * @param other the other card
