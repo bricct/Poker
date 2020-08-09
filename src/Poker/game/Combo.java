@@ -11,6 +11,7 @@ import java.util.HashMap;
  */
 public class Combo implements Comparable<Combo>
 {   
+    ArrayList<Card> playHand;
     ArrayList<Card> fullHand;
     HashSet<Card> cards;
     HashMap<Integer, Integer> vals;
@@ -34,6 +35,7 @@ public class Combo implements Comparable<Combo>
     {
         vals = new HashMap<Integer,Integer>();
         fullHand = new ArrayList<Card>();
+        playerHand = new ArrayList<Card>();
         for(int i=0; i<playerHand.size();i++)
         {
             fullHand.add(playerHand.get(i));
@@ -45,7 +47,9 @@ public class Combo implements Comparable<Combo>
                 vals.put(playerHand.get(i).value(), vals.get(playerHand.get(i).value()) + 1);
             }
             cards.add(playerHand.get(i));
+            playHand.add(playerHand.get(i));
         }
+        Collections.sort(playHand);
 
         for(int i=0;i<community.size();i++)
         {
@@ -57,7 +61,7 @@ public class Combo implements Comparable<Combo>
             {
                 vals.put(community.get(i).value(), vals.get(community.get(i).value()) + 1);
             }
-            cards.add(playerHand.get(i));
+            cards.add(community.get(i));
         }
         Collections.sort(fullHand);
 
@@ -320,6 +324,7 @@ public class Combo implements Comparable<Combo>
             }
             bestCombo = 1;
         }
+        Collections.sort(comboHand);
     }
 
     /**
@@ -346,7 +351,81 @@ public class Combo implements Comparable<Combo>
             return -1;
         }else
         {
-            
+            //straight flush
+            if(this.bestCombo == 9 || this.bestCombo == 5)
+            {
+                //Wheel
+                if(this.comboHand.get(4).value() == 14 && this.comboHand.get(0).value() == 2 && other.comboHand.get(4).value() == 5)
+                {
+                    return -1;
+                }else if(other.comboHand.get(4).value() == 14 && other.comboHand.get(0).value() == 2 && this.comboHand.get(4).value() == 5)
+                {
+                    return 1;
+                }else //check from top down who has higher straight
+                {
+                    for(int i=this.comboHand.size();i>-1;i--)
+                    {
+                        if(this.comboHand.get(i) > other.comboHand.get(i))
+                        {
+                            return 1;
+                        }else if(this.comboHand.get(i) < other.comboHand.get(i))
+                        {
+                            return -1;
+                        }
+                    }
+                }
+                //Impossible to have two people with straight flush of different suit                
+            }else if(this.bestCombo == 7)
+            {
+                if(this.biggestNumVal > other.biggestNumVal)
+                {
+                    return 1;
+                }else if(this.biggestNumVal < other.biggestNumVal)
+                {
+                    return -1;
+                }else
+                {
+                    if(this.bestDouble > other.bestDouble)
+                    {
+                        return 1;
+                    }else if(this.bestDouble < other.bestDouble)
+                    {
+                        return -1;
+                    }else
+                    {
+                        for(int i=this.comboHand.size();i>-1;i--)
+                        {
+                            if(this.comboHand.get(i) > other.comboHand.get(i))
+                            {
+                                return 1;
+                            }else if(this.comboHand.get(i) < other.comboHand.get(i))
+                            {
+                                return -1;
+                            }
+                        }
+                    }
+                }
+            }else //royal flush, flush, 4ofk, 3ofk,2ofk,2pairk,1high all check for highest card down
+            {
+                for(int i=this.comboHand.size();i>-1;i--)
+                {
+                    if(this.comboHand.get(i) > other.comboHand.get(i))
+                    {
+                        return 1;
+                    }else if(this.comboHand.get(i) < other.comboHand.get(i))
+                    {
+                        return -1;
+                    }
+                }
+                if(this.playHand.get(1) > other.playHand.get(1))
+                {
+                    return 1;
+                }else
+                {
+                    return -1;
+                }
+            }
+            return 0;
         }
     }
 }

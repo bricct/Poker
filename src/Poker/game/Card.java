@@ -111,5 +111,26 @@ public class Card implements Comparable<Card>
         }
     }
 
-
+    @Override
+    public boolean equals(Object o) { 
+        if (o == this) { 
+            return true; 
+        } 
+  
+        if (!(o instanceof Card)) { 
+            return false; 
+        } 
+          
+        // typecast o to Complex so that we can compare data members  
+        Card c = (Card) o; 
+          
+        if(this.value == c.value && this.suit == c.suit)
+        {
+            return true;
+        }else
+        {
+            return false;
+        }
+    }
+    
 }
