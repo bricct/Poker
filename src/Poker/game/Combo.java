@@ -338,6 +338,15 @@ public class Combo implements Comparable<Combo>
     @Override
     public int compareTo(Combo other)
     {
-        
+        if(this.bestCombo > other.bestCombo)
+        {
+            return 1;
+        }else if(this.bestCombo < other.bestCombo)
+        {
+            return -1;
+        }else
+        {
+            
+        }
     }
 }
