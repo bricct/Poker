@@ -17,7 +17,7 @@ public class Card implements Comparable<Card>
      */
     public Card(int ivalue, int isuit)
     {
-        if( 2 <= ivalue && ivalue <= 14 && 2 <= isuit && isuit <= 4)
+        if( 2 <= ivalue && ivalue <= 14 && 1 <= isuit && isuit <= 4)
         {
             value = ivalue;
             suit = isuit;
