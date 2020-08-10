@@ -330,9 +330,13 @@ public class Combo implements Comparable<Combo>
     /**
      * @return returns the best combo among the cards
      */
-    
     public ArrayList<Card> getCombo()
     {
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for(int i=0;i<comboHand.size();i++)
+        {
+            cards.add(new Card(comboHand.get(i).value(),comboHand.get(i).suit()));
+        }
         return comboHand;
     }
 
