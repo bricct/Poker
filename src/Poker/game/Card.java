@@ -111,6 +111,11 @@ public class Card implements Comparable<Card>
         }
     }
 
+    /**
+     * Overriden equal function for comaring card objects
+     * @param o other object to compare
+     * @return boolean for eqauls or not
+     */
     @Override
     public boolean equals(Object o) { 
         if (o == this) { 
