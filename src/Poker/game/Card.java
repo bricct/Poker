@@ -3,7 +3,7 @@ package poker.game;
 /**
  * Card is a class representation of a standard poker card
  * It is defined by it's value (2-A) and its suit (1-4)
- * 
+ *
  */
 public class Card implements Comparable<Card>
 {
@@ -24,7 +24,7 @@ public class Card implements Comparable<Card>
         }else
         {
             throw new IllegalArgumentException("Suit or value argument not within range");
-        }    
+        }
     }
 
     /**
@@ -112,18 +112,18 @@ public class Card implements Comparable<Card>
     }
 
     @Override
-    public boolean equals(Object o) { 
-        if (o == this) { 
-            return true; 
-        } 
-  
-        if (!(o instanceof Card)) { 
-            return false; 
-        } 
-          
-        // typecast o to Complex so that we can compare data members  
-        Card c = (Card) o; 
-          
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof Card)) {
+            return false;
+        }
+
+        // typecast o to Complex so that we can compare data members
+        Card c = (Card) o;
+
         if(this.value == c.value && this.suit == c.suit)
         {
             return true;
@@ -132,5 +132,5 @@ public class Card implements Comparable<Card>
             return false;
         }
     }
-    
+
 }
