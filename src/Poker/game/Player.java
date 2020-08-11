@@ -78,7 +78,7 @@ public class Player {
     {
         return money;
     }
-
+    
     /**
      * Gets first card of the hand
      * @return first card
