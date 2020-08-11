@@ -1,6 +1,8 @@
 package poker.game;
 
-public class Game()
+import java.util.ArrayList;
+
+public class Game
 {
     private int numPlayers;
     private ArrayList<Player> players;
@@ -11,28 +13,27 @@ public class Game()
     public Game(int inumPlayers, int initialIncome, int ismall, int ibig)
     {
         numPlayers = inumPlayers;
-        turnIterator = 0;
         deck = new Deck();
         small = ismall;
         big = ibig;
-        for(int i=0; i<inumPlayers, i++)
+        for(int i=0; i<inumPlayers; i++)
         {
             players.add(new Player(initialIncome));
         }
     }
 
-    private class PlayerTuple()
+    private class PlayerTuple
     {
         Player player;
         int currMoney;
-        public PlayerTuple(Card iplayer, int icurrMoney)
+        public PlayerTuple(Player iplayer, int icurrMoney)
         {
             player = iplayer;
             currMoney = icurrMoney;
         }
     }
 
-    public int goAroundTable(ArrayList<CardTuple> queue, int pot)
+    public int goAroundTable(ArrayList<PlayerTuple> queue, int pot)
     {
         boolean check = false;
         int currentCheckPay = 0;
@@ -47,18 +48,18 @@ public class Game()
                 {
                     return pot;
                 }else{//Do the action buttons: bet, check, fold
-                    if(true)//If player checks...
+                    if(1==1)//If player checks...
                     {
                         queue.get(i).player.subMoney(currentCheckPay - queue.get(i).currMoney);
                         pot += currentCheckPay - queue.get(i).currMoney;
-                        queue.get(i).currMoney = currentChecKPay; //player set to current pot amount
-                    }else if(true) //IF bet
+                        queue.get(i).currMoney = currentCheckPay; //player set to current pot amount
+                    }else if(1 ==1 ) //IF bet
                     {
                         int bet = 0; //<--------- CHANGE THIS
                         currentCheckPay += bet;
                         queue.get(i).player.subMoney(currentCheckPay - queue.get(i).currMoney);
                         pot += currentCheckPay - queue.get(i).currMoney;
-                        queue.get(i).currMoney = currentChecKPay;
+                        queue.get(i).currMoney = currentCheckPay;
                     }else //Fold
                     {
                         queue.remove(i);
@@ -69,7 +70,7 @@ public class Game()
                     }
                 }
             }
-            iniialChecked = true;
+            initialChecked = true;
             check = true;
             for(int i=0;i<queue.size();i++)
             {
@@ -79,20 +80,21 @@ public class Game()
                 }
             }
         }
+        return pot;
     }
 
     public void playRound()
     {
         int pot = 0;
-        ArrayList<CardTuple> queue = new ArrayList<CardTuple>();
+        ArrayList<PlayerTuple> queue = new ArrayList<PlayerTuple>();
         boolean smallBet = false;
         boolean bigBet = false;
         //Add playable players to queue
         for(int i=0;i<players.size();i++)
         {
-            if(players.get(j).getMoney() > 0)
+            if(players.get(i).getMoney() > 0)
             {
-                queue.add(new CardTuple(players.get(j),0));
+                queue.add(new PlayerTuple(players.get(i),0));
             }
         }
         if(queue.size() == 1)
@@ -148,7 +150,8 @@ public class Game()
             for(int i=0;i<queue.size();i++)
             {
                 ArrayList<Card> playerhand = new ArrayList<Card>();
-                playerhand.add(queue.get(i).firstCard()).add(queue.get(i).secondCard());
+                playerhand.add(queue.get(i).player.firstCard());
+                playerhand.add(queue.get(i).player.secCard());
                 combos.add(new Combo(playerhand, boardCards));
             }
             //You can use this for displaying in the UI
@@ -156,7 +159,7 @@ public class Game()
             int itr = 0;
             for(int i=0;i<queue.size();i++)
             {
-                if(combos.get(i) > bestCombo)
+                if(combos.get(i).compareTo(bestCombo)==1)
                 {
                     itr = i;
                     bestCombo = combos.get(i);
@@ -174,6 +177,6 @@ public class Game()
             player.clearHand();
         }
         boardCards.clear();
-        deck.reset();
+        deck.resetDeck();
     }
 }

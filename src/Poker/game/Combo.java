@@ -369,10 +369,10 @@ public class Combo implements Comparable<Combo>
                 {
                     for(int i=this.comboHand.size();i>-1;i--)
                     {
-                        if(this.comboHand.get(i) > other.comboHand.get(i))
+                        if(this.comboHand.get(i).compareTo(other.comboHand.get(i)) > 0)
                         {
                             return 1;
-                        }else if(this.comboHand.get(i) < other.comboHand.get(i))
+                        }else if(this.comboHand.get(i).compareTo(other.comboHand.get(i)) < 0)
                         {
                             return -1;
                         }
@@ -399,10 +399,10 @@ public class Combo implements Comparable<Combo>
                     {
                         for(int i=this.comboHand.size();i>-1;i--)
                         {
-                            if(this.comboHand.get(i) > other.comboHand.get(i))
+                            if(this.comboHand.get(i).compareTo(other.comboHand.get(i)) > 0)
                             {
                                 return 1;
-                            }else if(this.comboHand.get(i) < other.comboHand.get(i))
+                            }else if(this.comboHand.get(i).compareTo(other.comboHand.get(i)) < 0)
                             {
                                 return -1;
                             }
@@ -413,15 +413,15 @@ public class Combo implements Comparable<Combo>
             {
                 for(int i=this.comboHand.size();i>-1;i--)
                 {
-                    if(this.comboHand.get(i) > other.comboHand.get(i))
+                    if(this.comboHand.get(i).compareTo(other.comboHand.get(i)) > 0)
                     {
                         return 1;
-                    }else if(this.comboHand.get(i) < other.comboHand.get(i))
+                    }else if(this.comboHand.get(i).compareTo(other.comboHand.get(i)) < 0)
                     {
                         return -1;
                     }
                 }
-                if(this.playHand.get(1) > other.playHand.get(1))
+                if(this.playHand.get(1).compareTo(other.playHand.get(1)) > 0)
                 {
                     return 1;
                 }else
