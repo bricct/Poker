@@ -41,7 +41,7 @@ public class Game()
         {
             for(int i=0;i<queue.size();i++)
             {
-                
+
                 //initialChecked is for checking if it's an initialBet. After initial bet, we break at the last better
                 if(initialChecked && queue.get(i).currMoney == currentCheckPay)
                 {
@@ -100,8 +100,8 @@ public class Game()
             return; //1 player left
         }
 
-        queue.get(0).player.subMoney(small); //Big Blind    
-        queue.get(1).player.subMoney(big); //Small blind          
+        queue.get(0).player.subMoney(small); //Big Blind
+        queue.get(1).player.subMoney(big); //Small blind
 
         //Deal cards to players in queue
         for(int i=0;i<2;i++)
@@ -115,7 +115,7 @@ public class Game()
         //pre-flop
         queue.get(0).currMoney = -1 * small; //small still has to pay
         pot = goAroundTable(queue, pot); //updated pot, queue is passed by reference
-        if(queue.size() == 0)
+        if(queue.size() == 1)
         {
             queue.get(0).player.addMoney(pot);
         }
@@ -125,21 +125,21 @@ public class Game()
             boardCards.add(deck.draw());
         }
         pot = goAroundTable(queue, pot); //updated pot, queue is passed by reference
-        if(queue.size() == 0)
+        if(queue.size() == 1)
         {
             queue.get(0).player.addMoney(pot);
         }
         //Turn
         boardCards.add(deck.draw());
         pot = goAroundTable(queue, pot); //updated pot, queue is passed by reference
-        if(queue.size() == 0)
+        if(queue.size() == 1)
         {
             queue.get(0).player.addMoney(pot);
         }
         //River
         boardCards.add(deck.draw());
         pot = goAroundTable(queue, pot); //updated pot, queue is passed by reference
-        if(queue.size() == 0)
+        if(queue.size() == 1)
         {
             queue.get(0).player.addMoney(pot);
         }else
