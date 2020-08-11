@@ -16,11 +16,11 @@ public class TestPanel extends JPanel {
 	private Card card1, card2;
 	private BufferedImage table;
 	private int money;
-	public TestPanel(Card card1, Card card2, int money) {
+	public TestPanel(Card card1, Card card2) {
 		this.setSize(900, 480);
 		this.card1 = card1;
 		this.card2 = card2;
-		this.money = money;
+		this.money = 0;
 		try {
 			this.table = ImageIO.read(new File("table.png"));
 		} catch (IOException e) {
@@ -64,6 +64,7 @@ public class TestPanel extends JPanel {
 			card1_reg = Sprite.getSprite(this.card1);
 			card2_reg = Sprite.getSprite(this.card2);
 		}
+		
 		
 		int c_width = (int) Math.floor((double)width/13.0 );
 		int c_height = (int) Math.floor((double)height/5.0 );
