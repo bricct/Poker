@@ -1,0 +1,66 @@
+
+Priority Queue unfolded players 
+
+
+
+while (activePlayers.length > 1) {
+	
+	hand (turn_num++);
+}
+
+activePlayers.get(0) wins;
+
+
+
+
+
+hand(int turn_num) {
+	
+	
+	
+	state = 0;
+	
+	num_active = activeplayers.length;
+
+	
+	first_player  = turn_num % num_active
+
+	for int i < num_active {
+		unfoldedplayers.add(activeplayers[(i + first_player) % num_active])
+	}
+
+	while (state < 5 and unfoldedplayers.length > 1) {
+
+		while (! all unfolded players . bet == requried bet {
+			
+			current player = unfoldedplayers.pop()
+			send turn current player
+			server wait for current player signal then operate
+			
+			if (!player.folds && !player.disconnects) {
+				unfoldedplayers.add(current player)
+			}
+		}
+		
+		++state		
+
+		if (state == 1) {
+			flop
+		} else if (state == 2) {
+			turn
+		} else if (state == 3) {
+			river
+		}
+	
+	}
+
+	
+	find winner
+	send pot
+	find losers and remove from active players
+
+
+}
+			
+
+
