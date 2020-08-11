@@ -108,7 +108,7 @@ public class TestBoard extends JFrame {
 					table_cards[1] = deck.draw();
 					table_cards[2] = deck.draw();
 				}
-				panel.setTableCards(table_cards);
+				panel.flop(table_cards);
 			}
 			
 		});
@@ -126,7 +126,7 @@ public class TestBoard extends JFrame {
 					table_cards[3] = deck.draw();
 
 				}
-				panel.setTableCards(table_cards);
+				panel.turn(table_cards);
 			}
 			
 		});
@@ -142,7 +142,7 @@ public class TestBoard extends JFrame {
 					deck.shuffle();
 					table_cards[4] = deck.draw();
 				}
-				panel.setTableCards(table_cards);
+				panel.river(table_cards);
 			}
 			
 		});

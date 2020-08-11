@@ -29,6 +29,7 @@ public class TestPanel extends JPanel {
 	Image icard1, icard2, iback, table1, ideck;
 	Image[] chip_spr, itable_cards;
 	private int width, height, c_height, b_height, c_width, b_width, ch_size;
+	private boolean[] card_set;
 	
 	
 	
@@ -38,8 +39,15 @@ public class TestPanel extends JPanel {
 		this.card2 = card2;
 		this.money = money;
 		this.pot = 1256;
+		
 		this.to_add = 0;
-		this.timer = new Timer(10, animator);
+		
+		this.card_set = new boolean[5];
+		for (int i = 0; i < 5; i++) {
+			this.card_set[i] = false;
+		}
+		
+		this.timer = new Timer(15, animator);
 		this.timer.start();
 		
 		Dimension scr_dim = getSize();
@@ -81,7 +89,8 @@ public class TestPanel extends JPanel {
 		
 		itable_cards = new Image[5];
 		
-		
+		SoundEffects.init();
+		SoundEffects.volume = SoundEffects.Volume.LOW;
 		
 		this.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent componentEvent) {
@@ -159,29 +168,38 @@ public class TestPanel extends JPanel {
 		this.repaint();
 	}
 	
-	public void setTableCards(Card[] table_cards) {
+	public void flop(Card[] table_cards) {
+		for (int i = 0; i < 5; i++) {
+			this.card_set[i] = false;
+		}
+		setTableCards(table_cards);
+		anim_select = 6;
+		timer.restart();
+		this.repaint();
+	}
+	
+	public void turn(Card[] table_cards) {
+		setTableCards(table_cards);
+		anim_select = 9;
+		timer.restart();
+		this.repaint();
+	}
+	
+	public void river(Card[] table_cards) {
+		setTableCards(table_cards);
+		anim_select = 10;
+		timer.restart();
+		this.repaint();
+	}
+	
+	
+	private void setTableCards(Card[] table_cards) {
 		this.table_cards = table_cards;
 		int i;
 		for (i = 0; i < 5; i ++) {
 			if (table_cards[i] == null) break;
 			itable_cards[i] = Sprite.getSprite(table_cards[i]).getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 		}
-		
-		if (i == 3) {
-			anim_select = 8;
-			timer.restart();
-		} else if (i == 4) {
-			anim_select = 9;
-			timer.restart();
-		} else if (i == 5) {
-			//System.out.println("hello");
-			anim_select = 10;
-			timer.restart();
-		}
-		
-		
-		
-		this.repaint();
 		
 	}
 	
@@ -193,13 +211,32 @@ public class TestPanel extends JPanel {
 			if (c_anim == 20) {
 				c_anim = 0;
 				
-				if (anim_select < 9 && anim_select > 5) {
-					anim_select--;
-				} else {
-					anim_select++;
+				
+				anim_select++;
+				if (anim_select == 1 || anim_select == 2) SoundEffects.DRAW.play();
+				
+				
+//				if (anim_select < 9 && anim_select > 5) {
+//					anim_select--;
+//				} else {
+//					anim_select++;
+//				}
+				
+				
+				//if (anim_select < 8 && anim_select > 4) card_set[anim_select-5] = true;
+				
+				//if (anim_select == 9 || anim_select == 10 || anim_select == 11) card_set[anim_select-7] = true;
+				
+				if (anim_select > 6 && anim_select < 12) {
+					card_set[anim_select-7] = true;
+					SoundEffects.DRAW.play();
 				}
 				
-				if (anim_select == 6) anim_select = 11;
+				
+				if (anim_select == 9 || anim_select == 10)  {
+					
+					anim_select = 11;
+				}
 				
 			}
 			if (anim_select == 2) {
@@ -208,6 +245,7 @@ public class TestPanel extends JPanel {
 			if (anim_select == 4) {
 				pot += to_add;
 				to_add = 0;
+				SoundEffects.CHIP.play();
 				timer.stop();
 			}
 			if (anim_select == 11) {
@@ -252,9 +290,42 @@ public class TestPanel extends JPanel {
 		for (int i = 0; i < 5; i++) {
 			if (this.table_cards[i] != null) {
 				if (anim_select == i+6) g2d.drawImage(itable_cards[i], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)i+1.0)) -2)+i) * (c_width/2 + 5))), height/3, this);
-				else g2d.drawImage(itable_cards[i], (width/2) + (2 * (i-2) * (c_width/2 + 5) ) , height/3, this);
+				else if (card_set[i]) g2d.drawImage(itable_cards[i], (width/2) + (2 * (i-2) * (c_width/2 + 5) ) , height/3, this);
 			}
 		}
+		
+		
+//		if (this.table_cards[0] != null) {
+//			if (anim_select == 8) g2d.drawImage(itable_cards[0], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)0.0+1.0)) -2)+0) * (c_width/2 + 5))), height/3, this);
+//			else g2d.drawImage(itable_cards[0], (width/2) + (2 * (-2) * (c_width/2 + 5) ) , height/3, this);
+//		}
+//		if (this.table_cards[1] != null) {
+//			if (anim_select == 7) g2d.drawImage(itable_cards[1], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)1+1.0)) -2)+1) * (c_width/2 + 5))), height/3, this);
+//			else g2d.drawImage(itable_cards[1], (width/2) + (2 * (-1) * (c_width/2 + 5) ) , height/3, this);
+//		}
+//		if (this.table_cards[2] != null) {
+//			if (anim_select == 6) g2d.drawImage(itable_cards[2], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)2+1.0)) -2)+2) * (c_width/2 + 5))), height/3, this);
+//			else g2d.drawImage(itable_cards[2], (width/2) + (2 * (0) * (c_width/2 + 5) ) , height/3, this);
+//		}
+//		if (this.table_cards[3] != null) {
+//			if (anim_select == 9) g2d.drawImage(itable_cards[3], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)3+1.0)) -2)+3) * (c_width/2 + 5))), height/3, this);
+//			else g2d.drawImage(itable_cards[3], (width/2) + (2 * (1) * (c_width/2 + 5) ) , height/3, this);
+//		}
+//		if (this.table_cards[4] != null) {
+//			if (anim_select == 10) g2d.drawImage(itable_cards[4], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)4+1.0)) -2)+4) * (c_width/2 + 5))), height/3, this);
+//			else g2d.drawImage(itable_cards[4], (width/2) + (2 * (2) * (c_width/2 + 5) ) , height/3, this);
+//		}
+		
+		
+		
+		
+//		for (int i = 0; i < 5; i++) {
+//			if (this.table_cards[i] != null) {
+//				if (anim_select == i+6) g2d.drawImage(itable_cards[i], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)i+1.0)) -2)+i) * (c_width/2 + 5))), height/3, this);
+//				else g2d.drawImage(itable_cards[i], (width/2) + (2 * (i-2) * (c_width/2 + 5) ) , height/3, this);
+//			}
+//		}
+		
 		
 		//draw deck 5 times to make it look 3d
 		for (int i = 0; i < 5; i++) {
