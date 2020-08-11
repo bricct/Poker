@@ -23,25 +23,27 @@ public class Game()
 
     public void playRound()
     {
+        int pot = 0;
         ArrayList<Player> queue = new ArrayList<Player>();
-        boolean smallPayed = false;
-        boolean bigPayed = false;
-        for(int i=0;i<player.size();i++)
+        boolean smallBet = false;
+        boolean bigBet = false;
+        //Add playable players to queue
+        for(int i=0;i<players.size();i++)
         {
             if(players.get(j).getMoney() > 0)
             {
                 queue.add(players.get(j));
-                if(!smallPayed)
-                {
-                    players.get(j).subMoney(small);
-                    smallPayed = true;
-                }else if(!bigPayed)
-                {
-                    players.get(j).subMoney(big);
-                    bigPayed = true;
-                }
             }
         }
+        if(queue.size() == 1)
+        {
+            return; //1 player left
+        }
+
+        players.get(0).subMoney(small); //Big Blind    
+        players.get(1).subMoney(big); //Small blind          
+
+        //Deal cards to players in queue
         for(int i=0;i<2;i++)
         {
             for(int j=0;j<queue.size();j++)
@@ -49,13 +51,9 @@ public class Game()
                 queue.get(j).addToHand(deck.draw());
             }
         }
-        for(int i=0;i<3;i++)
-        {
-            boardCards.add(deck.draw());
-        }
 
         boolean check = false;
-        int checkedPlayers = 0
+        int checkedPlayers = 0;
         while(!check)
         {
             for(int i=0;i<queue.size();i++)
@@ -79,9 +77,16 @@ public class Game()
             }
         }
 
+        for(int i=0;i<3;i++)
+        {
+            boardCards.add(deck.draw());
+        }
+
+        
 
 
-
+        //Remove first element, add to end
+        players.add(players.remove(0));
         deck.reset();
     }
 }
