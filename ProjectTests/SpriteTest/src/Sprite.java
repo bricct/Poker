@@ -49,6 +49,19 @@ public class Sprite {
         return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, Y_SIZE);
     }
     
+    public static BufferedImage getDeckSprite() {
+    	
+    	int xGrid = 0;
+    	int yGrid = 4;
+    	
+    	
+        if (spriteSheet == null) {
+            spriteSheet = loadSprite();
+        }
+
+        return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, Y_SIZE);
+    }
+    
     public static BufferedImage getIconSprite() {
     	
     	int xGrid = 2;
