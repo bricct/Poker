@@ -15,6 +15,7 @@ public class Server {
 	private ArrayList<CThread> threads;
 	private HashSet<Integer> disconnected;
 	private Deck deck;
+	private final int startingMoney;
 	
 	public Server(int players) throws IOException, InterruptedException{   
 		
@@ -26,22 +27,29 @@ public class Server {
 		
 	    
 		while(clients.intValue() < players){
+			System.out.println(clients.intValue() + "");
 	        ServerSocket ss=new ServerSocket(11112);
 	        System.out.println("Waiting for Clients to connect"); 
 	        Socket s=ss.accept();
 	        CThread t=new CThread(s, clients.incrementAndGet(), commands);
 	        threads.add(t);
 	        t.start();
-	        Thread.sleep(200);
+	        Thread.sleep(20);
 	        ss.close();
 	    
 	    }    
 	    
+		
+		this.startingMoney = 1500;
+		
+		
+		
 		this.deck = new Deck();
 		this.deck.shuffle();
-	    
+		
+	    sendPlayerInfo();
 	    sendCards();
-	    
+	    sendInitialMoney();
 	    
 	    
 	    while(true) {
@@ -140,4 +148,47 @@ public class Server {
 			}	
 		}
 	}
+	
+	
+	private void sendInitialMoney() {
+		for (int i = 0; i < this.threads.size(); i++) {
+					
+			if (!disconnected.contains(new Integer(i))) {
+				try {
+					
+					threads.get(i).sendMessage("money " + this.startingMoney);
+	
+					System.out.println("sending money " + this.startingMoney + " to client " + i);
+				} catch (IOException e) {
+					System.out.println("someting wong");
+				}
+			}	
+		}
+	}
+	
+	private void sendPlayerInfo() {
+		for (int i = 0; i < this.threads.size(); i++) {
+			if (!disconnected.contains(new Integer(i))) {
+				try {
+					
+					int active_players = this.threads.size() - this.disconnected.size();
+					String players = "";
+					for (int j = 0; j < this.threads.size(); j++) {
+						if (!disconnected.contains(new Integer(j)) && j != i) {
+							players += (" " + j);
+						}
+					}
+					
+					threads.get(i).sendMessage("players" + " " + active_players +  players);
+	
+					System.out.println("sending players " + active_players +  players + " to client " + i);
+				} catch (IOException e) {
+					System.out.println("someting wong");
+				}
+			}	
+		}
+	}
+	
+	
+	
 }

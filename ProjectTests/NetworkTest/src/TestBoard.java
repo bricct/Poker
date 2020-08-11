@@ -16,6 +16,8 @@ public class TestBoard extends JFrame {
 	private Card card1, card2;
 //	private User user;
 	private boolean turn;
+	private int num_players;
+	private int[] players;
 	
 	public TestBoard(User user) {
 		this.setSize(906, 520);		
@@ -26,6 +28,8 @@ public class TestBoard extends JFrame {
 		this.call = new JButton("Call");
 		this.raise = new JButton("Raise");
 		
+		this.num_players = 1;
+		this.players = new int[0];
 		
 		this.turn = false;
 		
@@ -46,6 +50,7 @@ public class TestBoard extends JFrame {
 			    	user.sendMessage("fold");
 			    	card1 = null;
 					card2 = null;
+					panel.fold();
 					panel.setCards(card1, card2);
 			    } catch (Exception ee) {
 			    	System.out.println("oopsies");
@@ -117,6 +122,15 @@ public class TestBoard extends JFrame {
 	public void setMoney(int money) {
 		this.panel.setMoney(money);
 	}
+	
+	
+	public void setPlayers(int[] players) {
+		this.num_players = players.length;
+		this.players = players;
+		this.panel.setPlayers(this.num_players, this.players);
+	}
+	
+	
 	
 	
 }

@@ -116,6 +116,35 @@ public class User {
 				System.out.println("Error: not enough card values passed in");
 				return;
 			}
+		} else if (args[0].equals("money")) {
+			try {
+
+				int money = Integer.parseInt(args[1]);
+
+				this.board.setMoney(money);
+				
+			} catch (NumberFormatException e1) {
+				System.out.println("Error: cannot parse money value");
+				return;
+			}
+			
+		} else if (args[0].equals("players")) {
+			try {
+
+				int num_players = Integer.parseInt(args[1]);
+				
+				int[] players = new int[num_players];
+				
+				for (int i = 1; i < num_players; i++) {
+					players[i-1] = Integer.parseInt(args[i+1]);
+				}
+
+				this.board.setPlayers(players);
+				
+			} catch (NumberFormatException e1) {
+				System.out.println("Error: cannot parse player values");
+				return;
+			}
 		}
 			
 			

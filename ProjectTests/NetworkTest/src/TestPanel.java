@@ -16,11 +16,20 @@ public class TestPanel extends JPanel {
 	private Card card1, card2;
 	private BufferedImage table;
 	private int money;
+	private boolean folded;
+	private int num_players;
+	private int[] players;
+	
 	public TestPanel(Card card1, Card card2) {
 		this.setSize(900, 480);
 		this.card1 = card1;
 		this.card2 = card2;
 		this.money = 0;
+		
+		this.num_players = 1;
+		this.players = new int[0];
+		this.folded = false;
+		
 		try {
 			this.table = ImageIO.read(new File("table.png"));
 		} catch (IOException e) {
@@ -39,6 +48,18 @@ public class TestPanel extends JPanel {
 		this.money = money;
 		this.repaint();
 	}
+	
+	public void fold () {
+		this.folded = true;
+	}
+	
+	public void setPlayers(int num_players, int[] players) {
+		this.num_players = num_players;
+		this.players = players;
+		System.out.println("Num_players = " + num_players);
+		this.repaint();
+	}
+	
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -88,9 +109,10 @@ public class TestPanel extends JPanel {
 		
 
 		//player cards
-		g2d.drawImage(card1, (width/2) - c_width , height - (height/4), this);
-		g2d.drawImage(card2, (width/2) + 5, height - (height/4), this);
-		
+		if (!this.folded) {
+			g2d.drawImage(card1, (width/2) - c_width , height - (height/4), this);
+			g2d.drawImage(card2, (width/2) + 5, height - (height/4), this);
+		}
 		
 		
 		
@@ -109,21 +131,30 @@ public class TestPanel extends JPanel {
 		
 		//other players cards
 		//p2
-		g2d.drawImage(back, (width/4) - b_width, height - (height/3), this);
-		g2d.drawImage(back, (width/4) + 5, height - (height/3), this);
+		if (this.num_players > 1) {
+			g2d.drawImage(back, (width/4) - b_width, height - (height/3), this);
+			g2d.drawImage(back, (width/4) + 5, height - (height/3), this);
+		}
 		
 		//p3
-		g2d.drawImage(back, 3 * (width/4) - b_width, height - (height/3), this);
-		g2d.drawImage(back, 3 * (width/4) + 5, height - (height/3), this);
+		if (this.num_players > 2) {
+			g2d.drawImage(back, 3 * (width/4) - b_width, height - (height/3), this);
+			g2d.drawImage(back, 3 * (width/4) + 5, height - (height/3), this);
+		}
+		
+		
 		
 		//p4
-		g2d.drawImage(back, (width/8) - b_width, height/2 - (b_height/2), this);
-		g2d.drawImage(back, (width/8) + 5, height/2 - (b_height/2), this);
+		if (this.num_players > 3) {
+			g2d.drawImage(back, (width/8) - b_width, height/2 - (b_height/2), this);
+			g2d.drawImage(back, (width/8) + 5, height/2 - (b_height/2), this);
+		}
 		
 		//p5
-		g2d.drawImage(back, 7 * (width/8) - b_width, height/2 - (b_height/2), this);
-		g2d.drawImage(back, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
-		
+		if (this.num_players > 4) {
+			g2d.drawImage(back, 7 * (width/8) - b_width, height/2 - (b_height/2), this);
+			g2d.drawImage(back, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
+		}
 		
 		Toolkit.getDefaultToolkit().sync();
 	}

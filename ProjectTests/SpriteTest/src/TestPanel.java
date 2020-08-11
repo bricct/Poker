@@ -14,18 +14,30 @@ public class TestPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private Card card1, card2;
+	private Card[] table_cards;
 	private BufferedImage table;
 	private int money;
+	private int pot;
 	public TestPanel(Card card1, Card card2, int money) {
 		this.setSize(900, 480);
 		this.card1 = card1;
 		this.card2 = card2;
 		this.money = money;
+		this.pot = 1256;
 		try {
 			this.table = ImageIO.read(new File("table.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		this.table_cards = new Card[5];
+		
+		for (int i = 0; i < 5; i++) {
+			this.table_cards[i] = null;
+		}
+		
+		
+		
 		
 	}
 	
@@ -39,6 +51,17 @@ public class TestPanel extends JPanel {
 		this.money = money;
 		this.repaint();
 	}
+	
+	public void addToPot(int money) {
+		this.pot += money;
+		this.repaint();
+	}
+	
+	public void setTableCards(Card[] table_cards) {
+		this.table_cards = table_cards;
+	}
+	
+	
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -103,6 +126,13 @@ public class TestPanel extends JPanel {
 		}
 		
 		
+		//draw pot chips
+		int[] pot = Chips.getChips(this.pot);
+		for (int i = 5; i >= 0; i--) {
+			for (int j = 0; j < pot[i]; j++) {
+				g2d.drawImage(chip_spr[i], (int) Math.floor((width/2) + (((i % 3) - 1)  * (1.1 * ch_size)) - ch_size/2 + 2) , (int) Math.floor(height/4 - (j * (ch_size/10)) - ((i / 3) * (1.05 * ch_size))), this);
+			}
+		}
 		
 		
 		
@@ -122,6 +152,18 @@ public class TestPanel extends JPanel {
 		//p5
 		g2d.drawImage(back, 7 * (width/8) - b_width, height/2 - (b_height/2), this);
 		g2d.drawImage(back, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
+		
+		
+		//draw table cards
+		for (int i = 0; i < 5; i++) {
+			if (this.table_cards[i] == null) break;
+			g2d.drawImage(Sprite.getSprite(this.table_cards[i]).getScaledInstance(c_width, c_height, Image.SCALE_FAST), (width/2) + (2 * (i-2) * (c_width/2 + 5) - c_width/2) , height/3, this);
+			
+			
+		}
+		
+		
+		
 		
 		
 		Toolkit.getDefaultToolkit().sync();

@@ -17,6 +17,7 @@ public class UThread extends Thread {
 				client.sendMessageToUser(msg);
 				System.out.println(msg +  " ");
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("Disconnected from server");
 				break;
 			}
