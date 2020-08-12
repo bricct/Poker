@@ -7,20 +7,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class TestBoard extends JFrame {
+public class TestBoard1 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JButton fold, call, raise;
-	private TestPanel panel;
+	private TestPanel1 panel;
 	private JPanel buttonPanel;
 	private Card card1, card2;
 //	private User user;
-	//private boolean turn;
+	private boolean turn;
 	private int num_players;
 	private int[] players;
-	private Card[] table_cards;
 	
-	public TestBoard(User user) {
+	public TestBoard1(User user) {
 		this.setSize(906, 520);		
 //		this.user = user;
 		this.buttonPanel = new JPanel(new GridLayout(1, 3));
@@ -32,11 +31,11 @@ public class TestBoard extends JFrame {
 		this.num_players = 1;
 		this.players = new int[0];
 		
-		//this.turn = false;
+		this.turn = false;
 		
 		this.card1 = null;
 		this.card2 = null;
-		this.panel = new TestPanel(this.card1, this.card2);
+		this.panel = new TestPanel1(this.card1, this.card2);
 		
 		this.setIconImage(Sprite1.getIconSprite());
 		
@@ -49,13 +48,16 @@ public class TestBoard extends JFrame {
 				//if (!turn) return;
 				try {
 			    	user.sendMessage("fold");
-			    	fold();
+			    	card1 = null;
+					card2 = null;
+					panel.fold();
+					panel.setCards(card1, card2);
 			    } catch (Exception ee) {
 			    	System.out.println("oopsies");
 			    	ee.printStackTrace();
 			    }
 
-				//turn = false;
+				turn = false;
 				
 				panel.setCards(card1, card2);
 			}
@@ -67,15 +69,15 @@ public class TestBoard extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				
-
+				if (!turn) return;
 				try {
-			    	user.sendMessage("check");;
+			    	user.sendMessage("call");;
 			    } catch (Exception ee) {
 			    	System.out.println("oopsies");
 			    	ee.printStackTrace();
 			    }
 
-
+				turn = false;
 			}
 			
 		});
@@ -85,15 +87,15 @@ public class TestBoard extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				
-
+				if (!turn) return;
 				try {
-			    	user.sendMessage("raise " + 20);
+			    	user.sendMessage("raise");
 			    } catch (Exception ee) {
 			    	System.out.println("oopsies");
 			    	ee.printStackTrace();
 			    }
 
-
+				turn = false;
 			}
 			
 		});
@@ -109,15 +111,6 @@ public class TestBoard extends JFrame {
 		
 		
 	}
-	
-	
-	public void fold() {
-		card1 = null;
-		card2 = null;
-		panel.fold();
-		panel.setCards(card1, card2);
-	}
-	
 	
 	
 	public void setCards(Card card1, Card card2) {
@@ -138,54 +131,6 @@ public class TestBoard extends JFrame {
 	}
 	
 	
-	public void setPot(int pot) {
-		this.panel.setPot(pot);
-	}
-	
-	
-	public void setFlop(Card card1, Card card2, Card card3) {
-			table_cards = new Card[5];
-			
-			table_cards[0] = card1;
-			table_cards[1] = card2;
-			table_cards[2] = card3;
-			table_cards[3] = null;
-			table_cards[4] = null;
-			
-		panel.flop(table_cards);
-	}
-	
-	
-	public void setTurn(Card card) {
-		
-		table_cards[3] = card;
-		table_cards[4] = null;
-		
-		panel.turn(table_cards);
-	}
-	
-	public void setRiver(Card card) {
-
-		table_cards[4] = card;
-		
-		panel.river(table_cards);
-	}
-	
-	public void setWinnings(int pot) {
-		this.panel.winHand(pot);
-	}
-	
-	public void resetHand() {
-		this.card1 = null;
-		this.card2 = null;
-		table_cards = new Card[5];
-		this.panel.reset();
-	}
-
-
-	public void sendBet(int bet) {
-		this.panel.addToPot(bet);
-	}
 	
 	
 }

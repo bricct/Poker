@@ -1,6 +1,6 @@
 import java.awt.EventQueue;
 
-public class TestRun {
+public class TestRun3 {
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {

@@ -29,7 +29,7 @@ public class Client {
 				
 				this.client_id = Integer.parseInt(getMessage());
 				
-				outToServer.writeUTF(this.client_id + " connected");
+				//outToServer.writeUTF(this.client_id + " connected");
 				
 				return this.client_id;
 			} catch (NumberFormatException e) { 
@@ -46,6 +46,7 @@ public class Client {
 	
 	
 	public void sendMessage(String msg) throws Exception {
+		System.out.println("sending message from client " + this.client_id + " to server class -> " + msg);
 		outToServer.writeUTF(msg);
 	}
 	
@@ -56,7 +57,12 @@ public class Client {
 	
 	public void sendMessageToUser(String msg) {
 		System.out.println("sending message from client to user class -> " + msg);
-		this.user.operate(msg);
+		try {
+			this.user.operate(msg);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void disconnect() {

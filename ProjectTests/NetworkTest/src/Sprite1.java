@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Sprite {
+public class Sprite1 {
 
     private static BufferedImage spriteSheet;
     private static final int Y_SIZE = 96;
@@ -39,19 +39,6 @@ public class Sprite {
     public static BufferedImage getBackSprite() {
     	
     	int xGrid = 1;
-    	int yGrid = 4;
-    	
-    	
-        if (spriteSheet == null) {
-            spriteSheet = loadSprite();
-        }
-
-        return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, Y_SIZE);
-    }
-    
-    public static BufferedImage getDeckSprite() {
-    	
-    	int xGrid = 0;
     	int yGrid = 4;
     	
     	
