@@ -206,6 +206,7 @@ public class Combo implements Comparable<Combo>
 
     private void findBestCombo()
     {
+        comboHand = new ArrayList<Card>();
         if(minStraight == 10 && checkStraightFlush(10))
         {
             bestCombo = 10;
