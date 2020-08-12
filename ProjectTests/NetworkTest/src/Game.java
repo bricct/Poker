@@ -48,7 +48,6 @@ public class Game
         	}
             for(i = 0 ;i<queue.size();i++)
             {
-            	
             	Player p = queue.get(i).player;
             	String[] cmd;
             	try {
@@ -125,13 +124,17 @@ public class Game
             check = true;
             for(int j=0;j<queue.size();j++)
             {
-                if(queue.get(j).currMoney != currentCheckPay);
+                
+                if(queue.get(j).currMoney != currentCheckPay)
                 {
+                    //System.out.print(queue.get(j).getCurrMoney() + " " + currentCheckPay+"\n");
+                    //System.out.print(queue.get(j).getCurrMoney()+" didn't work..!!... " + currentCheckPay+"\n");
                     check = false;
                 }
             }
         }
         currentCheckPay = 0;
+        //System.out.print("it's working\n");
         return pot;
     }
 
@@ -194,9 +197,10 @@ public class Game
         	Player winner = queue.get(0).player;
             winner.addMoney(pot);
             server.sendWinnings(winner.getid(), pot);
+            return;
         }
         
-        
+        //System.out.print("Flopped\n");
         //flop
         for(int i=0;i<3;i++)
         {
@@ -210,6 +214,7 @@ public class Game
         	Player winner = queue.get(0).player;
             winner.addMoney(pot);
             server.sendWinnings(winner.getid(), pot);
+            return;
         }
         
         
@@ -223,6 +228,7 @@ public class Game
         	Player winner = queue.get(0).player;
             winner.addMoney(pot);
             server.sendWinnings(winner.getid(), pot);
+            return;
         }
         
         
@@ -263,6 +269,7 @@ public class Game
             Player winner = queue.get(itr).player;
             winner.addMoney(pot);
             server.sendWinnings(winner.getid(), pot);
+            return;
             
         }
 
@@ -273,6 +280,7 @@ public class Game
         {
             player.clearHand();
         }
+        currentCheckPay = 0;
         boardCards.clear();
         deck.resetDeck();
         server.sendStartHand();
