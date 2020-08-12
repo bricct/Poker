@@ -91,6 +91,21 @@ public class Sprite {
 
         return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, X_SIZE);
     }
+
+	public static BufferedImage getVolumeSprite(int i) {
+		
+		int xGrid = 11 + i;
+    	int yGrid = 4;
+    	
+    	
+        if (spriteSheet == null) {
+            spriteSheet = loadSprite();
+        }
+
+        return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, X_SIZE);
+		
+		
+	}
     
     
     

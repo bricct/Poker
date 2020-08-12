@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,8 +27,9 @@ public class TestPanel extends JPanel {
 	private Timer timer;
 	private int c_anim = 0;
 	private int anim_select = 0;
-	BufferedImage card1_reg, card2_reg, back_reg, deck_reg;
-	Image icard1, icard2, iback, table1, ideck;
+	private boolean vol_toggle, vchanging;
+	BufferedImage card1_reg, card2_reg, back_reg, deck_reg, volume_on, volume_off;
+	Image icard1, icard2, iback, table1, ideck, ivolume;
 	Image[] chip_spr, itable_cards;
 	private int width, height, c_height, b_height, c_width, b_width, ch_size;
 	private boolean[] card_set;
@@ -74,6 +77,10 @@ public class TestPanel extends JPanel {
 			chip_spr[i] = Sprite.getChipSprite(i);
 		}
 		
+		volume_on = Sprite.getVolumeSprite(0);
+		volume_off = Sprite.getVolumeSprite(1);
+		
+		ivolume = volume_on;
 		
 		try {
 			this.table = ImageIO.read(new File("table.png"));
@@ -91,6 +98,8 @@ public class TestPanel extends JPanel {
 		
 		SoundEffects.init();
 		SoundEffects.volume = SoundEffects.Volume.LOW;
+		this.vol_toggle = true;
+		this.vchanging = false;
 		
 		this.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent componentEvent) {
@@ -127,6 +136,9 @@ public class TestPanel extends JPanel {
 				iback = back_reg.getScaledInstance(b_width, b_height, Image.SCALE_FAST);
 				ideck = deck_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 				
+				ivolume = ivolume.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+				
+				
 				chip_spr = new Image[6];
 				
 				for (int i = 0; i < 6; i++) {
@@ -135,6 +147,48 @@ public class TestPanel extends JPanel {
 				
 		    }
 		});
+		
+		
+		this.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            	int x=e.getX();
+                int y=e.getY();
+                if (x >= (width - (ch_size*2)) && x < width && y < ch_size*2 && y > 0) {
+                	vchanging = true;
+                } else {
+                	vchanging = false;
+                }
+            	
+            	
+                repaint();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            	if (vchanging) {
+	            	int x=e.getX();
+	                int y=e.getY();
+	                
+	            	
+	            	if (x >= (width - (ch_size*2)) - 2 && x < width - 2  && y < ch_size/2 + 5 && y > 5) {
+	                	vchanging = true;
+	                } else {
+	                	vchanging = false;
+	                }
+	                if (vol_toggle) {
+	                	ivolume = volume_off.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+	                	SoundEffects.volume = SoundEffects.Volume.MUTE;
+	                } else {
+	                	ivolume = volume_on.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+	                	SoundEffects.volume = SoundEffects.Volume.LOW;
+	                }
+	                vol_toggle = !vol_toggle;
+	                repaint();
+            	}
+            }
+        });
 		
 		
 	}
@@ -389,7 +443,7 @@ public class TestPanel extends JPanel {
 		g2d.drawImage(iback, 7 * (width/8) - b_width, height/2 - (b_height/2), this);
 		g2d.drawImage(iback, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
 		
-		
+		g2d.drawImage(ivolume, width - (2*ch_size) - 2, 5, this);
 		
 		
 		
