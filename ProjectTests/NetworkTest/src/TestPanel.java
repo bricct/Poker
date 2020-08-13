@@ -18,7 +18,7 @@ import javax.swing.Timer;
 public class TestPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	private Card card1, card2;
+	protected Card card1, card2;
 	private Card[] table_cards;
 	private BufferedImage table;
 	private int money, to_add, pot;
@@ -37,8 +37,8 @@ public class TestPanel extends JPanel {
 	
 	public TestPanel(Card card1, Card card2) {
 		this.setSize(900, 480);
-		this.card1 = card1;
-		this.card2 = card2;
+		this.card1 = null;
+		this.card2 = null;
 		this.money = 0;
 		this.pot = 0;
 		
@@ -98,54 +98,70 @@ public class TestPanel extends JPanel {
 		this.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent componentEvent) {
 		    	
-		    	Dimension scr_dim = getSize();
-				width = (int) scr_dim.getWidth();
-				height = (int) scr_dim.getHeight();
-		    	
-				table1 = table.getScaledInstance(width, height, Image.SCALE_FAST);
-				
-		    	c_width = (int) Math.floor((double)width/13.0 );
-				c_height = (int) Math.floor((double)height/5.0 );
-				
-				b_width = (int) Math.floor(c_width * 0.7);
-				b_height = (int) Math.floor(c_height * 0.7);
-				
-				ch_size = (int) Math.floor((double)width/30.0 );
-				
-				if (card1 == null || card2 == null) {
-					card1_reg = back_reg;
-					card2_reg = back_reg;
-				} else {
-					card1_reg = Sprite.getSprite(card1);
-					card2_reg = Sprite.getSprite(card2);
-				}
-				
-				for (int i = 0; i < 5; i ++) {
-					if (table_cards[i] == null) break;
-					itable_cards[i] = Sprite.getSprite(table_cards[i]).getScaledInstance(c_width, c_height, Image.SCALE_FAST);
-				}
-				
-		    	icard1 = card1_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
-				icard2 = card2_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
-				iback = back_reg.getScaledInstance(b_width, b_height, Image.SCALE_FAST);
-				ideck = deck_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
-				
-				chip_spr = new Image[6];
-				
-				for (int i = 0; i < 6; i++) {
-					chip_spr[i] = Sprite.getChipSprite(i).getScaledInstance(ch_size, ch_size, Image.SCALE_FAST);
-				}
-				
+		    	updateSprites();
 		    }
 		});
 		
 		
 	}
 	
-	public void setCards(Card card1, Card card2) {
-		this.card1 = card1;
-		this.card2 = card2;
+
+	public void updateSprites() {
+		Dimension scr_dim = getSize();
+		width = (int) scr_dim.getWidth();
+		height = (int) scr_dim.getHeight();
 		
+		table1 = table.getScaledInstance(width, height, Image.SCALE_FAST);
+		
+		c_width = (int) Math.floor((double)width/13.0 );
+		c_height = (int) Math.floor((double)height/5.0 );
+		
+		b_width = (int) Math.floor(c_width * 0.7);
+		b_height = (int) Math.floor(c_height * 0.7);
+		
+		ch_size = (int) Math.floor((double)width/30.0 );
+		
+		if (card1 == null || card2 == null) {
+			card1_reg = back_reg;
+			card2_reg = back_reg;
+		} else {
+			card1_reg = Sprite.getSprite(card1);
+			card2_reg = Sprite.getSprite(card2);
+		}
+		
+		for (int i = 0; i < 5; i ++) {
+			if (table_cards[i] == null) break;
+			itable_cards[i] = Sprite.getSprite(table_cards[i]).getScaledInstance(c_width, c_height, Image.SCALE_FAST);
+		}
+		
+		icard1 = card1_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
+		icard2 = card2_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
+		iback = back_reg.getScaledInstance(b_width, b_height, Image.SCALE_FAST);
+		ideck = deck_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
+		
+		chip_spr = new Image[6];
+		
+		for (int i = 0; i < 6; i++) {
+			chip_spr[i] = Sprite.getChipSprite(i).getScaledInstance(ch_size, ch_size, Image.SCALE_FAST);
+		}
+		this.repaint();
+	}
+
+
+
+
+	public void setCards(Card _card1, Card _card2) {
+		
+		if (_card1 == null || _card2 == null) {
+			this.card1 = _card1;
+			this.card2 = _card2;
+		} else {
+			this.card1 = new Card(_card1.value(), _card1.suit());
+			this.card2 = new Card(_card2.value(), _card2.suit());
+			this.folded = false;
+		}
+		
+
 		if (card1 == null || card2 == null) {
 			card1_reg = back_reg;
 			card2_reg = back_reg;
@@ -226,7 +242,7 @@ public class TestPanel extends JPanel {
 	public void setPlayers(int num_players, int[] players) {
 		this.num_players = num_players;
 		//this.players = players;
-		System.out.println("Num_players = " + num_players);
+		//System.out.println("Num_players = " + num_players);
 		this.repaint();
 	}
 	
@@ -240,10 +256,19 @@ public class TestPanel extends JPanel {
 		for (int i = 0; i < 5; i++) {
 			this.card_set[i] = false;
 		}
-		this.setCards(null, null);
+		try{
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		SoundEffects.SHUFFLE.play();
+
+		//this.setCards(null, null);
+		this.folded = true;
+		System.out.println("resetting ui");
 		this.table_cards = new Card[5];
 		this.repaint();
-		SoundEffects.SHUFFLE.play();
+		
 	}
 	
 	private ActionListener animator = new ActionListener() {
@@ -285,9 +310,9 @@ public class TestPanel extends JPanel {
 				timer.stop();
 			}
 			if (anim_select == 4) {
-				pot += to_add;
+				//pot += to_add;
 				to_add = 0;
-				SoundEffects.CHIP.play();
+				//SoundEffects.CHIP.play();
 				timer.stop();
 			}
 			if (anim_select == 11) {

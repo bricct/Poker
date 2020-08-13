@@ -52,7 +52,7 @@ public class Server {
 		
 		
 		Game game = new Game(5, 20, this.players, this);
-		game.playRound();
+		game.playGame();
 		
 		
 		//this.deck = new Deck();

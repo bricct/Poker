@@ -73,6 +73,7 @@ public class Game
                     if(cmd[0].equals("check"))//If player checks...
                     {
                         queue.get(i).player.subMoney(currentCheckPay - queue.get(i).currMoney);
+                        System.out.println("removing " + (currentCheckPay - queue.get(i).currMoney) + " from player " + i + " money");
                         pot += currentCheckPay - queue.get(i).currMoney;
                         queue.get(i).currMoney = currentCheckPay; //player set to current pot amount
                         
@@ -96,16 +97,17 @@ public class Game
                     		queue.remove(i);
                             if(queue.size() == 1)
                             {
-                            	currentCheckPay = 0;
+                            	//currentCheckPay = 0;
                                 return pot;
                             }
                     	} 
                     } else if (cmd[0].equals("fold"))//Fold
-                    {
+                    {   
+                        server.forceFold(p.getid());
                         queue.remove(i);
                         if(queue.size() == 1)
                         {
-                        	currentCheckPay = 0;
+                        	//currentCheckPay = 0;
                             return pot;
                         }
                     } else {
@@ -114,7 +116,7 @@ public class Game
                     	queue.remove(i);
                         if(queue.size() == 1)
                         {
-                        	currentCheckPay = 0;
+                        	//currentCheckPay = 0;
                             return pot;
                         }
                     }
@@ -133,7 +135,8 @@ public class Game
                 }
             }
         }
-        currentCheckPay = 0;
+        // currentCheckPay = 0;
+        
         //System.out.print("it's working\n");
         return pot;
     }
@@ -165,12 +168,16 @@ public class Game
         server.sendPot(pot);
         
         
-        
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         
         Player bigBl = queue.get(1).player;
         bigBl.subMoney(big); //Big Blind
         pot += big;
-        queue.get(0).currMoney = big;
+        queue.get(1).currMoney = big;
         server.sendBlind(bigBl.getid(), big);
         server.sendMoney(bigBl.getid(), bigBl.getMoney());
         server.sendPot(pot);
@@ -197,6 +204,7 @@ public class Game
         	Player winner = queue.get(0).player;
             winner.addMoney(pot);
             server.sendWinnings(winner.getid(), pot);
+            server.sendPot(0);
             return;
         }
         
@@ -214,6 +222,7 @@ public class Game
         	Player winner = queue.get(0).player;
             winner.addMoney(pot);
             server.sendWinnings(winner.getid(), pot);
+            server.sendPot(0);
             return;
         }
         
@@ -228,6 +237,7 @@ public class Game
         	Player winner = queue.get(0).player;
             winner.addMoney(pot);
             server.sendWinnings(winner.getid(), pot);
+            server.sendPot(0);
             return;
         }
         
@@ -242,6 +252,8 @@ public class Game
             Player winner = queue.get(0).player;
             winner.addMoney(pot);
             server.sendWinnings(winner.getid(), pot);
+            server.sendPot(0);
+            return;
             
         }else
         {
@@ -269,20 +281,39 @@ public class Game
             Player winner = queue.get(itr).player;
             winner.addMoney(pot);
             server.sendWinnings(winner.getid(), pot);
+            server.sendPot(0);
             return;
             
         }
 
 
-        //Remove first element, add to end (Rotation of players)
-        players.add(players.remove(0));
-        for(Player player : players)
-        {
-            player.clearHand();
-        }
-        currentCheckPay = 0;
-        boardCards.clear();
-        deck.resetDeck();
-        server.sendStartHand();
+        
     }
+
+
+    public void playGame() {
+        while (players.size() > 1) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            playRound();
+            //Remove first element, add to end (Rotation of players)
+            players.add(players.remove(0));
+            for(Player player : players)
+            {
+                player.clearHand();
+            }
+            currentCheckPay = 0;
+            boardCards.clear();
+            deck.resetDeck();
+            deck.shuffle();
+            server.sendStartHand();
+            
+        }
+    }
+
+
 }
+
