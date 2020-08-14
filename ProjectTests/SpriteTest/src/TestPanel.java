@@ -165,14 +165,11 @@ public class TestPanel extends JPanel {
             public void mousePressed(MouseEvent e) {
             	int x=e.getX();
                 int y=e.getY();
-                if (x >= (width - (ch_size*2)) && x < width && y < ch_size*2 && y > 0) {
+                if (x >= (width - (ch_size*2)) && x < width - 2 && y < ch_size*2 + 5 && y > 5) {
                 	vchanging = true;
                 } else {
                 	vchanging = false;
                 }
-            	
-            	
-                repaint();
             }
 
             @Override
@@ -181,21 +178,28 @@ public class TestPanel extends JPanel {
 	            	int x=e.getX();
 	                int y=e.getY();
 	                
+	                System.out.println(x + " " + y);
 	            	
-	            	if (x >= (width - (ch_size*2)) - 2 && x < width - 2  && y < ch_size/2 + 5 && y > 5) {
+	            	if (x >= (width - (ch_size*2)) - 2 && x < width - 2  && y < ch_size*2 + 5 && y > 5) {
 	                	vchanging = true;
+	                	System.out.println("good");
 	                } else {
+	                	System.out.println("bad");
 	                	vchanging = false;
 	                }
-	                if (vol_toggle) {
-	                	ivolume = volume_off.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
-	                	SoundEffects.volume = SoundEffects.Volume.MUTE;
-	                } else {
-	                	ivolume = volume_on.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
-	                	SoundEffects.volume = SoundEffects.Volume.LOW;
-	                }
-	                vol_toggle = !vol_toggle;
-	                repaint();
+	            	if (vchanging) {
+	            		if (vol_toggle) {
+	                		ivolume = volume_off.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+	                		SoundEffects.volume = SoundEffects.Volume.MUTE;
+	                	} else {
+	                		ivolume = volume_on.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+	                		SoundEffects.volume = SoundEffects.Volume.LOW;
+	                	}
+	            		vol_toggle = !vol_toggle;
+	            		repaint();
+	            	}
+	                
+	                
             	}
             }
         });
