@@ -1,0 +1,43 @@
+{
+	"$baseURI": "https://yal.cc/r/20/pixelfont/",
+	"$version": "1.0",
+	"in-glyphs": [
+		"ABCDEFG",
+		"HIJKLMN",
+		"OPQRSTU",
+		"VWYZabc",
+		"defghij",
+		"klmnopq",
+		"rstuvwx",
+		"yz01234",
+		"56789$.",
+		",#+*=-X"
+	],
+	"glyph-color": "auto",
+	"glyph-width": 21,
+	"glyph-height": 27,
+	"glyph-ofs-x": 3,
+	"glyph-ofs-y": 3,
+	"glyph-sep-x": 3,
+	"glyph-sep-y": 3,
+	"glyph-base-x": 0,
+	"glyph-baseline": 1,
+	"glyph-spacing": 5,
+	"font-is-mono": true,
+	"font-em-square": 1024,
+	"font-line-gap": 0,
+	"font-px-size": 128,
+	"font-ascend": 768,
+	"font-descend": -4224,
+	"font-name": "UglyPoker",
+	"font-author": "Trey Briccetti",
+	"font-copy": "",
+	"font-version": "Version 1.0",
+	"font-desc": "Ugly",
+	"font-license": "yuh",
+	"font-license-url": "",
+	"font-sample-text": "hey sugar",
+	"font-preview-text": [
+		" what are you doing step bro"
+	]
+}

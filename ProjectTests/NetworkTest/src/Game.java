@@ -262,7 +262,10 @@ public class Game
             {
                 ArrayList<Card> playerhand = new ArrayList<Card>();
                 playerhand.add(queue.get(i).player.firstCard());
+                System.out.println("Adding card " + queue.get(i).player.firstCard().value() + " " + queue.get(i).player.firstCard().suit() + " to player combo id = " + i);
                 playerhand.add(queue.get(i).player.secCard());
+                System.out.println("Adding card " + queue.get(i).player.secCard().value() + " " + queue.get(i).player.secCard().suit() + " to player combo id = " + i);
+
                 combos.add(new Combo(playerhand, boardCards));
             }
             

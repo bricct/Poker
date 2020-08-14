@@ -34,7 +34,7 @@ public class Combo implements Comparable<Combo>
     {
         vals = new HashMap<Integer,Integer>();
         fullHand = new ArrayList<Card>();
-        playerHand = new ArrayList<Card>();
+        playHand = new ArrayList<Card>();
         cards = new HashSet<>();
         for(int i=0; i<playerHand.size();i++)
         {
@@ -412,7 +412,7 @@ public class Combo implements Comparable<Combo>
                 }
             }else //royal flush, flush, 4ofk, 3ofk,2ofk,2pairk,1high all check for highest card down
             {
-                for(int i=this.comboHand.size();i>-1;i--)
+                for(int i=this.comboHand.size()-1;i>-1;i--)
                 {
                     if(this.comboHand.get(i).compareTo(other.comboHand.get(i)) > 0)
                     {
@@ -422,6 +422,8 @@ public class Combo implements Comparable<Combo>
                         return -1;
                     }
                 }
+                System.out.println(this.playHand == null);
+                System.out.println(other.playHand == null);
                 if(this.playHand.get(1).compareTo(other.playHand.get(1)) > 0)
                 {
                     return 1;

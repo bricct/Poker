@@ -1,4 +1,6 @@
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -12,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -34,6 +37,8 @@ public class TestPanel extends JPanel {
 	private int width, height, c_height, b_height, c_width, b_width, ch_size;
 	private boolean[] card_set;
 	
+	private ArrayList<Player> players;
+	
 	
 	
 	public TestPanel(Card card1, Card card2, int money) {
@@ -44,6 +49,9 @@ public class TestPanel extends JPanel {
 		this.pot = 1256;
 		
 		this.to_add = 0;
+		
+		this.players = new ArrayList<>();
+		
 		
 		this.card_set = new boolean[5];
 		for (int i = 0; i < 5; i++) {
@@ -144,6 +152,8 @@ public class TestPanel extends JPanel {
 				for (int i = 0; i < 6; i++) {
 					chip_spr[i] = Sprite.getChipSprite(i).getScaledInstance(ch_size, ch_size, Image.SCALE_FAST);
 				}
+				
+				
 				
 		    }
 		});
@@ -258,6 +268,14 @@ public class TestPanel extends JPanel {
 	}
 	
 	
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
+		this.repaint();
+	}
+	
+	
+	
+	
 	private ActionListener animator = new ActionListener() {
 		
 		public void actionPerformed(ActionEvent e) {
@@ -338,6 +356,14 @@ public class TestPanel extends JPanel {
 		else if (anim_select > 1) g2d.drawImage(icard2, (width/2) + 5, height - (height/4), this);
 		
 		
+		g2d.setColor(Color.white);
+		g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, height/100));
+		
+		
+		
+		//g2d.drawString("You",(int) Math.floor( width/2 + 1.2 * c_width), 6* height/8);
+		g2d.drawString("Cash $" + this.money , width/2 - c_width, height - (height/4) - (2 * ch_size/3));
+		
 		
 		
 		//draw table cards
@@ -399,9 +425,10 @@ public class TestPanel extends JPanel {
 		int[] chips = Chips.getChips(this.money);
 		for (int i = 5; i >= 0; i--) {
 			for (int j = 0; j < chips[i]; j++) {
-				g2d.drawImage(chip_spr[i], (int) Math.floor((width/2) + (((i % 3) - 1)  * (1.1 * ch_size)) - ch_size/2 + 2) , (int) Math.floor(height - (height/3) - (j * (ch_size/10)) - ((i / 3) * (1.05 * ch_size))), this);
+				g2d.drawImage(chip_spr[i], (int) Math.floor((width/2) + (((i % 3) - 1)  * (1.1 * ch_size)) - ch_size/2 + 2) , (int) Math.floor(height - (height/3) - (j * (ch_size/10)) - ((i / 3) * (1.05 * ch_size)) - (ch_size/3 * 2)), this);
 			}
 		}
+		
 		
 		
 		
@@ -414,23 +441,40 @@ public class TestPanel extends JPanel {
 			}
 		}
 		
+		g2d.drawString("Pot $ " + this.pot , width/2 - c_width, height/4 - 2 * ch_size);
+		
+		
 		if (anim_select == 3) {
 			int[] to_add = Chips.getChips(this.to_add);
 			for (int i = 5; i >= 0; i--) {
 				for (int j = 0; j < to_add[i]; j++) {
-					g2d.drawImage(chip_spr[i], (int) Math.floor((width/2) + (((i % 3) - 1)  * (1.1 * ch_size)) - ch_size/2 + 2) , (int) Math.floor(height/4 - (j * (ch_size/10)) - ((i / 3) * (1.05 * ch_size)) + ((400-(c_anim*c_anim)) * (((2 * height/3) - height/4))/400)), this);
+					g2d.drawImage(chip_spr[i], (int) Math.floor((width/2) + (((i % 3) - 1)  * (1.1 * ch_size)) - ch_size/2 + 2) , (int) Math.floor(height/4 - (j * (ch_size/10)) - ((i / 3) * (1.05 * ch_size)) + ((400-(c_anim*c_anim)) * (((2 * height/3) - height/4) - (ch_size/3 * 2))/400)), this);
 				}
 			}
 
 		}
 		
 		
+		g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, height/100));
+		
+		
 		
 		//other players cards
 		//p2
-		g2d.drawImage(iback, (width/4) - b_width, height - (height/3), this);
-		g2d.drawImage(iback, (width/4) + 5, height - (height/3), this);
-		
+		if (players.size() > 1) {
+			//if (still_in.contains(players.get(1))) {
+			//if (players.get(1).firstCard() == null || players.get(1).secCard() == null) {
+				g2d.drawImage(iback, (width/4) - b_width, height - (height/3), this);
+				g2d.drawImage(iback, (width/4) + 5, height - (height/3), this);
+				
+				g2d.drawString(players.get(1).getName(),width/4 - b_width, height - height/3 + b_height + ch_size/2);
+				g2d.drawString("Cash $" + players.get(1).getMoney() , width/4 - b_width, height - height/3 + c_height + ch_size/2);// + c_height + ch_size/2);
+				
+				
+				//g2d.drawString()
+			//}
+			//} 
+		} 
 		//p3
 		g2d.drawImage(iback, 3 * (width/4) - b_width, height - (height/3), this);
 		g2d.drawImage(iback, 3 * (width/4) + 5, height - (height/3), this);
@@ -444,7 +488,6 @@ public class TestPanel extends JPanel {
 		g2d.drawImage(iback, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
 		
 		g2d.drawImage(ivolume, width - (2*ch_size) - 2, 5, this);
-		
 		
 		
 		

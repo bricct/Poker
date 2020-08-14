@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +20,7 @@ public class TestBoard extends JFrame {
 	private int money;
 	
 	public TestBoard() {
-		this.setSize(906, 520);
+		
 		this.deck = new Deck();
 		this.deck.shuffle();
 		
@@ -156,6 +157,19 @@ public class TestBoard extends JFrame {
 		this.buttonPanel.add(flop);
 		this.buttonPanel.add(turn);
 		this.buttonPanel.add(river);
+		
+		Player you  = new Player(0, "You", 69);
+		Player player2 = new Player(1, "Carl", 1500);
+		
+		
+		ArrayList<Player> players = new ArrayList<>();
+		players.add(you);
+		players.add(player2);
+		
+		panel.setPlayers(players);
+		
+		
+		
 		
 		this.add(this.buttonPanel, BorderLayout.SOUTH);
 		this.add(this.panel, BorderLayout.CENTER);
