@@ -19,11 +19,12 @@ public class TestBoard extends JFrame {
 	private Card[] table_cards;
 	private int money;
 	
-	
 	public TestBoard(boolean mus_toggle, boolean mode) {
 		
 		this.deck = new Deck();
 		this.deck.shuffle();
+		
+
 		
 		this.buttonPanel = new JPanel(new GridLayout(1, 6));
 		
@@ -161,11 +162,17 @@ public class TestBoard extends JFrame {
 		
 		Player you  = new Player(0, "You", 69);
 		Player player2 = new Player(1, "Carl", 1500);
+		Player player3 = new Player(2, "Struedel", 1500);
+		Player player4 = new Player(3, "Salami", 1500);
+		Player player5 = new Player(4, "PorkSweat", 1500);
 		
 		
 		ArrayList<Player> players = new ArrayList<>();
 		players.add(you);
 		players.add(player2);
+		players.add(player3);
+		players.add(player4);
+		players.add(player5);
 		
 		panel.setPlayers(players);
 		
