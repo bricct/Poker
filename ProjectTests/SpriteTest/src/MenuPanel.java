@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 public class MenuPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private BufferedImage menuButton, musicOn, musicOff, options, table;
+	private BufferedImage menuButton, musicOn, musicOff, options;
 	private Image imenuButton, imusic, ioptions, itable;
 	private int width, height, c_height, c_width, c_small;
 	private boolean mchanging, mus_toggle, joining, hosting, optioning;
@@ -40,17 +40,6 @@ public class MenuPanel extends JPanel {
 		this.font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/100 + width/300));
 		
 		
-		
-		try {
-			//title = ImageIO.read(new File("title.png"));
-			table = ImageIO.read(new File("table.png"));
-		} catch (IOException e) {
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
 		menuButton = Sprite.getButtonSprite();
 		musicOn = Sprite.getMusicOnSprite();
 		musicOff = Sprite.getMusicOffSprite();
@@ -59,14 +48,13 @@ public class MenuPanel extends JPanel {
 		
 		mchanging = false;
 		mus_toggle = _mus_toggle;
-		
-		
+		;
 		
 		c_height = height/5;
 		c_width = width/10 * 3; 
 		c_small = width/10;
 		
-		itable = table.getScaledInstance(width, height, Image.SCALE_FAST);
+		itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
 		
 		imenuButton = menuButton.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 		if(mus_toggle)
@@ -101,7 +89,7 @@ public class MenuPanel extends JPanel {
 				font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/100 + width/300));
 				
 				
-				itable = table.getScaledInstance(width, height, Image.SCALE_FAST);
+				itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
 				//ititle = title.getScaledInstance(width/4 * 3, height/5 * 4, Image.SCALE_FAST);
 				
 				imenuButton = menuButton.getScaledInstance(c_width, c_height, Image.SCALE_FAST);

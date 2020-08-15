@@ -12,11 +12,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -25,14 +21,13 @@ public class TestPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Card card1, card2;
 	private Card[] table_cards;
-	private BufferedImage table;
 	private int money, to_add, pot;
 	private Timer timer;
 	private int c_anim = 0;
 	private int anim_select = 0;
 	private boolean vol_toggle, vchanging;
 	BufferedImage card1_reg, card2_reg, back_reg, deck_reg, volume_on, volume_off, musicOn, musicOff;
-	Image icard1, icard2, iback, table1, ideck, ivolume, imusic;
+	Image icard1, icard2, iback, itable, ideck, ivolume, imusic;
 	Image[] chip_spr, itable_cards;
 	private int width, height, c_height, b_height, c_width, b_width, ch_size;
 	private boolean[] card_set;
@@ -79,7 +74,7 @@ public class TestPanel extends JPanel {
 			card2_reg = Sprite.getSprite(card2);
 		}
 		
-		table1 = table;
+		itable = TestMenu.table;
 		
 		chip_spr = new Image[6];
 		
@@ -92,11 +87,6 @@ public class TestPanel extends JPanel {
 		
 		//ivolume = volume_on;
 		
-		try {
-			this.table = ImageIO.read(new File("table.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		this.table_cards = new Card[5];
 		
@@ -127,7 +117,7 @@ public class TestPanel extends JPanel {
 				width = (int) scr_dim.getWidth();
 				height = (int) scr_dim.getHeight();
 		    	
-				table1 = table.getScaledInstance(width, height, Image.SCALE_FAST);
+				itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
 				
 		    	c_width = (int) Math.floor((double)width/13.0 );
 				c_height = (int) Math.floor((double)height/5.0 );
@@ -393,7 +383,7 @@ public class TestPanel extends JPanel {
 				
 		Graphics2D g2d = (Graphics2D) g;
 		
-		g2d.drawImage(table1, 0, 0, this);
+		g2d.drawImage(itable, 0, 0, this);
 		
 		if (this.card1 == null || this.card2 == null) {
 			card1_reg = back_reg;
@@ -530,17 +520,31 @@ public class TestPanel extends JPanel {
 			//} 
 		} 
 		//p3
-		g2d.drawImage(iback, 3 * (width/4) - b_width, height - (height/3), this);
-		g2d.drawImage(iback, 3 * (width/4) + 5, height - (height/3), this);
+		if (players.size() > 2) {
+			g2d.drawImage(iback, 3 * (width/4) - b_width, height - (height/3), this);
+			g2d.drawImage(iback, 3 * (width/4) + 5, height - (height/3), this);
+			g2d.drawString(players.get(2).getName(),3 * (width/4) - b_width, height - height/3 + b_height + ch_size/2);
+			g2d.drawString("Cash $" + players.get(2).getMoney() , 3 * (width/4) - b_width, height - height/3 + c_height + ch_size/2);// + c_height + ch_size/2);
+			
+		}
 		
 		//p4
-		g2d.drawImage(iback, (width/8) - b_width, height/2 - (b_height/2), this);
-		g2d.drawImage(iback, (width/8) + 5, height/2 - (b_height/2), this);
+		if (players.size() > 3) {
+			g2d.drawImage(iback, (width/8) - b_width, height/2 - (b_height/2), this);
+			g2d.drawImage(iback, (width/8) + 5, height/2 - (b_height/2), this);
+			g2d.drawString(players.get(3).getName(),(width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2);
+			g2d.drawString("Cash $" + players.get(3).getMoney() , (width/8) - b_width, height/2 - 3*b_height/2 + (c_height - b_height) + ch_size/2);// + c_height + ch_size/2);
+			
+		}
 		
 		//p5
-		g2d.drawImage(iback, 7 * (width/8) - b_width, height/2 - (b_height/2), this);
-		g2d.drawImage(iback, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
+		if (players.size() > 4) {
+			g2d.drawImage(iback, 7 * (width/8) - b_width, height/2 - (b_height/2), this);
+			g2d.drawImage(iback, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
+			g2d.drawString(players.get(4).getName(), 7 * (width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2);
+			g2d.drawString("Cash $" + players.get(4).getMoney() ,  7 * (width/8) - b_width, height/2 - 3*b_height/2 + (c_height - b_height) + ch_size/2);// + c_height + ch_size/2);
 		
+		}
 		
 		
 		
