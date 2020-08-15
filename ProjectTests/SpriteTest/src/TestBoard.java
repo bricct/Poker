@@ -19,7 +19,8 @@ public class TestBoard extends JFrame {
 	private Card[] table_cards;
 	private int money;
 	
-	public TestBoard() {
+	
+	public TestBoard(boolean mus_toggle, boolean mode) {
 		
 		this.deck = new Deck();
 		this.deck.shuffle();
@@ -44,7 +45,7 @@ public class TestBoard extends JFrame {
 		
 		this.card1 = this.deck.draw();
 		this.card2 = this.deck.draw();
-		this.panel = new TestPanel(this.card1, this.card2, this.money);
+		this.panel = new TestPanel(this.card1, this.card2, this.money, mus_toggle, mode);
 		
 		this.setIconImage(Sprite.getIconSprite());
 		

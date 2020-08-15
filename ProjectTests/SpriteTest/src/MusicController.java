@@ -90,7 +90,7 @@ public enum MusicController {
 		   intro_clip.setFramePosition(0); // rewind to the beginning
 		   loop_clip.setFramePosition(0);
 	       intro_clip.start();     // Start playing
-	       while(intro_clip.getFramePosition()<intro_clip.getFrameLength() && !off)
+	       while(intro_clip.getFramePosition()<intro_clip.getFrameLength()-6 && !off)
 	    	   Thread.yield();
 	       
 	       

@@ -6,11 +6,14 @@ import javax.imageio.ImageIO;
 
 public class Sprite {
 
-    private static BufferedImage spriteSheet, assetSheet;
+    private static BufferedImage spriteSheet, assetSheet, optionsSheet;
     private static final int Y_SIZE = 96;
     private static final int X_SIZE = 69;
     private static final int AX_SIZE = 288;
     private static final int AY_SIZE = 108;
+    private static final int OX_SIZE = 186;
+    private static final int OY_SIZE = 84;
+    private static final int OX_SMALL_SIZE = 18;
     
 
     public static BufferedImage loadSprite() {
@@ -39,6 +42,20 @@ public class Sprite {
         }
 
         return assets;
+    }
+    
+    public static BufferedImage loadOptionsAssets() {
+
+        BufferedImage options = null;
+
+        try {
+        	options = ImageIO.read(new File("options_assets.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return options;
     }
 
     public static BufferedImage getSprite(Card card) {
@@ -202,7 +219,52 @@ public class Sprite {
 		
 	}
 	
+	public static BufferedImage getSaveSprite() {
+		
+		int xGrid = 5;
+    	int yGrid = 0;
+    	
+    	
+        if (assetSheet == null) {
+            assetSheet = loadAssets();
+        }
+
+        return assetSheet.getSubimage((xGrid - 1) * AY_SIZE + AX_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
+		
+		
+	}
     
+	
+	
+	public static BufferedImage getFormSprite() {
+			
+			int xGrid = 0;
+	    	int yGrid = 0;
+	    	
+	    	
+	        if (optionsSheet == null) {
+	        	optionsSheet = loadOptionsAssets();
+	        }
+	
+	        return optionsSheet.getSubimage(xGrid * OX_SIZE, yGrid * OY_SIZE, OX_SIZE, OY_SIZE);
+			
+			
+		}
+
+	public static BufferedImage getColonSprite() {
+		
+		int xGrid = 1;
+		int yGrid = 0;
+		
+		
+	    if (optionsSheet == null) {
+	    	optionsSheet = loadOptionsAssets();
+	    }
+	
+	    return optionsSheet.getSubimage((xGrid - 1) * OX_SMALL_SIZE + OX_SIZE, yGrid * AY_SIZE, OX_SMALL_SIZE, OY_SIZE);
+		
+		
+	}
     
     
 }

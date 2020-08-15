@@ -15,30 +15,26 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class MenuPanel extends JPanel {
+public class OptionsPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private BufferedImage menuButton, musicOn, musicOff, options, table;
-	private Image imenuButton, imusic, ioptions, itable;
-	private int width, height, c_height, c_width, c_small;
+	private BufferedImage formButton, musicOn, musicOff, save, table, colon;
+	private Image iformButton, imusic, isave, itable, icolon;
+	private int width, height, c_height, c_width, o_width, o_height, o_small, c_small;
 	private boolean mchanging, mus_toggle, joining, hosting, optioning;
 //	private TestMenu master;
 	private Font font;
 	
 	
-	public MenuPanel(TestMenu master, boolean _mus_toggle, boolean mode) {
+	public OptionsPanel(TestMenu master, boolean _mus_toggle, boolean mode) {
 //		this.master = master;
-
 		
 		this.setSize(master.getWidth(), master.getHeight());
-		
 		Dimension scr_dim = getSize();
 		width = (int) scr_dim.getWidth() - 16;
 		height = (int) scr_dim.getHeight() - 39;
-
 		
-		this.font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/100 + width/300));
-		
+		this.font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
 		
 		
 		try {
@@ -51,10 +47,11 @@ public class MenuPanel extends JPanel {
 		}
 		
 		
-		menuButton = Sprite.getButtonSprite();
+		formButton = Sprite.getFormSprite();
 		musicOn = Sprite.getMusicOnSprite();
 		musicOff = Sprite.getMusicOffSprite();
-		options = Sprite.getOptionsSprite();
+		save = Sprite.getSaveSprite();
+		colon = Sprite.getColonSprite();
 		//close = Sprite.getCloseSprite();
 		
 		mchanging = false;
@@ -63,23 +60,27 @@ public class MenuPanel extends JPanel {
 		
 		
 		c_height = height/5;
-		c_width = width/10 * 3; 
 		c_small = width/10;
+		c_width = width/10 * 3; 
+		
+		o_width = width/5;
+		o_height = height/6;
 		
 		itable = table.getScaledInstance(width, height, Image.SCALE_FAST);
 		
-		imenuButton = menuButton.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
+		iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
 		if(mus_toggle)
 			imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		else
 			imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		//imusicOff = musicOff.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
-		ioptions = options.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
+		isave = save.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
+		icolon = colon.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		//iclose = close.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
 		
 		
 		//ititle = title.getScaledInstance(width/4 * 3, height/5 * 4, Image.SCALE_FAST);
-		//imenuButton = 
+		//iformButton = 
 		
 		
 		
@@ -94,24 +95,28 @@ public class MenuPanel extends JPanel {
 				width = (int) scr_dim.getWidth();
 				height = (int) scr_dim.getHeight();
 				
+
+				
 				c_height = height/5;
-				c_width = width/10 * 3; 
 				c_small = width/10;
+				c_width = width/10 * 3; 
+				
+				o_width = width/5;
+				o_height = height/6;
 		    	
-				font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/100 + width/300));
+				font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
 				
 				
 				itable = table.getScaledInstance(width, height, Image.SCALE_FAST);
-				//ititle = title.getScaledInstance(width/4 * 3, height/5 * 4, Image.SCALE_FAST);
 				
-				imenuButton = menuButton.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
-				
+				iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
 				if(mus_toggle)
 					imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				else
 					imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				//imusicOff = musicOff.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
-				ioptions = options.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
+				isave = save.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
+				icolon = colon.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				//iclose = close.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
 				
 		    }
@@ -122,10 +127,10 @@ public class MenuPanel extends JPanel {
 		this.addMouseListener(new MouseAdapter() {
 
 //			g2d.drawImage(itable, 0, 0, this);
-//			g2d.drawImage(imenuButton, width/2 - c_width/2, height/7, this);
-//			g2d.drawImage(imenuButton, width/2 - c_width/2, height/7 + (c_height/3 * 4), this);
+//			g2d.drawImage(iformButton, width/2 - c_width/2, height/7, this);
+//			g2d.drawImage(iformButton, width/2 - c_width/2, height/7 + (c_height/3 * 4), this);
 //			g2d.drawImage(imusic, width/2 - c_width/2, height/7 + (c_height/3 * 8), this);
-//			g2d.drawImage(ioptions, width/2 - c_width/2 + (c_width - c_height), height/7 + (c_height/3 * 8), this);
+//			g2d.drawImage(isave, width/2 - c_width/2 + (c_width - c_height), height/7 + (c_height/3 * 8), this);
 			
 			
             @Override
@@ -178,7 +183,7 @@ public class MenuPanel extends JPanel {
 	                if ( y < height/7 + (c_height/3 * 8) + c_height && y > height/7 + (c_height/3 * 8)) {
 	                	
 	                	if (mchanging) {
-	                		if (x >= width/2 - c_width/2  && x < width/2 - c_width/2 + c_small) {
+	                		if (x >= width/2 - c_width/2  && x < width/2 - c_width/2 + c_height) {
 	                			if (mus_toggle) {
 	    	                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 	    	                		if (mode)
@@ -200,7 +205,7 @@ public class MenuPanel extends JPanel {
 	                		}
 	                	} else if (optioning) {
 	                		if (x >= width/2 - c_width/2 + (c_width - c_small) && x < width/2 - c_width/2 + c_width) {
-	                			master.options(mus_toggle, mode);
+	                			master.menu(mus_toggle, mode);
 	                		}
 	                	}
 	                	 
@@ -248,19 +253,19 @@ public class MenuPanel extends JPanel {
 		
 		
 		g2d.drawImage(itable, 0, 0, this);
-		g2d.drawImage(imenuButton, width/2 - c_width/2, height/7, this);
-		g2d.drawImage(imenuButton, width/2 - c_width/2, height/7 + (c_height/3 * 4), this);
+		g2d.drawImage(iformButton, width/2 - c_width/2, height/7, this);
+		g2d.drawImage(iformButton, width/2 - c_width/2, height/7 + (c_height/3 * 4), this);
 		g2d.drawImage(imusic, width/2 - c_width/2, height/7 + (c_height/3 * 8), this);
 		//g2d.drawImage(iclose, width - c_height, height/7, this);
-		g2d.drawImage(ioptions, width/2 - c_width/2 + (c_width - c_small), height/7 + (c_height/3 * 8), this);
+		g2d.drawImage(isave, width/2 - c_width/2 + (c_width - c_small), height/7 + (c_height/3 * 8), this);
 		
 		//g2d.drawImage(ititle, width/8, height/10, this);
 		
 		g2d.setColor(Color.lightGray);
 		g2d.setFont(this.font);
 		
-		g2d.drawString("JOIN GAME" , width/2 - c_small, height/7 + c_height/3);
-		g2d.drawString("HOST GAME", width/2 - c_small, height/7 + (c_height/3 * 4) + c_height/3);
+		g2d.drawString("TABLE" , width/2 - c_small, height/7 + c_height/3);
+		g2d.drawString("NAME", width/2 - c_small, height/7 + (c_height/3 * 4) + c_height/3);
 	}
 
 

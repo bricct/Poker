@@ -31,17 +31,19 @@ public class TestPanel extends JPanel {
 	private int c_anim = 0;
 	private int anim_select = 0;
 	private boolean vol_toggle, vchanging;
-	BufferedImage card1_reg, card2_reg, back_reg, deck_reg, volume_on, volume_off;
-	Image icard1, icard2, iback, table1, ideck, ivolume;
+	BufferedImage card1_reg, card2_reg, back_reg, deck_reg, volume_on, volume_off, musicOn, musicOff;
+	Image icard1, icard2, iback, table1, ideck, ivolume, imusic;
 	Image[] chip_spr, itable_cards;
 	private int width, height, c_height, b_height, c_width, b_width, ch_size;
 	private boolean[] card_set;
+	
+	private boolean mus_toggle, mchanging;
 	
 	private ArrayList<Player> players;
 	
 	
 	
-	public TestPanel(Card card1, Card card2, int money) {
+	public TestPanel(Card card1, Card card2, int money, boolean _mus_toggle, boolean mode) {
 		this.setSize(900, 480);
 		this.card1 = card1;
 		this.card2 = card2;
@@ -88,7 +90,7 @@ public class TestPanel extends JPanel {
 		volume_on = Sprite.getVolumeSprite(0);
 		volume_off = Sprite.getVolumeSprite(1);
 		
-		ivolume = volume_on;
+		//ivolume = volume_on;
 		
 		try {
 			this.table = ImageIO.read(new File("table.png"));
@@ -108,6 +110,15 @@ public class TestPanel extends JPanel {
 		SoundEffects.volume = SoundEffects.Volume.LOW;
 		this.vol_toggle = true;
 		this.vchanging = false;
+		
+		this.mus_toggle = _mus_toggle;
+		this.vchanging = false;
+		//this.mode = mode;
+		
+		musicOn = Sprite.getMusicOnSprite();
+		musicOff = Sprite.getMusicOffSprite();
+		
+		
 		
 		this.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent componentEvent) {
@@ -144,7 +155,15 @@ public class TestPanel extends JPanel {
 				iback = back_reg.getScaledInstance(b_width, b_height, Image.SCALE_FAST);
 				ideck = deck_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 				
-				ivolume = ivolume.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+				if (vol_toggle)
+					ivolume = volume_on.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+				else
+					ivolume = volume_off.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+				
+				if (mus_toggle)
+					imusic = musicOn.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+				else
+					imusic = musicOff.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
 				
 				
 				chip_spr = new Image[6];
@@ -165,39 +184,70 @@ public class TestPanel extends JPanel {
             public void mousePressed(MouseEvent e) {
             	int x=e.getX();
                 int y=e.getY();
-                if (x >= (width - (ch_size*2)) && x < width - 2 && y < ch_size*2 + 5 && y > 5) {
-                	vchanging = true;
-                } else {
-                	vchanging = false;
+                if ( y < ch_size*2 + 5 && y > 5) {
+                	if (x >= (width - (ch_size*2)) && x < width - 2) vchanging = true;
+                	else if (x > 2 && x < ch_size*2 + 2) {
+                		mchanging = true;
+                		System.out.println("mchanging on click");
+                	}
+                	else{
+                		mchanging = false;
+                		vchanging = false;
+                	}
                 }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-            	if (vchanging) {
+            	if (vchanging || mchanging) {
 	            	int x=e.getX();
 	                int y=e.getY();
 	                
 	                System.out.println(x + " " + y);
 	            	
-	            	if (x >= (width - (ch_size*2)) - 2 && x < width - 2  && y < ch_size*2 + 5 && y > 5) {
-	                	vchanging = true;
-	                	System.out.println("good");
-	                } else {
-	                	System.out.println("bad");
-	                	vchanging = false;
-	                }
-	            	if (vchanging) {
-	            		if (vol_toggle) {
-	                		ivolume = volume_off.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
-	                		SoundEffects.volume = SoundEffects.Volume.MUTE;
-	                	} else {
-	                		ivolume = volume_on.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
-	                		SoundEffects.volume = SoundEffects.Volume.LOW;
+	            	if (y < ch_size*2 + 5 && y > 5) {
+	            		System.out.println("mchanging " + mchanging);
+	            		if (vchanging) {
+	            			if (x >= (width - (ch_size*2)) - 2 && x < width - 2) {            			
+			            		if (vol_toggle) {
+			                		ivolume = volume_off.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+			                		SoundEffects.volume = SoundEffects.Volume.MUTE;
+			                	} else {
+			                		ivolume = volume_on.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+			                		SoundEffects.volume = SoundEffects.Volume.LOW;
+			                	}
+			            		vol_toggle = !vol_toggle;
+			            		repaint();
+			            	}
+	            		} else if (mchanging) {
+	            			
+	                		System.out.println("mchanging on release");
+	            			if (x > 2 && x < ch_size*2 + 2) {    
+	                			if (mus_toggle) {
+	    	                		imusic = musicOff.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+	    	                		if (mode)
+	    	                			MusicController.THEME.stop();
+	    	                		else {
+	    	                			MusicController.SECRET.stop();
+	    	                		}
+	    	                	} else {
+	    	                		imusic = musicOn.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
+	    	                		if (mode)
+	    	                			MusicController.THEME.play();
+	    	                		else {
+	    	                			MusicController.SECRET.play();
+	    	                		}
+	    	                	}
+	    	            		mus_toggle = !mus_toggle;
+	    	            		repaint();
+	                			
+	                		}
 	                	}
-	            		vol_toggle = !vol_toggle;
-	            		repaint();
+		            	
 	            	}
+	            	
+	            	vchanging = false;
+	            	mchanging = false;
 	                
 	                
             	}
@@ -491,6 +541,11 @@ public class TestPanel extends JPanel {
 		g2d.drawImage(iback, 7 * (width/8) - b_width, height/2 - (b_height/2), this);
 		g2d.drawImage(iback, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
 		
+		
+		
+		
+		
+		g2d.drawImage(imusic, 2, 5, this);
 		g2d.drawImage(ivolume, width - (2*ch_size) - 2, 5, this);
 		
 		
