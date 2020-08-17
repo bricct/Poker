@@ -16,12 +16,26 @@ import javax.swing.JPanel;
  * Menu class for the game
  */
 public class TestMenu extends JFrame {
-	
+
 	private static final long serialVersionUID = 1L;
 	private JPanel panel;
-	public static final String[] names = {"Salami", "Nerd", "PorkSweat", "Jimbabwe", "Santa", "Struedel", "Epstein", "WetKisser", "Pudgy", "ThiccDaddy"};
+	
+	public static final String[] names = {"Salami", "Nerd", "SweatBag", "Jimbabwe", "Santa", "Struedel", "Epstein", "WetKisser", "Pudgy", "Thicc Boi", "Wedgie", 
+											"Grundle", "Scoob", "Carl", "BedPan", "Willie"};
 	public static final String[] table_c = {"Green", "Red", "Purple"};
+	
+	public static final int[] starting_c = {500, 1000, 1500};
+	public static final int[] blind_c = {10, 20, 50};
+	
+	public static int starting_cash;
+	public static int blind_cash;
+	public static int port;
+	public static int[] ip;
+	
 	public static String name;
+	public static int table_ind, name_ind, blind_ind, starting_ind;
+	
+	
 	public static BufferedImage tables[];
 	public static BufferedImage table;
 
@@ -32,9 +46,21 @@ public class TestMenu extends JFrame {
 	public TestMenu(boolean mode) {
 		this.setSize(906, 520);
 		System.out.println(this.getWidth() + " " +  this.getHeight());
-		
+
 		MusicController.init();
 		MusicController.volume = MusicController.Volume.LOW;
+		
+		starting_cash = starting_c[0];
+		blind_cash = blind_c[0];
+		port = 12345;
+
+		ip = new int[4];
+		ip[0] = 127;
+		ip[1] = 000;
+		ip[2] = 000;
+		ip[3] = 001;
+ 		
+		
 		
 		if (mode)
 			MusicController.THEME.play();
@@ -52,23 +78,31 @@ public class TestMenu extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		table = tables[0];
+		
+		
 		
 		this.panel = new MenuPanel(this, true, mode);
 		this.add(this.panel);
-		
+
 		Random random = new Random();
-		name = names[random.nextInt(names.length)];
 		
 		
+		
+		name_ind = random.nextInt(names.length);
+		blind_ind = 0; table_ind = 0; starting_ind = 0;
+		
+		name = names[name_ind];
+
+
 //		this.addMouseListener(new MouseAdapter() {
 //
 //            @Override
 //            public void mousePressed(MouseEvent e) {
-//            	
-//            	
-//            	
+//
+//
+//
 //                repaint();
 //            }
 //
@@ -77,7 +111,7 @@ public class TestMenu extends JFrame {
 //            	game();
 //            }
 //        });
-		
+
 //		this.addKeyListener(new KeyListener() {
 //
 //			@Override
@@ -88,19 +122,47 @@ public class TestMenu extends JFrame {
 //			@Override
 //			public void keyReleased(KeyEvent arg0) {
 //				return;
-//				
+//
 //			}
 //
 //			@Override
 //			public void keyTyped(KeyEvent arg0) {
 //				return;
-//				
+//
 //			}
-//		
+//
 //		});
-		
+
 	}
 	
+	
+	/**
+	 * Trigger the host panel
+	 * @param mus_toggle
+	 * @param mode
+	 */
+	public void host(boolean mus_toggle, boolean mode) {
+		this.remove(this.panel);
+		this.panel = new HostPanel(this, mus_toggle, mode);
+		this.add(this.panel);
+		this.panel.repaint();
+
+	}
+	
+	/**
+	 * Trigger the host panel
+	 * @param mus_toggle
+	 * @param mode
+	 */
+	public void port(boolean mus_toggle, boolean mode) {
+		this.remove(this.panel);
+		this.panel = new PortPanel(this, mus_toggle, mode);
+		this.add(this.panel);
+		this.panel.repaint();
+
+	}
+	
+
 	/**
 	 * Trigger the options panel
 	 * @param mus_toggle
@@ -111,16 +173,17 @@ public class TestMenu extends JFrame {
 		this.panel = new OptionsPanel(this, mus_toggle, mode);
 		this.add(this.panel);
 		this.panel.repaint();
-		
+
 	}
 	
+
 	/**
 	 * Initializes the game with the new given settings
 	 * @param mus_toggle
 	 * @param mode
 	 */
 	public void game(boolean mus_toggle, boolean mode) {
-		TestBoard board = new TestBoard(mus_toggle, mode);
+		TestBoard board = new TestBoard(mus_toggle, mode, this);
 		Dimension scr_dim = getSize();
 		int width = (int) scr_dim.getWidth();
 		int height = (int) scr_dim.getHeight();
@@ -128,7 +191,7 @@ public class TestMenu extends JFrame {
 		board.setLocationRelativeTo(null);
 		board.setVisible(true);
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		dispose();
+		this.setVisible(false);
 	}
 
 	/**
@@ -141,8 +204,8 @@ public class TestMenu extends JFrame {
 		this.panel = new MenuPanel(this, mus_toggle, mode);
 		this.add(this.panel);
 		this.panel.repaint();
-		
+
 	}
-	
-	
+
+
 }

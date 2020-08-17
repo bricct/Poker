@@ -16,6 +16,7 @@ public class Sprite {
     private static final int Y_SIZE = 96;
     private static final int X_SIZE = 69;
     private static final int AX_SIZE = 288;
+    private static final int AX_BIG = 360;
     private static final int AY_SIZE = 108;
     private static final int OX_SIZE = 186;
     private static final int OY_SIZE = 84;
@@ -66,7 +67,7 @@ public class Sprite {
         BufferedImage options = null;
 
         try {
-        	options = ImageIO.read(new File("options_assets.png"));
+        	options = ImageIO.read(new File("optionsAssets.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -182,12 +183,12 @@ public class Sprite {
 	}
 	
 	/**
-     * @return buffered image of teh button
+     * @return buffered image of the button
      */
 	public static BufferedImage getButtonSprite() {
 		
 		int xGrid = 0;
-    	int yGrid = 0;
+    	int yGrid = 1;
     	
     	
         if (assetSheet == null) {
@@ -198,13 +199,31 @@ public class Sprite {
 		
 		
 	}
+	
+	/**
+     * @return buffered image of the big button
+     */
+	public static BufferedImage getBigButtonSprite() {
+		
+		int xGrid = 1;
+    	int yGrid = 1;
+    	
+    	
+        if (assetSheet == null) {
+            assetSheet = loadAssets();
+        }
+
+        return assetSheet.getSubimage(xGrid * AX_SIZE, yGrid * AY_SIZE, AX_BIG, AY_SIZE);
+		
+		
+	}
     
 	/**
      * @return buffered image of the music sprite
      */
 	public static BufferedImage getMusicOnSprite() {
 			
-			int xGrid = 3;
+			int xGrid = 2;
 	    	int yGrid = 0;
 	    	
 	    	
@@ -212,7 +231,7 @@ public class Sprite {
 	            assetSheet = loadAssets();
 	        }
 	
-	        return assetSheet.getSubimage((xGrid - 1) * AY_SIZE + AX_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
+	        return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
 			
 			
 		}
@@ -222,7 +241,7 @@ public class Sprite {
      */
 	public static BufferedImage getMusicOffSprite() {
 		
-		int xGrid = 4;
+		int xGrid = 3;
     	int yGrid = 0;
     	
     	
@@ -230,7 +249,7 @@ public class Sprite {
             assetSheet = loadAssets();
         }
 
-        return assetSheet.getSubimage((xGrid - 1) * AY_SIZE + AX_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
+        return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
 		
 		
 	}
@@ -240,7 +259,7 @@ public class Sprite {
      */
 	public static BufferedImage getOptionsSprite() {
 		
-		int xGrid = 2;
+		int xGrid = 1;
     	int yGrid = 0;
     	
     	
@@ -248,7 +267,7 @@ public class Sprite {
             assetSheet = loadAssets();
         }
 
-        return assetSheet.getSubimage((xGrid - 1) * AY_SIZE + AX_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
+        return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
 		
 		
 	}
@@ -258,7 +277,7 @@ public class Sprite {
      */
 	public static BufferedImage getCloseSprite() {
 		
-		int xGrid = 1;
+		int xGrid = 0;
     	int yGrid = 0;
     	
     	
@@ -266,7 +285,7 @@ public class Sprite {
             assetSheet = loadAssets();
         }
 
-        return assetSheet.getSubimage((xGrid - 1) * AY_SIZE + AX_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
+        return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
 		
 		
 	}
@@ -276,6 +295,24 @@ public class Sprite {
      */
 	public static BufferedImage getSaveSprite() {
 		
+		int xGrid = 4;
+    	int yGrid = 0;
+    	
+    	
+        if (assetSheet == null) {
+            assetSheet = loadAssets();
+        }
+
+        return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
+		
+		
+	}
+	
+	/**
+     * @return buffered image of the return icon
+     */
+	public static BufferedImage getReturnSprite() {
+		
 		int xGrid = 5;
     	int yGrid = 0;
     	
@@ -284,7 +321,7 @@ public class Sprite {
             assetSheet = loadAssets();
         }
 
-        return assetSheet.getSubimage((xGrid - 1) * AY_SIZE + AX_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
+        return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
 		
 		
 	}
@@ -321,6 +358,38 @@ public class Sprite {
 	    }
 	
 	    return optionsSheet.getSubimage((xGrid - 1) * OX_SMALL_SIZE + OX_SIZE, yGrid * AY_SIZE, OX_SMALL_SIZE, OY_SIZE);
+	}
+	
+    /**
+     * @return buffered image of the Up Arrow
+     */
+	public static BufferedImage getArrowUpSprite() {
+		
+		int xGrid = 2;
+		int yGrid = 0;
+		
+		
+	    if (optionsSheet == null) {
+	    	optionsSheet = loadOptionsAssets();
+	    }
+	
+	    return optionsSheet.getSubimage((xGrid - 1) * OX_SMALL_SIZE + OX_SIZE, yGrid * AY_SIZE, OX_SMALL_SIZE, OX_SMALL_SIZE);
+	}
+	
+    /**
+     * @return buffered image of the Down Arrow
+     */
+	public static BufferedImage getArrowDownSprite() {
+		
+		int xGrid = 3;
+		int yGrid = 0;
+		
+		
+	    if (optionsSheet == null) {
+	    	optionsSheet = loadOptionsAssets();
+	    }
+	
+	    return optionsSheet.getSubimage((xGrid - 1) * OX_SMALL_SIZE + OX_SIZE, yGrid * AY_SIZE, OX_SMALL_SIZE, OX_SMALL_SIZE);
 	}
     
     

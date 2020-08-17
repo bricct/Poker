@@ -35,7 +35,7 @@ public class TitlePanel extends JPanel {
 		
 		try {
 			title = ImageIO.read(new File("title.png"));
-			table = ImageIO.read(new File("table.png"));
+			table = ImageIO.read(new File("tableGreen.png"));
 		} catch (IOException e) {
 
 			// TODO Auto-generated catch block

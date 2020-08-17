@@ -48,7 +48,6 @@ public class MenuPanel extends JPanel {
 		
 		mchanging = false;
 		mus_toggle = _mus_toggle;
-		;
 		
 		c_height = height/5;
 		c_width = width/10 * 3; 
@@ -202,7 +201,7 @@ public class MenuPanel extends JPanel {
             			if (joining) {
             				if (y < height/7 + c_height && y > height/7) master.game(mus_toggle, mode);
             			} else if (hosting) {
-            				if (y < height/7 + (c_height/3 * 4) + c_height && y > height/7 + (c_height/3 * 4)) master.game(mus_toggle, mode);
+            				if (y < height/7 + (c_height/3 * 4) + c_height && y > height/7 + (c_height/3 * 4)) master.host(mus_toggle, mode);
             			}
             		}
             		

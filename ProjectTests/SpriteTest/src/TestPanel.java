@@ -368,18 +368,6 @@ public class TestPanel extends JPanel {
 				anim_select++;
 				if (anim_select == 1 || anim_select == 2) SoundEffects.DRAW.play();
 				
-				
-//				if (anim_select < 9 && anim_select > 5) {
-//					anim_select--;
-//				} else {
-//					anim_select++;
-//				}
-				
-				
-				//if (anim_select < 8 && anim_select > 4) card_set[anim_select-5] = true;
-				
-				//if (anim_select == 9 || anim_select == 10 || anim_select == 11) card_set[anim_select-7] = true;
-				
 				if (anim_select > 6 && anim_select < 12) {
 					card_set[anim_select-7] = true;
 					SoundEffects.DRAW.play();
@@ -457,52 +445,12 @@ public class TestPanel extends JPanel {
 		}
 		
 		
-//		if (this.table_cards[0] != null) {
-//			if (anim_select == 8) g2d.drawImage(itable_cards[0], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)0.0+1.0)) -2)+0) * (c_width/2 + 5))), height/3, this);
-//			else g2d.drawImage(itable_cards[0], (width/2) + (2 * (-2) * (c_width/2 + 5) ) , height/3, this);
-//		}
-//		if (this.table_cards[1] != null) {
-//			if (anim_select == 7) g2d.drawImage(itable_cards[1], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)1+1.0)) -2)+1) * (c_width/2 + 5))), height/3, this);
-//			else g2d.drawImage(itable_cards[1], (width/2) + (2 * (-1) * (c_width/2 + 5) ) , height/3, this);
-//		}
-//		if (this.table_cards[2] != null) {
-//			if (anim_select == 6) g2d.drawImage(itable_cards[2], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)2+1.0)) -2)+2) * (c_width/2 + 5))), height/3, this);
-//			else g2d.drawImage(itable_cards[2], (width/2) + (2 * (0) * (c_width/2 + 5) ) , height/3, this);
-//		}
-//		if (this.table_cards[3] != null) {
-//			if (anim_select == 9) g2d.drawImage(itable_cards[3], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)3+1.0)) -2)+3) * (c_width/2 + 5))), height/3, this);
-//			else g2d.drawImage(itable_cards[3], (width/2) + (2 * (1) * (c_width/2 + 5) ) , height/3, this);
-//		}
-//		if (this.table_cards[4] != null) {
-//			if (anim_select == 10) g2d.drawImage(itable_cards[4], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)4+1.0)) -2)+4) * (c_width/2 + 5))), height/3, this);
-//			else g2d.drawImage(itable_cards[4], (width/2) + (2 * (2) * (c_width/2 + 5) ) , height/3, this);
-//		}
-		
-		
-		
-		
-//		for (int i = 0; i < 5; i++) {
-//			if (this.table_cards[i] != null) {
-//				if (anim_select == i+6) g2d.drawImage(itable_cards[i], (int) Math.floor((width/2) + (2 * ((((double)c_anim-20)/(20.0/((double)i+1.0)) -2)+i) * (c_width/2 + 5))), height/3, this);
-//				else g2d.drawImage(itable_cards[i], (width/2) + (2 * (i-2) * (c_width/2 + 5) ) , height/3, this);
-//			}
-//		}
-		
-		
 		//draw deck 5 times to make it look 3d
 		for (int i = 0; i < 5; i++) {
 			g2d.drawImage(ideck, (int) Math.floor((width/2) + ( (-6-((double)i*5.0/100.0)) * (c_width/2 + 5))) ,(int) Math.floor((1.0-((double)i/100.0)) * height/3), this);
 		}
 		
 		
-		
-//		for (int i = 1; i < 5; i++) {
-//			if (this.table_cards[i] == null) break;
-//			g2d.drawImage(itable_cards[i], (width/2) + (2 * (i-2) * (c_width/2 + 5) ) , height/3, this);
-//			
-//			
-//		}
-			
 		//chip stacking algorithm
 		int[] chips = Chips.getChips(this.money);
 		for (int i = 5; i >= 0; i--) {
