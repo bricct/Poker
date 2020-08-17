@@ -9,7 +9,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 
-
+/**
+ * Music controller class for the in game music
+ */
 public enum MusicController {
 	THEME("Poker Theme.wav", "Poker Theme Loop.wav"),       // bullet
 	
@@ -53,6 +55,9 @@ public enum MusicController {
       }
    }
    
+   /**
+    * Plays the music
+    */
    // Play or Re-play the sound effect from the beginning, by rewinding.
    public void play() {
       if (volume != Volume.MUTE) {
@@ -68,22 +73,23 @@ public enum MusicController {
          
       }
    }
-   
+
    // Optional static method to pre-load all the sound files.
    static void init() {
       values(); // calls the constructor for all the elements
    }
    
+   /**
+    * Stops the music
+    */
    public void stop() {
 	   if (loop_clip.isRunning()) loop_clip.stop();
 	   if (intro_clip.isRunning()) intro_clip.stop();
 	   off = true;
    }
    
-   
-   
    private class MusicThread extends Thread {
-	   
+      
 	   
 	   public void run(){  
 			
@@ -102,8 +108,6 @@ public enum MusicController {
 	       }
 
 		}
-	   
-	   
    }
    
    

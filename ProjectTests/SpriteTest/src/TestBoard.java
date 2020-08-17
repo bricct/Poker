@@ -8,6 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Board class for the poker game
+ */
 public class TestBoard extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -19,6 +22,11 @@ public class TestBoard extends JFrame {
 	private Card[] table_cards;
 	private int money;
 	
+	/**
+	 * Constructor for constructing the board object of the game
+	 * @param mus_toggle
+	 * @param mode
+	 */
 	public TestBoard(boolean mus_toggle, boolean mode) {
 		
 		this.deck = new Deck();

@@ -12,10 +12,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Menu class for the game
+ */
 public class TestMenu extends JFrame {
 	
-	
-
 	private static final long serialVersionUID = 1L;
 	private JPanel panel;
 	public static final String[] names = {"Salami", "Nerd", "PorkSweat", "Jimbabwe", "Santa", "Struedel", "Epstein", "WetKisser", "Pudgy", "ThiccDaddy"};
@@ -24,7 +25,10 @@ public class TestMenu extends JFrame {
 	public static BufferedImage tables[];
 	public static BufferedImage table;
 
-	
+	/**
+	 * Constructor for the menu panel
+	 * @param mode mode of the game
+	 */
 	public TestMenu(boolean mode) {
 		this.setSize(906, 520);
 		System.out.println(this.getWidth() + " " +  this.getHeight());
@@ -97,6 +101,11 @@ public class TestMenu extends JFrame {
 		
 	}
 	
+	/**
+	 * Trigger the options panel
+	 * @param mus_toggle
+	 * @param mode
+	 */
 	public void options(boolean mus_toggle, boolean mode) {
 		this.remove(this.panel);
 		this.panel = new OptionsPanel(this, mus_toggle, mode);
@@ -105,8 +114,11 @@ public class TestMenu extends JFrame {
 		
 	}
 	
-	
-	
+	/**
+	 * Initializes the game with the new given settings
+	 * @param mus_toggle
+	 * @param mode
+	 */
 	public void game(boolean mus_toggle, boolean mode) {
 		TestBoard board = new TestBoard(mus_toggle, mode);
 		Dimension scr_dim = getSize();
@@ -119,6 +131,11 @@ public class TestMenu extends JFrame {
 		dispose();
 	}
 
+	/**
+	 * Triggers the actual menu ui
+	 * @param mus_toggle
+	 * @param mode
+	 */
 	public void menu(boolean mus_toggle, boolean mode) {
 		this.remove(this.panel);
 		this.panel = new MenuPanel(this, mus_toggle, mode);

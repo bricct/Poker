@@ -6,15 +6,18 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 
+/**
+ * Testing class for testing the title panel class
+ */
 public class TestTitle extends JFrame {
-	
-	
 
 	private static final long serialVersionUID = 1L;
 	private TitlePanel panel;
 	private boolean control, shift, c;
 	
-	
+	/**
+	 * Constructor for testing the panel
+	 */
 	public TestTitle() {
 		this.setSize(906, 520);
 		this.control = false;
@@ -79,7 +82,9 @@ public class TestTitle extends JFrame {
 		
 	}
 	
-	
+	/**
+	 * Creates a game object for the test class
+	 */
 	public void game(boolean normalMode) {
 		TestMenu board = new TestMenu(normalMode);
 		Dimension scr_dim = getSize();

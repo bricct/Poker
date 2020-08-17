@@ -11,6 +11,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+/**
+ * This is the TitlePanel class 
+ * for showing the introductory Title screen
+ * to the game.
+ */
 public class TitlePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -18,6 +23,9 @@ public class TitlePanel extends JPanel {
 	private Image ititle, itable;
 	private int width, height;
 	
+	/**
+	 * Constructor function for initializing the title panel.
+	 */
 	public TitlePanel() {
 		this.setSize(900, 480);
 		

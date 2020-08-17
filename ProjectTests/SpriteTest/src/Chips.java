@@ -1,4 +1,6 @@
-
+/**
+ * Chips class for determining chips and chip value
+ */
 public class Chips {
 
 	public static int[] getChips(int _amt) {

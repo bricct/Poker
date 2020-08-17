@@ -4,6 +4,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Main graphic class for all the graphics of the game.
+ * 
+ * This class includes all custom card graphics, fonts,
+ * board ui, and chips.
+ */
 public class Sprite {
 
     private static BufferedImage spriteSheet, assetSheet, optionsSheet;
@@ -15,7 +21,10 @@ public class Sprite {
     private static final int OY_SIZE = 84;
     private static final int OX_SMALL_SIZE = 18;
     
-
+    /**
+     * Loads a sprite image and returns it as a buffered image
+     * @return buffered image of the sprite
+     */
     public static BufferedImage loadSprite() {
 
         BufferedImage sprite = null;
@@ -30,6 +39,10 @@ public class Sprite {
         return sprite;
     }
     
+    /**
+     * Loads a asset image and returns it as a buffered image
+     * @return buffered image of the asset
+     */
     public static BufferedImage loadAssets() {
 
         BufferedImage assets = null;
@@ -43,7 +56,11 @@ public class Sprite {
 
         return assets;
     }
-    
+
+    /**
+     * Loads a options asset image and returns it as a buffered image
+     * @return buffered image of the options asset
+     */
     public static BufferedImage loadOptionsAssets() {
 
         BufferedImage options = null;
@@ -58,6 +75,11 @@ public class Sprite {
         return options;
     }
 
+    /**
+     * Returns a buffered image of a card
+     * @param card to turn into graphic
+     * @return buffered image of the card
+     */
     public static BufferedImage getSprite(Card card) {
     	
     	int xGrid = 14-card.value();
@@ -71,6 +93,9 @@ public class Sprite {
         return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, Y_SIZE);
     }
 
+    /**
+     * @return buffered image of the back of the card
+     */
     public static BufferedImage getBackSprite() {
     	
     	int xGrid = 1;
@@ -84,6 +109,9 @@ public class Sprite {
         return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, Y_SIZE);
     }
     
+    /**
+     * @return buffered image of the deck sleeve
+     */
     public static BufferedImage getDeckSprite() {
     	
     	int xGrid = 0;
@@ -97,6 +125,9 @@ public class Sprite {
         return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, Y_SIZE);
     }
     
+    /**
+     * @return buffered image of the icon
+     */
     public static BufferedImage getIconSprite() {
     	
     	int xGrid = 2;
@@ -110,6 +141,10 @@ public class Sprite {
         return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, X_SIZE);
     }
     
+    /**
+     * @param chip value of chips
+     * @return buffered image of the that is the value
+     */
     public static BufferedImage getChipSprite(int chip) {
     	
     	while (chip < 0) chip += 6;
@@ -127,6 +162,10 @@ public class Sprite {
         return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, X_SIZE);
     }
 
+    /**
+     * @param i value of volume
+     * @return buffered image of the volume sprite in font
+     */
 	public static BufferedImage getVolumeSprite(int i) {
 		
 		int xGrid = 11 + i;
@@ -142,7 +181,9 @@ public class Sprite {
 		
 	}
 	
-	
+	/**
+     * @return buffered image of teh button
+     */
 	public static BufferedImage getButtonSprite() {
 		
 		int xGrid = 0;
@@ -158,7 +199,9 @@ public class Sprite {
 		
 	}
     
-	
+	/**
+     * @return buffered image of the music sprite
+     */
 	public static BufferedImage getMusicOnSprite() {
 			
 			int xGrid = 3;
@@ -173,7 +216,10 @@ public class Sprite {
 			
 			
 		}
-	
+    
+    /**
+     * @return buffered image of the music off sprite
+     */
 	public static BufferedImage getMusicOffSprite() {
 		
 		int xGrid = 4;
@@ -188,7 +234,10 @@ public class Sprite {
 		
 		
 	}
-	
+    
+    /**
+     * @return buffered image of the options icon
+     */
 	public static BufferedImage getOptionsSprite() {
 		
 		int xGrid = 2;
@@ -203,7 +252,10 @@ public class Sprite {
 		
 		
 	}
-	
+    
+    /**
+     * @return buffered image of the close icon
+     */
 	public static BufferedImage getCloseSprite() {
 		
 		int xGrid = 1;
@@ -218,7 +270,10 @@ public class Sprite {
 		
 		
 	}
-	
+    
+    /**
+     * @return buffered image of the save icon
+     */
 	public static BufferedImage getSaveSprite() {
 		
 		int xGrid = 5;
@@ -234,8 +289,9 @@ public class Sprite {
 		
 	}
     
-	
-	
+	/**
+     * @return buffered image of the form 
+     */
 	public static BufferedImage getFormSprite() {
 			
 			int xGrid = 0;
@@ -250,7 +306,10 @@ public class Sprite {
 			
 			
 		}
-
+    
+    /**
+     * @return buffered image of the colon
+     */
 	public static BufferedImage getColonSprite() {
 		
 		int xGrid = 1;
@@ -262,8 +321,6 @@ public class Sprite {
 	    }
 	
 	    return optionsSheet.getSubimage((xGrid - 1) * OX_SMALL_SIZE + OX_SIZE, yGrid * AY_SIZE, OX_SMALL_SIZE, OY_SIZE);
-		
-		
 	}
     
     

@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+/**
+ * TestPanel creates the game UI for the poker game.
+ */
 public class TestPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -38,6 +41,14 @@ public class TestPanel extends JPanel {
 	
 	
 	
+	/**
+	 * Constructor for starting up the game UI for a player
+	 * @param card1 first card for player
+	 * @param card2 second card for player
+	 * @param money initial money for player
+	 * @param _mus_toggle toggle boolean logic
+	 * @param mode mode of the game for player
+	 */
 	public TestPanel(Card card1, Card card2, int money, boolean _mus_toggle, boolean mode) {
 		this.setSize(900, 480);
 		this.card1 = card1;
@@ -247,6 +258,12 @@ public class TestPanel extends JPanel {
 		
 	}
 	
+	/**
+	 * Changes the card for the player and updates
+	 * the graphic
+	 * @param card1 first card
+	 * @param card2 second card
+	 */
 	public void setCards(Card card1, Card card2) {
 		this.card1 = card1;
 		this.card2 = card2;
@@ -264,11 +281,19 @@ public class TestPanel extends JPanel {
 		
 	}
 	
+	/**
+	 * Sets the money for the player to a certain amount and updates the graphic
+	 * @param money money to be changed to
+	 */
 	public void setMoney(int money) {
 		this.money = money;
 		this.repaint();
 	}
 	
+	/**
+	 * Adds the amount of money to the pot
+	 * @param to_add money to add to the pot
+	 */
 	public void addToPot(int to_add) {
 		this.to_add = to_add;
 		anim_select = 3;
@@ -276,6 +301,10 @@ public class TestPanel extends JPanel {
 		this.repaint();
 	}
 	
+	/**
+	 * Trigger the flop of the game
+	 * @param table_cards list of cards to be flopped onto the table
+	 */
 	public void flop(Card[] table_cards) {
 		for (int i = 0; i < 5; i++) {
 			this.card_set[i] = false;
@@ -286,6 +315,10 @@ public class TestPanel extends JPanel {
 		this.repaint();
 	}
 	
+	/**
+	 * Trigger the turn card of the game
+	 * @param table_cards list containing the card to be drawn
+	 */
 	public void turn(Card[] table_cards) {
 		setTableCards(table_cards);
 		anim_select = 9;
@@ -293,6 +326,10 @@ public class TestPanel extends JPanel {
 		this.repaint();
 	}
 	
+	/**
+	 * Trigger the river card of the game
+	 * @param table-cards list containing the card to be drawn
+	 */
 	public void river(Card[] table_cards) {
 		setTableCards(table_cards);
 		anim_select = 10;
@@ -311,14 +348,14 @@ public class TestPanel extends JPanel {
 		
 	}
 	
-	
+	/**
+	 * Sets the current players to the given listed players
+	 * @param players list of players to be set to
+	 */
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
 		this.repaint();
 	}
-	
-	
-	
 	
 	private ActionListener animator = new ActionListener() {
 		
@@ -375,9 +412,10 @@ public class TestPanel extends JPanel {
 		
 	};
 	
-	
-	
-	
+	/**
+	 * Repaints the entire panel
+	 * @param g graphic to be repaint on
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 				
