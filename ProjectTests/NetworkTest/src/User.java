@@ -13,12 +13,13 @@ public class User {
 
 
 		//PriorityQueue<String> commands = new PriorityQueue<>();
-		master.setVisible(false);
+		
 		board = new TestBoard(master, this);
 		//board.setVisible(true);
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setSize(master.getWidth(),master.getHeight());
 		board.setLocationRelativeTo(master);
+		master.setVisible(false);
 		board.setVisible(true);
 		try {
 			Thread.sleep(200);
@@ -156,17 +157,17 @@ public class User {
 //			}
 
 		} else if (args[0].equals("raise")) {
-			//do something
+			board.sendRaise(Integer.parseInt(args[1]));
 
 
 
 		} else if (args[0].equals("check")) {
 			//do something
-
+			board.sendCheck(Integer.parseInt(args[1]));
 
 
 		} else if (args[0].equals("disconnected")) {
-			//do something
+			board.sendDisconnect(Integer.parseInt(args[1]));
 
 		} else if (args[0].equals("blind")) {
 
@@ -176,10 +177,16 @@ public class User {
 		} else if (args[0].equals("fold")) {
 			if (args.length == 1) {
 				this.board.fold();
+			} else {
+				board.sendFold(Integer.parseInt(args[1]));
 			}
 
 
+		} else if (args[0].equals("all-in")) {
+			board.sendAllin(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+			
 		} else if (args[0].equals("flop")) {
+		
 
 			if (args.length < 7) throw new IOException("bad flop");
 
@@ -231,7 +238,12 @@ public class User {
 			this.board.setWinnings(Integer.parseInt(args[1]));
 
 
+		} else if (args[0].equals("you-win")) {
+			this.board.sendWin();
+		} else if (args[0].equals("you-lose")) {
+			this.board.sendLoss();
 		} else if (args[0].equals("reset-hand")) {
+		
 			this.board.resetHand();
 
 		} else {

@@ -368,6 +368,19 @@ public class Server {
 		
 	}
 
+	public void sendAllin(int getid, int bet) {
+		distributeCmd(-1, "all-in " + getid + " " + bet);
+		
+	}
+	
+	public void sendWin(int id) {
+		sendCmd(id, "you-win");
+	}
+	
+	public void sendLose(int id) {
+		sendCmd(id, "you-lose");
+	}
+
 	
 	
 	

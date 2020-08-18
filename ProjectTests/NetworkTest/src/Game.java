@@ -84,6 +84,12 @@ public class Game
                     {
                     	try {
 	                        int bet = Integer.parseInt(cmd[1]); //<--------- CHANGE THIS
+	                        
+	                        if (currentCheckPay - queue.get(i).currMoney + bet > p.getMoney()) {
+	                        	bet = p.getMoney() - currentCheckPay + queue.get(i).currMoney;
+	                        	server.sendAllin(p.getid(), bet);
+	                        }
+	                        
 	                        currentCheckPay += bet;
 	                        p.subMoney(currentCheckPay - queue.get(i).currMoney);
 	                        pot += currentCheckPay - queue.get(i).currMoney;
@@ -151,6 +157,8 @@ public class Game
             if(players.get(i).getMoney() > 0)
             {
                 queue.add(new PlayerTuple(players.get(i),0));
+            } else {
+            	players.remove(i);
             }
         }
         if(queue.size() == 1)
@@ -315,6 +323,7 @@ public class Game
             server.sendStartHand();
             
         }
+        server.sendWin(players.get(0).getid());
     }
 
 

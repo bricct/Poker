@@ -184,4 +184,49 @@ public class TestBoard extends JFrame {
 	}
 
 
+	public void sendLoss() {
+		this.panel.lose();
+		
+	}
+
+
+
+
+
+	public void sendFold(int id) {
+		this.panel.fold(id);
+		
+	}
+
+
+	public void sendDisconnect(int id) {
+		this.panel.dc(id);
+		
+	}
+
+
+	public void sendCheck(int id) {
+		this.panel.check(id);
+		
+	}
+
+
+	public void sendRaise(int id) {
+		this.panel.raise(id);
+		
+	}
+
+
+	public void sendWin() {
+		this.panel.win();
+		
+	}
+
+
+	public void sendAllin(int id, int bet) {
+		this.panel.sendAllin(id, bet);
+		
+	}
+
+
 }

@@ -578,6 +578,55 @@ public class TestPanel extends JPanel {
 	}
 
 
+	public void sendAllin(int id, int bet) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void win() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void raise(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void lose() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void fold(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void dc(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void check(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+
+
+
 
 
 
