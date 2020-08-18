@@ -30,7 +30,7 @@ public class Client {
 				this.client_id = Integer.parseInt(getMessage());
 				
 				//outToServer.writeUTF(this.client_id + " connected");
-				
+				sendMessage(this.client_id + " " + TestMenu.name);
 				return this.client_id;
 			} catch (NumberFormatException e) { 
 				System.out.println("Oopsies something went wrong");

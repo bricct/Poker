@@ -15,23 +15,25 @@ public class TestMenu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panel;
-	
-	public static final String[] names = {"Salami", "Nerd", "SweatBag", "Jimbabwe", "Santa", "Struedel", "Epstein", "WetKisser", "Pudgy", "Thicc Boi", "Wedgie", 
+
+	public static final String[] names = {"Salami", "Nerd", "SweatBag", "Jimbabwe", "Santa", "Struedel", "Epstein", "WetKisser", "Pudgy", "Thicc Boi", "Wedgie",
 											"Grundle", "Scoob", "Carl", "BedPan", "Willie"};
 	public static final String[] table_c = {"Green", "Red", "Purple"};
-	
+
 	public static final int[] starting_c = {500, 1000, 1500};
 	public static final int[] blind_c = {10, 20, 50};
-	
+
 	public static int starting_cash;
 	public static int blind_cash;
 	public static int port;
 	public static int[] ip;
-	
+
+	public static boolean mus_toggle, mode;
+
 	public static String name;
 	public static int table_ind, name_ind, blind_ind, starting_ind;
-	
-	
+
+
 	public static BufferedImage tables[];
 	public static BufferedImage table;
 
@@ -43,9 +45,13 @@ public class TestMenu extends JFrame {
 		this.setSize(906, 520);
 		System.out.println(this.getWidth() + " " +  this.getHeight());
 
+		TestMenu.mode = mode;
+
+		TestMenu.mus_toggle = true;
+
 		MusicController.init();
 		MusicController.volume = MusicController.Volume.LOW;
-		
+
 		starting_cash = starting_c[0];
 		blind_cash = blind_c[0];
 		port = 12345;
@@ -55,10 +61,10 @@ public class TestMenu extends JFrame {
 		ip[1] = 000;
 		ip[2] = 000;
 		ip[3] = 001;
- 		
-		
-		
-		if (mode)
+
+
+
+		if (TestMenu.mode)
 			MusicController.THEME.play();
 		else {
 			MusicController.SECRET.play();
@@ -76,81 +82,81 @@ public class TestMenu extends JFrame {
 		}
 
 		table = tables[0];
-		
-		
-		
-		this.panel = new MenuPanel(this, true, mode);
+
+
+
+		this.panel = new MenuPanel(this);
 		this.add(this.panel);
 
 		Random random = new Random();
-		
-		
-		
+
+
+
 		name_ind = random.nextInt(names.length);
 		blind_ind = 0; table_ind = 0; starting_ind = 0;
-		
+
 		name = names[name_ind];
 
 	}
-	
-	
+
+
 	/**
 	 * Trigger the host panel
 	 * @param mus_toggle
 	 * @param mode
 	 */
-	public void host(boolean mus_toggle, boolean mode) {
+	public void host() {
 		this.remove(this.panel);
-		this.panel = new HostPanel(this, mus_toggle, mode);
+		this.panel = new HostPanel(this);
 		this.add(this.panel);
 		this.panel.repaint();
 
 	}
-	
+
 	/**
 	 * Trigger the host panel
 	 * @param mus_toggle
 	 * @param mode
 	 */
-	public void port(boolean mus_toggle, boolean mode) {
+	public void port() {
 		this.remove(this.panel);
-		this.panel = new PortPanel(this, mus_toggle, mode);
+		this.panel = new PortPanel(this);
 		this.add(this.panel);
 		this.panel.repaint();
 
 	}
-	
+
 
 	/**
 	 * Trigger the options panel
 	 * @param mus_toggle
 	 * @param mode
 	 */
-	public void options(boolean mus_toggle, boolean mode) {
+	public void options() {
 		this.remove(this.panel);
-		this.panel = new OptionsPanel(this, mus_toggle, mode);
-		this.add(this.panel);
-		this.panel.repaint();
-
-	}
-	
-	public void join(boolean mus_toggle, boolean mode) {
-		this.remove(this.panel);
-		this.panel = new JoinPanel(this, mus_toggle, mode);
+		this.panel = new OptionsPanel(this);
 		this.add(this.panel);
 		this.panel.repaint();
 
 	}
 
-	
-	
+	public void join() {
+		this.remove(this.panel);
+		this.panel = new JoinPanel(this);
+		this.add(this.panel);
+		this.panel.repaint();
+
+	}
+
+
+
 	/**
 	 * Initializes the game with the new given settings
 	 * @param mus_toggle
 	 * @param mode
 	 */
-	public void game(boolean mus_toggle, boolean mode) {
-		TestBoard board = new TestBoard(mus_toggle, mode, this);
+	public void game() {
+		TestBoard board = new TestBoard(this);
 		Dimension scr_dim = getSize();
 		int width = (int) scr_dim.getWidth();
 		int height = (int) scr_dim.getHeight();
@@ -166,9 +172,9 @@ public class TestMenu extends JFrame {
 	 * @param mus_toggle
 	 * @param mode
 	 */
-	public void menu(boolean mus_toggle, boolean mode) {
+	public void menu() {
 		this.remove(this.panel);
-		this.panel = new MenuPanel(this, mus_toggle, mode);
+		this.panel = new MenuPanel(this);
 		this.add(this.panel);
 		this.panel.repaint();
 

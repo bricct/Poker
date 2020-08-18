@@ -40,12 +40,41 @@ public class Server {
 	    
 	    }    
 	    
+		
+		Thread.sleep(1000);
+		
 		this.players = new ArrayList<>();
 		
-		for (int i = 0; i < threads.size(); i++) {
-			players.add(new Player(i, ((int)i)+"", startingMoney));
-			sendMoney(i, startingMoney);
+		String id_name = commands.poll();
+		int i = 0;
+		while (id_name != null) {
+			System.out.println("received " + id_name);
+			String[] args = id_name.split(" ");
+			int id = -1;
+			
+			try {
+				id = Integer.parseInt(args[0]);
+			} catch (NumberFormatException e) {
+				id_name = commands.poll();
+				continue;
+			}
+			
+			
+			players.add(new Player(id, args[1], startingMoney));
+			sendMoney(id, startingMoney);
+			if (++i >= threads.size()) break;
+			id_name = commands.poll();
 		}
+		
+		
+//		
+//		for (int i = 0; i < threads.size(); i++) {
+//			players.add(new Player(i, ((int)i)+"", startingMoney));
+//			sendMoney(i, startingMoney);
+//		}
+//		
+		
+		
 		
 		
 		sendPlayerInfo();
@@ -257,17 +286,19 @@ public class Server {
 			if (!disconnected.contains(new Integer(i))) {
 				try {
 					
-					int active_players = this.threads.size() - this.disconnected.size();
-					String players = "";
-					for (int j = 0; j < this.threads.size(); j++) {
-						if (!disconnected.contains(new Integer(j)) && j != i) {
-							players += (" " + (j));
+					int active_players = this.players.size() - this.disconnected.size();
+					String players_out = "";
+					for (int j = 0; j < this.players.size(); j++) {
+						int id = this.players.get(j).getid();
+						String name = this.players.get(j).getName();
+						if (!disconnected.contains(new Integer(id)) && id != i) {
+							players_out += (" " + id + " " + name);
 						}
 					}
 					
-					threads.get(i).sendMessage("players" + " " + active_players +  players);
+					threads.get(i).sendMessage("players" + " " + active_players  + " " + startingMoney +  players_out);
 	
-					System.out.println("sending players " + active_players +  players + " to client " + (i));
+					System.out.println("sending players " + active_players +  players_out + " to client " + (i));
 				} catch (IOException e) {
 					System.out.println("someting wong");
 				}

@@ -25,10 +25,8 @@ public class TestBoard extends JFrame {
 
 	/**
 	 * Constructor for constructing the board object of the game
-	 * @param mus_toggle
-	 * @param mode
 	 */
-	public TestBoard(boolean mus_toggle, boolean mode, TestMenu master) {
+	public TestBoard(TestMenu master) {
 
 		this.master = master;
 
@@ -57,7 +55,7 @@ public class TestBoard extends JFrame {
 
 		this.card1 = this.deck.draw();
 		this.card2 = this.deck.draw();
-		this.panel = new TestPanel(this.card1, this.card2, this.money, mus_toggle, mode);
+		this.panel = new TestPanel(this.card1, this.card2, this.money);
 
 		this.setIconImage(Sprite.getIconSprite());
 

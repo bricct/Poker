@@ -19,12 +19,12 @@ public class OptionsPanel extends JPanel {
 	private BufferedImage formButton, musicOn, musicOff, save, colon;
 	private Image iformButton, imusic, isave, itable, icolon;
 	private int width, height, c_height, c_width, o_width, o_height, o_small, c_small;
-	private boolean mchanging, mus_toggle, tableing, naming, optioning;
+	private boolean mchanging, tableing, naming, optioning;
 	private Font font;
 	
 
 	
-	public OptionsPanel(TestMenu master, boolean _mus_toggle, boolean mode) {
+	public OptionsPanel(TestMenu master) {
 
 		this.setSize(master.getWidth(), master.getHeight());
 		Dimension scr_dim = getSize();
@@ -41,7 +41,6 @@ public class OptionsPanel extends JPanel {
 		colon = Sprite.getColonSprite();
 
 		mchanging = false;
-		mus_toggle = _mus_toggle;
 		
 		
 		
@@ -57,7 +56,7 @@ public class OptionsPanel extends JPanel {
 		itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
 		
 		iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
-		if(mus_toggle)
+		if(TestMenu.mus_toggle)
 			imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		else
 			imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -89,7 +88,7 @@ public class OptionsPanel extends JPanel {
 				itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
 				
 				iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
-				if(mus_toggle)
+				if(TestMenu.mus_toggle)
 					imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				else
 					imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -155,7 +154,7 @@ public class OptionsPanel extends JPanel {
             	if (optioning) {  	
 	                if ( y < height/7 + (c_height/3 * 8) + c_height && y > height/7 + (c_height/3 * 8)) {
                 		if (x >= width/2 - c_width/2 + (c_width - c_small) && x < width/2 - c_width/2 + c_width) {
-                			master.menu(mus_toggle, mode);
+                			master.menu();
                 		}
 	                }
 
@@ -206,22 +205,22 @@ public class OptionsPanel extends JPanel {
             	} else if (mchanging) {
             		if (y >  5 && y < 5 + c_height) {
             			if (x >= 2 && x < 2 + c_small) {
-                			if (mus_toggle) {
+                			if (TestMenu.mus_toggle) {
     	                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-    	                		if (mode)
+    	                		if (TestMenu.mode)
     	                			MusicController.THEME.stop();
     	                		else {
     	                			MusicController.SECRET.stop();
     	                		}
     	                	} else {
     	                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-    	                		if (mode)
+    	                		if (TestMenu.mode)
     	                			MusicController.THEME.play();
     	                		else {
     	                			MusicController.SECRET.play();
     	                		}
     	                	}
-    	            		mus_toggle = !mus_toggle;
+    	            		TestMenu.mus_toggle = !TestMenu.mus_toggle;
     	            		repaint();
                 		}
                 	}
