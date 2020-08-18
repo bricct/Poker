@@ -1,6 +1,6 @@
 import java.io.*;
 import javax.sound.sampled.*;
-   
+
 /**
  * This enum encapsulates all the sound effects of a game, so as to separate the sound playing
  * codes from the game codes.
@@ -11,28 +11,28 @@ import javax.sound.sampled.*;
  * 4. You can use the static variable SoundEffect.volume to mute the sound.
  */
 public enum SoundEffects {
-   DRAW("draw1.wav"),   // explosion
+   DRAW("draw.wav"),   // explosion
    SHUFFLE("shuffle.wav"),         // gong
    CHIP("chips.wav");       // bullet
-   
+
    // Nested class for specifying volume
    public static enum Volume {
       MUTE, LOW, MEDIUM, HIGH
    }
-   
+
    public static Volume volume = Volume.LOW;
-   
+
    // Each sound effect has its own clip, loaded with its own sound file.
    private Clip clip;
-   
+
    // Constructor to construct each element of the enum with its own sound file.
    SoundEffects(String soundFileName) {
       try {
          // Use URL (instead of File) to read from disk and JAR.
          //URL url = this.getClass().getClassLoader().getResource(soundFileName);
          File file = new File(soundFileName);
-    	  
-    	  
+
+
     	  // Set up an audio input stream piped from the sound file.
          AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
          // Get a clip resource.
@@ -47,7 +47,7 @@ public enum SoundEffects {
          e.printStackTrace();
       }
    }
-   
+
    // Play or Re-play the sound effect from the beginning, by rewinding.
    public void play() {
       if (volume != Volume.MUTE) {
@@ -57,7 +57,7 @@ public enum SoundEffects {
          clip.start();     // Start playing
       }
    }
-   
+
    // Optional static method to pre-load all the sound files.
    static void init() {
       values(); // calls the constructor for all the elements
