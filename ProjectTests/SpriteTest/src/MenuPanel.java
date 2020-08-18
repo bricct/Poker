@@ -9,25 +9,21 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class MenuPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private BufferedImage menuButton, musicOn, musicOff, options;
-	private Image imenuButton, imusic, ioptions, itable;
+	private BufferedImage menuButton, musicOn, musicOff, options, close;
+	private Image imenuButton, imusic, ioptions, itable, iclose;
 	private int width, height, c_height, c_width, c_small;
-	private boolean mchanging, mus_toggle, joining, hosting, optioning;
-//	private TestMenu master;
+	private boolean mchanging, mus_toggle, joining, hosting, optioning, closing;
+
 	private Font font;
 	
 	
 	public MenuPanel(TestMenu master, boolean _mus_toggle, boolean mode) {
-//		this.master = master;
+
 
 		
 		this.setSize(master.getWidth(), master.getHeight());
@@ -44,7 +40,7 @@ public class MenuPanel extends JPanel {
 		musicOn = Sprite.getMusicOnSprite();
 		musicOff = Sprite.getMusicOffSprite();
 		options = Sprite.getOptionsSprite();
-		//close = Sprite.getCloseSprite();
+		close = Sprite.getCloseSprite();
 		
 		mchanging = false;
 		mus_toggle = _mus_toggle;
@@ -60,15 +56,12 @@ public class MenuPanel extends JPanel {
 			imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		else
 			imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-		//imusicOff = musicOff.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
+
 		ioptions = options.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-		//iclose = close.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
+		iclose = close.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		
 		
-		//ititle = title.getScaledInstance(width/4 * 3, height/5 * 4, Image.SCALE_FAST);
-		//imenuButton = 
-		
-		
+
 		
 		
 		
@@ -89,7 +82,6 @@ public class MenuPanel extends JPanel {
 				
 				
 				itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
-				//ititle = title.getScaledInstance(width/4 * 3, height/5 * 4, Image.SCALE_FAST);
 				
 				imenuButton = menuButton.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 				
@@ -97,9 +89,8 @@ public class MenuPanel extends JPanel {
 					imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				else
 					imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-				//imusicOff = musicOff.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
 				ioptions = options.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-				//iclose = close.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
+				iclose = close.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				
 		    }
 		});
@@ -108,13 +99,7 @@ public class MenuPanel extends JPanel {
 		
 		this.addMouseListener(new MouseAdapter() {
 
-//			g2d.drawImage(itable, 0, 0, this);
-//			g2d.drawImage(imenuButton, width/2 - c_width/2, height/7, this);
-//			g2d.drawImage(imenuButton, width/2 - c_width/2, height/7 + (c_height/3 * 4), this);
-//			g2d.drawImage(imusic, width/2 - c_width/2, height/7 + (c_height/3 * 8), this);
-//			g2d.drawImage(ioptions, width/2 - c_width/2 + (c_width - c_height), height/7 + (c_height/3 * 8), this);
-			
-			
+		
             @Override
             public void mousePressed(MouseEvent e) {
             	int x=e.getX();
@@ -126,9 +111,11 @@ public class MenuPanel extends JPanel {
 
 
 	                if (x >= width/2 - c_width/2  && x < width/2 - c_width/2 + c_height) 
-	                	mchanging = true;
-	                else if (x >= width/2 - c_width/2 + (c_width - c_height) && x < width/2 - c_width/2 + (c_width - c_height) + c_height)
+	                	closing = true;
+	                else if (x >= width/2 - c_width/2 + (c_width - c_height) && x < width/2 - c_width/2 + (c_width - c_height) + c_height) {
 	                	optioning = true;
+	                	System.out.println("optioning");
+	                }
 	                else {
 	                	mchanging = false;
 	                	optioning = false;
@@ -141,6 +128,10 @@ public class MenuPanel extends JPanel {
                 		} else {
                         	hosting = false; joining = false;
                         }
+                } else if (y >  5 && y < 5 + c_height) {
+                	if (x >= 2 && x < 2 + c_small) {
+                		mchanging = true;
+                	}
                 } else {
                 	mchanging = false;
             		optioning = false;
@@ -159,53 +150,64 @@ public class MenuPanel extends JPanel {
             public void mouseReleased(MouseEvent e) {
             	int x=e.getX();
                 int y=e.getY();
-            	if (mchanging || optioning) {
+            	if (closing || optioning) {
 	            	
 	            	
-	                if ( y < height/7 + (c_height/3 * 8) + c_height && y > height/7 + (c_height/3 * 8)) {
+	                if (y < height/7 + (c_height/3 * 8) + c_height && y > height/7 + (c_height/3 * 8)) {
 	                	
-	                	if (mchanging) {
-	                		if (x >= width/2 - c_width/2  && x < width/2 - c_width/2 + c_small) {
-	                			if (mus_toggle) {
-	    	                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-	    	                		if (mode)
-	    	                			MusicController.THEME.stop();
-	    	                		else {
-	    	                			MusicController.SECRET.stop();
-	    	                		}
-	    	                	} else {
-	    	                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-	    	                		if (mode)
-	    	                			MusicController.THEME.play();
-	    	                		else {
-	    	                			MusicController.SECRET.play();
-	    	                		}
-	    	                	}
-	    	            		mus_toggle = !mus_toggle;
-	    	            		repaint();
-	                			
-	                		}
-	                	} else if (optioning) {
-	                		if (x >= width/2 - c_width/2 + (c_width - c_small) && x < width/2 - c_width/2 + c_width) {
-	                			master.options(mus_toggle, mode);
+	                	if (closing) {
+	                		if (x >= width/2 - c_width/2 && x <= width/2 - c_width/2 + c_small) {
+	                			System.exit(0);
 	                		}
 	                	}
-	                	 
 	                	
+	                	if (optioning) {  	
+	    	                if ( y < height/7 + (c_height/3 * 8) + c_height && y > height/7 + (c_height/3 * 8)) {
+	                    		if (x >= width/2 - c_width/2 + (c_width - c_small) && x < width/2 - c_width/2 + c_width) {
+	                    			System.out.println(x + " " + y);
+	                    			master.options(mus_toggle, mode);
+	                    		}
+	    	                }
+	                	}
 	                }
+          	 
+	                	
+	                
 	                
 
             	} else if (joining || hosting) {
             		
             		if (x >= width/2 - c_width/2  && x < width/2 + c_width/2) {
             			if (joining) {
-            				if (y < height/7 + c_height && y > height/7) master.game(mus_toggle, mode);
+            				if (y < height/7 + c_height && y > height/7) master.join(mus_toggle, mode);
             			} else if (hosting) {
             				if (y < height/7 + (c_height/3 * 4) + c_height && y > height/7 + (c_height/3 * 4)) master.host(mus_toggle, mode);
             			}
             		}
             		
             		
+            	} else if (y >  5 && y < 5 + c_height) {
+                	if (x >= 2 && x < 2 + c_small) {
+                		if (mchanging) {
+                			if (mus_toggle) {
+    	                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
+    	                		if (mode)
+    	                			MusicController.THEME.stop();
+    	                		else {
+    	                			MusicController.SECRET.stop();
+    	                		}
+    	                	} else {
+    	                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
+    	                		if (mode)
+    	                			MusicController.THEME.play();
+    	                		else {
+    	                			MusicController.SECRET.play();
+    	                		}
+    	                	}
+    	            		mus_toggle = !mus_toggle;
+    	            		repaint();
+                		}
+                	}
             	}
             	
             	hosting = false; joining = false; mchanging = false; optioning = false;
@@ -230,19 +232,14 @@ public class MenuPanel extends JPanel {
 		
 		
 		
-		
-		//g2d.drawString("You",(int) Math.floor( width/2 + 1.2 * c_width), 6* height/8);
-		
-		
+
 		g2d.drawImage(itable, 0, 0, this);
 		g2d.drawImage(imenuButton, width/2 - c_width/2, height/7, this);
 		g2d.drawImage(imenuButton, width/2 - c_width/2, height/7 + (c_height/3 * 4), this);
-		g2d.drawImage(imusic, width/2 - c_width/2, height/7 + (c_height/3 * 8), this);
-		//g2d.drawImage(iclose, width - c_height, height/7, this);
+		g2d.drawImage(imusic, 2, 5, this);
+		g2d.drawImage(iclose, width/2 - c_width/2, height/7 + (c_height/3 * 8), this);
 		g2d.drawImage(ioptions, width/2 - c_width/2 + (c_width - c_small), height/7 + (c_height/3 * 8), this);
-		
-		//g2d.drawImage(ititle, width/8, height/10, this);
-		
+
 		g2d.setColor(Color.lightGray);
 		g2d.setFont(this.font);
 		

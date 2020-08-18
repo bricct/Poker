@@ -19,14 +19,14 @@ public class HostPanel extends JPanel {
 	private BufferedImage formButton, musicOn, musicOff, save, colon, backButton;
 	private Image iformButton, imusic, isave, itable, icolon, ibackButton;
 	private int width, height, c_height, c_width, o_width, o_height, o_small, c_small;
-	private boolean backing, mus_toggle, tableing, naming, optioning;
-//	private TestMenu master;
+	private boolean backing, mus_toggle, tableing, naming, optioning, mchanging;
+
 	private Font font;
 	
-	//private String name;
+
 	
 	public HostPanel(TestMenu master, boolean _mus_toggle, boolean mode) {
-//		this.master = master;
+
 		
 		this.setSize(master.getWidth(), master.getHeight());
 		Dimension scr_dim = getSize();
@@ -63,19 +63,10 @@ public class HostPanel extends JPanel {
 			imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		else
 			imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-		//imusicOff = musicOff.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
 		isave = save.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		icolon = colon.getScaledInstance(o_small, o_height, Image.SCALE_FAST);
-		ibackButton = backButton.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
-		
-		
-		//ititle = title.getScaledInstance(width/4 * 3, height/5 * 4, Image.SCALE_FAST);
-		//iformButton = 
-		
-//		Random random = new Random();
-//		this.name_ind = random.nextInt(this.names.length);
-		
-		
+		ibackButton = backButton.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
+
 		
 		this.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent componentEvent) {
@@ -105,11 +96,9 @@ public class HostPanel extends JPanel {
 					imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				else
 					imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-				//imusicOff = musicOff.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
 				isave = save.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				icolon = colon.getScaledInstance(o_small, o_height, Image.SCALE_FAST);
-				//iclose = close.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
-				ibackButton = backButton.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
+				ibackButton = backButton.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				
 		    }
 		});
@@ -117,13 +106,7 @@ public class HostPanel extends JPanel {
 		
 		
 		this.addMouseListener(new MouseAdapter() {
-
-//			g2d.drawImage(itable, 0, 0, this);
-//			g2d.drawImage(iformButton, width/2 - c_width/2, height/7, this);
-//			g2d.drawImage(iformButton, width/2 - c_width/2, height/7 + (c_height/3 * 4), this);
-//			g2d.drawImage(imusic, width/2 - c_width/2, height/7 + (c_height/3 * 8), this);
-//			g2d.drawImage(isave, width/2 - c_width/2 + (c_width - c_height), height/7 + (c_height/3 * 8), this);
-			
+	
 			
             @Override
             public void mousePressed(MouseEvent e) {
@@ -144,9 +127,7 @@ public class HostPanel extends JPanel {
 	                	optioning = false;
 	                }
 	                
-//	            	g2d.drawImage(iformButton, width/2 + 3*o_small/2, height/7, this);
-//	        		g2d.drawImage(iformButton, width/2 + 3*o_small/2, height/7 + (c_height/3 * 4), this);
-            	} else if (x >= width/2 + 3*o_small/2  && x < width/2 + 3*o_small/2 + o_width) {
+                } else if (x >= width/2 + 3*o_small/2  && x < width/2 + 3*o_small/2 + o_width) {
                 		if (y < height/7 + o_height && y > height/7) {
                 			tableing = true;
                 		} else if (y < height/7 + (c_height/3 * 4) + o_height && y > height/7 + (c_height/3 * 4)) {
@@ -154,7 +135,11 @@ public class HostPanel extends JPanel {
                 		} else {
                         	naming = false; tableing = false;
                         }
-                } else {
+                } else if (y >  5 && y < 5 + c_height) {
+                	if (x >= 2 && x < 2 + c_small) {
+                		mchanging = true;
+                	}
+            	} else {
                 	backing = false;
             		optioning = false;
                 	naming = false;
@@ -182,26 +167,6 @@ public class HostPanel extends JPanel {
 	                			master.menu(mus_toggle, mode);
 	                			
 	                		}
-//	                		if (x >= width/2 - c_width/2  && x < width/2 - c_width/2 + c_height) {
-//	                			if (mus_toggle) {
-//	    	                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-//	    	                		if (mode)
-//	    	                			MusicController.THEME.stop();
-//	    	                		else {
-//	    	                			MusicController.SECRET.stop();
-//	    	                		}
-//	    	                	} else {
-//	    	                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-//	    	                		if (mode)
-//	    	                			MusicController.THEME.play();
-//	    	                		else {
-//	    	                			MusicController.SECRET.play();
-//	    	                		}
-//	    	                	}
-//	    	            		mus_toggle = !mus_toggle;
-//	    	            		repaint();
-//	                			
-//	                		}
 	                	} else if (optioning) {
 	                		if (x >= width/2 - c_width/2 + (c_width - c_small) && x < width/2 - c_width/2 + c_width) {
 	                			master.port(mus_toggle, mode);
@@ -255,9 +220,32 @@ public class HostPanel extends JPanel {
 	            	}
             		
             		
+            	} else if (mchanging) {
+            		if (y >  5 && y < 5 + c_height) {
+                    	if (x >= 2 && x < 2 + c_small) {
+	            			if (mus_toggle) {
+		                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
+		                		if (mode)
+		                			MusicController.THEME.stop();
+		                		else {
+		                			MusicController.SECRET.stop();
+		                		}
+		                	} else {
+		                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
+		                		if (mode)
+		                			MusicController.THEME.play();
+		                		else {
+		                			MusicController.SECRET.play();
+		                		}
+		                	}
+		            		mus_toggle = !mus_toggle;
+		            		repaint();
+                    	}
+            			
+            		}
             	}
             	
-            	naming = false; tableing = false; backing = false; optioning = false;
+            	naming = false; tableing = false; backing = false; optioning = false; mchanging = false;
             }
         });
 		
@@ -278,10 +266,7 @@ public class HostPanel extends JPanel {
 		
 		
 		
-		
-		
-		//g2d.drawString("You",(int) Math.floor( width/2 + 1.2 * c_width), 6* height/8);
-		
+
 		
 		g2d.drawImage(itable, 0, 0, this);
 		g2d.drawImage(iformButton, width/2 - o_width - (3*o_small/2), height/7, this);
@@ -291,10 +276,8 @@ public class HostPanel extends JPanel {
 		g2d.drawImage(ibackButton, width/2 - c_width/2, height/7 + (c_height/3 * 8), this);
 		g2d.drawImage(icolon, width/2 - o_small/2, height/7, this);
 		g2d.drawImage(icolon, width/2 - o_small/2, height/7 + (c_height/3 * 4), this);
-		//g2d.drawImage(ibackButton, width - c_height, height/7, this);
 		g2d.drawImage(isave, width/2 - c_width/2 + (c_width - c_small), height/7 + (c_height/3 * 8), this);
-		
-		//g2d.drawImage(ititle, width/8, height/10, this);
+
 		
 		g2d.setColor(Color.lightGray);
 		g2d.setFont(this.font);
@@ -305,6 +288,9 @@ public class HostPanel extends JPanel {
 		g2d.drawString("$" + TestMenu.starting_cash, width/2 + 3*o_small/2 + o_width/2 - metrics.stringWidth("$" + TestMenu.starting_cash)/2, height/7 + o_height/2 - metrics.getHeight()/2);
 		g2d.drawString("BLIND $", width/2 - metrics.stringWidth("BLIND $")/2 - o_width/2 - (3*o_small/2), height/7 + (c_height/3 * 4) + c_height/3);
 		g2d.drawString("$" + TestMenu.blind_cash, width/2 + 3*o_small/2 + o_width/2 - metrics.stringWidth("$" + TestMenu.blind_cash)/2, height/7 + (c_height/3 * 4) + o_height/2 - metrics.getHeight()/2);
+		
+		g2d.drawImage(imusic, 2, 5, this);
+		
 	}
 
 

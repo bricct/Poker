@@ -20,14 +20,12 @@ public class OptionsPanel extends JPanel {
 	private Image iformButton, imusic, isave, itable, icolon;
 	private int width, height, c_height, c_width, o_width, o_height, o_small, c_small;
 	private boolean mchanging, mus_toggle, tableing, naming, optioning;
-//	private TestMenu master;
 	private Font font;
 	
-	//private String name;
+
 	
 	public OptionsPanel(TestMenu master, boolean _mus_toggle, boolean mode) {
-//		this.master = master;
-		
+
 		this.setSize(master.getWidth(), master.getHeight());
 		Dimension scr_dim = getSize();
 		width = (int) scr_dim.getWidth() - 16;
@@ -41,8 +39,7 @@ public class OptionsPanel extends JPanel {
 		musicOff = Sprite.getMusicOffSprite();
 		save = Sprite.getSaveSprite();
 		colon = Sprite.getColonSprite();
-		//close = Sprite.getCloseSprite();
-		
+
 		mchanging = false;
 		mus_toggle = _mus_toggle;
 		
@@ -64,18 +61,8 @@ public class OptionsPanel extends JPanel {
 			imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		else
 			imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-		//imusicOff = musicOff.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
 		isave = save.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		icolon = colon.getScaledInstance(o_small, o_height, Image.SCALE_FAST);
-		//iclose = close.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
-		
-		
-		//ititle = title.getScaledInstance(width/4 * 3, height/5 * 4, Image.SCALE_FAST);
-		//iformButton = 
-		
-//		Random random = new Random();
-//		this.name_ind = random.nextInt(this.names.length);
-		
 		
 		
 		this.addComponentListener(new ComponentAdapter() {
@@ -106,10 +93,8 @@ public class OptionsPanel extends JPanel {
 					imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				else
 					imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-				//imusicOff = musicOff.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
 				isave = save.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				icolon = colon.getScaledInstance(o_small, o_height, Image.SCALE_FAST);
-				//iclose = close.getScaledInstance(c_height, c_height, Image.SCALE_FAST);
 				
 		    }
 		});
@@ -117,14 +102,7 @@ public class OptionsPanel extends JPanel {
 		
 		
 		this.addMouseListener(new MouseAdapter() {
-
-//			g2d.drawImage(itable, 0, 0, this);
-//			g2d.drawImage(iformButton, width/2 - c_width/2, height/7, this);
-//			g2d.drawImage(iformButton, width/2 - c_width/2, height/7 + (c_height/3 * 4), this);
-//			g2d.drawImage(imusic, width/2 - c_width/2, height/7 + (c_height/3 * 8), this);
-//			g2d.drawImage(isave, width/2 - c_width/2 + (c_width - c_height), height/7 + (c_height/3 * 8), this);
-			
-			
+	
             @Override
             public void mousePressed(MouseEvent e) {
             	int x=e.getX();
@@ -135,17 +113,12 @@ public class OptionsPanel extends JPanel {
                 if (y < height/7 + (c_height/3 * 8) + c_height && y > height/7 + (c_height/3 * 8)) {
 
 
-	                if (x >= width/2 - c_width/2  && x < width/2 - c_width/2 + c_height) 
-	                	mchanging = true;
-	                else if (x >= width/2 - c_width/2 + (c_width - c_height) && x < width/2 - c_width/2 + (c_width - c_height) + c_height)
+                	if (x >= width/2 - c_width/2 + (c_width - c_height) && x < width/2 - c_width/2 + (c_width - c_height) + c_height)
 	                	optioning = true;
 	                else {
-	                	mchanging = false;
 	                	optioning = false;
 	                }
-	                
-//	            	g2d.drawImage(iformButton, width/2 + 3*o_small/2, height/7, this);
-//	        		g2d.drawImage(iformButton, width/2 + 3*o_small/2, height/7 + (c_height/3 * 4), this);
+
             	} else if (x >= width/2 + 3*o_small/2  && x < width/2 + 3*o_small/2 + o_width) {
                 		if (y < height/7 + o_height && y > height/7) {
                 			tableing = true;
@@ -154,6 +127,12 @@ public class OptionsPanel extends JPanel {
                 		} else {
                         	naming = false; tableing = false;
                         }
+                		
+            	} else if (y >  5 && y < 5 + c_height) {
+            		if (x >= 2 && x < 2 + c_small) { 
+            			mchanging = true;
+            		}
+                		
                 } else {
                 	mchanging = false;
             		optioning = false;
@@ -172,41 +151,13 @@ public class OptionsPanel extends JPanel {
             public void mouseReleased(MouseEvent e) {
             	int x=e.getX();
                 int y=e.getY();
-            	if (mchanging || optioning) {
-	            	
-	            	
+                
+            	if (optioning) {  	
 	                if ( y < height/7 + (c_height/3 * 8) + c_height && y > height/7 + (c_height/3 * 8)) {
-	                	
-	                	if (mchanging) {
-	                		if (x >= width/2 - c_width/2  && x < width/2 - c_width/2 + c_height) {
-	                			if (mus_toggle) {
-	    	                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-	    	                		if (mode)
-	    	                			MusicController.THEME.stop();
-	    	                		else {
-	    	                			MusicController.SECRET.stop();
-	    	                		}
-	    	                	} else {
-	    	                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-	    	                		if (mode)
-	    	                			MusicController.THEME.play();
-	    	                		else {
-	    	                			MusicController.SECRET.play();
-	    	                		}
-	    	                	}
-	    	            		mus_toggle = !mus_toggle;
-	    	            		repaint();
-	                			
-	                		}
-	                	} else if (optioning) {
-	                		if (x >= width/2 - c_width/2 + (c_width - c_small) && x < width/2 - c_width/2 + c_width) {
-	                			master.menu(mus_toggle, mode);
-	                		}
-	                	}
-	                	 
-	                	
+                		if (x >= width/2 - c_width/2 + (c_width - c_small) && x < width/2 - c_width/2 + c_width) {
+                			master.menu(mus_toggle, mode);
+                		}
 	                }
-	                
 
             	} else if (tableing || naming) {
             		
@@ -252,7 +203,29 @@ public class OptionsPanel extends JPanel {
 	            	}
             		
             		
-            	}
+            	} else if (mchanging) {
+            		if (y >  5 && y < 5 + c_height) {
+            			if (x >= 2 && x < 2 + c_small) {
+                			if (mus_toggle) {
+    	                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
+    	                		if (mode)
+    	                			MusicController.THEME.stop();
+    	                		else {
+    	                			MusicController.SECRET.stop();
+    	                		}
+    	                	} else {
+    	                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
+    	                		if (mode)
+    	                			MusicController.THEME.play();
+    	                		else {
+    	                			MusicController.SECRET.play();
+    	                		}
+    	                	}
+    	            		mus_toggle = !mus_toggle;
+    	            		repaint();
+                		}
+                	}
+                }
             	
             	naming = false; tableing = false; mchanging = false; optioning = false;
             }
@@ -274,10 +247,7 @@ public class OptionsPanel extends JPanel {
 		
 		
 		
-		
-		
-		
-		//g2d.drawString("You",(int) Math.floor( width/2 + 1.2 * c_width), 6* height/8);
+
 		
 		
 		g2d.drawImage(itable, 0, 0, this);
@@ -285,13 +255,11 @@ public class OptionsPanel extends JPanel {
 		g2d.drawImage(iformButton, width/2 - o_width - 3*o_small/2, height/7 + (c_height/3 * 4), this);
 		g2d.drawImage(iformButton, width/2 + 3*o_small/2, height/7, this);
 		g2d.drawImage(iformButton, width/2 + 3*o_small/2, height/7 + (c_height/3 * 4), this);
-		g2d.drawImage(imusic, width/2 - c_width/2, height/7 + (c_height/3 * 8), this);
+		g2d.drawImage(imusic, 2, 5, this);
 		g2d.drawImage(icolon, width/2 - o_small/2, height/7, this);
 		g2d.drawImage(icolon, width/2 - o_small/2, height/7 + (c_height/3 * 4), this);
-		//g2d.drawImage(iclose, width - c_height, height/7, this);
 		g2d.drawImage(isave, width/2 - c_width/2 + (c_width - c_small), height/7 + (c_height/3 * 8), this);
 		
-		//g2d.drawImage(ititle, width/8, height/10, this);
 		
 		g2d.setColor(Color.lightGray);
 		g2d.setFont(this.font);

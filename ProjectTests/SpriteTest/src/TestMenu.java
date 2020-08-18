@@ -1,8 +1,4 @@
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -95,44 +91,6 @@ public class TestMenu extends JFrame {
 		
 		name = names[name_ind];
 
-
-//		this.addMouseListener(new MouseAdapter() {
-//
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-//
-//
-//
-//                repaint();
-//            }
-//
-//            @Override
-//            public void mouseReleased(MouseEvent e) {
-//            	game();
-//            }
-//        });
-
-//		this.addKeyListener(new KeyListener() {
-//
-//			@Override
-//			public void keyPressed(KeyEvent arg0) {
-//				game();
-//			}
-//
-//			@Override
-//			public void keyReleased(KeyEvent arg0) {
-//				return;
-//
-//			}
-//
-//			@Override
-//			public void keyTyped(KeyEvent arg0) {
-//				return;
-//
-//			}
-//
-//		});
-
 	}
 	
 	
@@ -176,7 +134,16 @@ public class TestMenu extends JFrame {
 
 	}
 	
+	public void join(boolean mus_toggle, boolean mode) {
+		this.remove(this.panel);
+		this.panel = new JoinPanel(this, mus_toggle, mode);
+		this.add(this.panel);
+		this.panel.repaint();
 
+	}
+
+	
+	
 	/**
 	 * Initializes the game with the new given settings
 	 * @param mus_toggle
