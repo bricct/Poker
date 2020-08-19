@@ -52,7 +52,9 @@ public class Client {
 	
 	
 	public String getMessage() throws Exception {
-		return this.inFromServer.readUTF();
+		String msg = this.inFromServer.readUTF();
+		if (msg.equals("game-end -1")) socketConnection.shutdownOutput();
+		return msg;
 	}
 	
 	public void sendMessageToUser(String msg) {

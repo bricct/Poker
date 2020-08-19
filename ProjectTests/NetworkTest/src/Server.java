@@ -25,7 +25,7 @@ public class Server {
 		this.commands = new PriorityQueue<>();
 		this.threads = new ArrayList<>();
 		this.disconnected = new HashSet<Integer>();
-		this.startingMoney = 1500;
+		this.startingMoney = 100;
 	    
 		while(clients.intValue() < num_players){
 			System.out.println(clients.intValue() + "");
@@ -157,11 +157,10 @@ public class Server {
 			return -1;
 		}
 		
-		int val = 0;
 		
 		if (args.length >= 3)  {
 			try {
-				val = Integer.parseInt(args[2]);
+				Integer.parseInt(args[2]);
 			} catch (NumberFormatException e) {
 				return -1;
 			}
@@ -173,13 +172,13 @@ public class Server {
 			
 		if (cmd.equals("fold")) {
 			//do something
-			distributeCmd(id, cmd);
-		} else if (cmd.equals("raise")) {
-			//do something
-			distributeCmd(id, cmd + " " + val);
+			distributeCmd(-1, cmd);
+//		} else if (cmd.equals("raise")) {
+//			//do something
+//			distributeCmd(id, cmd + " " + val);
 		} else if (cmd.equals("check")) {
 			//do something
-			distributeCmd(id, cmd);
+			distributeCmd(-1, cmd + " " + id);
 		} else if (cmd.equals("disconnected")) {
 			//do something
 			distributeCmd(id, cmd);
@@ -367,6 +366,11 @@ public class Server {
 		distributeCmd(-1, "reset-hand");
 		
 	}
+	
+	
+	public void sendRaise(int id, int bet) {
+		distributeCmd(-1,  "raise " + id + " " + bet);
+	}
 
 	public void sendAllin(int getid, int bet) {
 		distributeCmd(-1, "all-in " + getid + " " + bet);
@@ -381,7 +385,9 @@ public class Server {
 		sendCmd(id, "you-lose");
 	}
 
-	
+	public void sendGameEnd() {
+		distributeCmd(-1, "game-end");
+	}
 	
 	
 }

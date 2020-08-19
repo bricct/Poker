@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -25,31 +26,36 @@ public class TestPanel extends JPanel {
 	private Timer timer;
 	private int c_anim = 0;
 	private int anim_select = 0;
-	BufferedImage card1_reg, card2_reg, back_reg, deck_reg, volume_on, volume_off, musicOn, musicOff;
+	BufferedImage card1_reg, card2_reg, back_reg, deck_reg, volume_on, volume_off, musicOn, musicOff, youWin, youLose;
 	Image icard1, icard2, iback, itable, ideck, ivolume, imusic;
 	Image[] chip_spr, itable_cards;
 	private int width, height, c_height, b_height, c_width, b_width, ch_size;
 	private boolean[] card_set;
-	private boolean folded, mchanging;
+	private boolean mchanging, win, lose;
 
 	private ArrayList<Player> players;
+	private ArrayList<String> player_moves;
 	//private int[] players;
 	private boolean vol_toggle;
 	private boolean vchanging;
+	private boolean gameOver;
+	private Font font;
 
 
-	public TestPanel(Card card1, Card card2) {
+	public TestPanel(TestBoard master, Card card1, Card card2, int id) {
 		this.setSize(900, 480);
 		this.card1 = null;
 		this.card2 = null;
 		this.money = 0;
 		this.pot = 0;
-
 		this.to_add = 0;
 
 		this.players = new ArrayList<>();
-		players.add(new Player(-1, TestMenu.name, 0));
-
+		players.add(new Player(id, TestMenu.name, 0));
+		
+		this.player_moves = new ArrayList<>();
+		player_moves.add("");
+		
 		this.card_set = new boolean[5];
 		for (int i = 0; i < 5; i++) {
 			this.card_set[i] = false;
@@ -62,6 +68,8 @@ public class TestPanel extends JPanel {
 		width = (int) scr_dim.getWidth() - 16;
 		height = (int) scr_dim.getHeight() - 39;
 
+		font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
+		
 		back_reg = Sprite.getBackSprite();
 
 		deck_reg = Sprite.getDeckSprite();
@@ -98,11 +106,15 @@ public class TestPanel extends JPanel {
 
 		this.vol_toggle = true;
 		this.vchanging = false;
-
-		this.vchanging = false;
+		
+		this.win = false;
+		this.lose = false;
+		this.gameOver = false;
 
 		musicOn = Sprite.getMusicOnSprite();
 		musicOff = Sprite.getMusicOffSprite();
+		youWin = Sprite.getWin();
+		youLose = Sprite.getLose();
 
 		this.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent componentEvent) {
@@ -184,6 +196,11 @@ public class TestPanel extends JPanel {
 
 
 				}
+				if (gameOver) {
+					if (e.getX() < 5 * width/8 && e.getX() > 3 * width/8 && e.getY() > 3 * height/4) {
+						master.exit();
+					}
+				}
 			}
 		});
 
@@ -195,11 +212,15 @@ public class TestPanel extends JPanel {
 		Dimension scr_dim = getSize();
 		width = (int) scr_dim.getWidth();
 		height = (int) scr_dim.getHeight();
+		
+		font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
 
 		itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
 		c_width = (int) Math.floor((double)width/13.0 );
 		c_height = (int) Math.floor((double)height/5.0 );
+		
+		
 
 		b_width = (int) Math.floor(c_width * 0.7);
 		b_height = (int) Math.floor(c_height * 0.7);
@@ -253,7 +274,7 @@ public class TestPanel extends JPanel {
 		} else {
 			this.card1 = new Card(_card1.value(), _card1.suit());
 			this.card2 = new Card(_card2.value(), _card2.suit());
-			this.folded = false;
+			//this.folded = false;
 		}
 
 
@@ -330,13 +351,14 @@ public class TestPanel extends JPanel {
 	}
 
 	public void fold () {
-		this.folded = true;
+		//this.folded = true;
 		this.repaint();
 	}
 
 	public void setPlayers(ArrayList<Player> players) {
 		for (Player p: players) {
 			this.players.add(p);
+			this.player_moves.add("");
 		}
 
 		System.out.println("players was just set");
@@ -353,6 +375,7 @@ public class TestPanel extends JPanel {
 	}
 
 	public void reset() {
+		resetPlayerMoves();
 		for (int i = 0; i < 5; i++) {
 			this.card_set[i] = false;
 		}
@@ -364,7 +387,7 @@ public class TestPanel extends JPanel {
 		SoundEffects.SHUFFLE.play();
 
 		//this.setCards(null, null);
-		this.folded = true;
+		//this.folded = true;
 		System.out.println("resetting ui");
 		this.table_cards = new Card[5];
 		this.repaint();
@@ -417,9 +440,9 @@ public class TestPanel extends JPanel {
 				timer.stop();
 			}
 			if (anim_select == 4) {
-				pot += to_add;
+				//pot += to_add;
 				to_add = 0;
-				SoundEffects.CHIP.play();
+				//SoundEffects.CHIP.play();
 				timer.stop();
 			}
 			if (anim_select == 11) {
@@ -432,6 +455,7 @@ public class TestPanel extends JPanel {
 
 
 	};
+	
 
 
 
@@ -459,14 +483,15 @@ public class TestPanel extends JPanel {
 
 
 		g2d.setColor(Color.white);
-		g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, height/100));
-
+		g2d.setFont(this.font);
+		
+		FontMetrics metrics = g2d.getFontMetrics(font);
 
 
 		//g2d.drawString("You",(int) Math.floor( width/2 + 1.2 * c_width), 6* height/8);
 		g2d.drawString("Cash $" + this.money , width/2 - c_width, height - (height/4) - (2 * ch_size/3));
 
-
+		
 
 		//draw table cards
 		for (int i = 0; i < 5; i++) {
@@ -517,7 +542,7 @@ public class TestPanel extends JPanel {
 		}
 
 
-		g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, height/100));
+		
 
 
 
@@ -532,7 +557,7 @@ public class TestPanel extends JPanel {
 				g2d.drawString(players.get(1).getName(),width/4 - b_width, height - height/3 + b_height + ch_size/2);
 				g2d.drawString("Cash $" + players.get(1).getMoney() , width/4 - b_width, height - height/3 + c_height + ch_size/2);// + c_height + ch_size/2);
 
-
+				g2d.drawString(player_moves.get(1), width/4 - b_width, height - height/3 - metrics.getHeight());
 				//g2d.drawString()
 			//}
 			//}
@@ -543,6 +568,7 @@ public class TestPanel extends JPanel {
 			g2d.drawImage(iback, 3 * (width/4) + 5, height - (height/3), this);
 			g2d.drawString(players.get(2).getName(),3 * (width/4) - b_width, height - height/3 + b_height + ch_size/2);
 			g2d.drawString("Cash $" + players.get(2).getMoney() , 3 * (width/4) - b_width, height - height/3 + c_height + ch_size/2);// + c_height + ch_size/2);
+			g2d.drawString(player_moves.get(2), 3 * (width/4) - b_width, height - height/3 - metrics.getHeight());
 
 		}
 
@@ -552,6 +578,7 @@ public class TestPanel extends JPanel {
 			g2d.drawImage(iback, (width/8) + 5, height/2 - (b_height/2), this);
 			g2d.drawString(players.get(3).getName(),(width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2);
 			g2d.drawString("Cash $" + players.get(3).getMoney() , (width/8) - b_width, height/2 - 3*b_height/2 + (c_height - b_height) + ch_size/2);// + c_height + ch_size/2);
+			g2d.drawString(player_moves.get(3), (width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2 + metrics.getHeight());
 
 		}
 
@@ -561,6 +588,7 @@ public class TestPanel extends JPanel {
 			g2d.drawImage(iback, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
 			g2d.drawString(players.get(4).getName(), 7 * (width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2);
 			g2d.drawString("Cash $" + players.get(4).getMoney() ,  7 * (width/8) - b_width, height/2 - 3*b_height/2 + (c_height - b_height) + ch_size/2);// + c_height + ch_size/2);
+			g2d.drawString(player_moves.get(4), 7 * (width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2 +  metrics.getHeight());
 
 		}
 
@@ -569,41 +597,104 @@ public class TestPanel extends JPanel {
 
 		g2d.drawImage(imusic, 2, 5, this);
 		g2d.drawImage(ivolume, width - (2*ch_size) - 2, 5, this);
-
-
-
+		
+		
+		
+		if (this.win) {
+			g2d.drawImage(youWin.getScaledInstance(width,  height, Image.SCALE_FAST), 0, 0, this);
+			g2d.setColor(Color.yellow);
+			g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, width/100));
+			FontMetrics winMetrics = g2d.getFontMetrics(font);
+			
+			g2d.drawString("You Win", width/2 - winMetrics.stringWidth("You Win"), height - height/4 - 5 * winMetrics.getHeight()/2);
+			
+			g2d.setColor(Color.white);
+			g2d.setFont(this.font);
+			
+		} else if (this.lose) {
+			g2d.drawImage(youLose.getScaledInstance(width,  height, Image.SCALE_FAST), 0, 0, this);
+			g2d.setColor(Color.red);
+			g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, width/100));
+			FontMetrics winMetrics = g2d.getFontMetrics(font);
+			
+			g2d.drawString("You Lose", width/2 - winMetrics.stringWidth("You Lose"), height - height/4 - 5 * winMetrics.getHeight()/2);
+			
+			g2d.setColor(Color.white);
+			g2d.setFont(this.font);
+			
+		}
+		
+		if (gameOver) {
+			g2d.drawImage(Sprite.getButtonSprite().getScaledInstance(width/4, height/4, Image.SCALE_FAST), 3 * width/8, 3 * height/4, this);
+			g2d.setColor(Color.LIGHT_GRAY);
+			g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, width/150));
+			FontMetrics exitMetrics = g2d.getFontMetrics(font);
+			
+			g2d.drawString("Leave Game", width/2 - exitMetrics.stringWidth("Leave Game")/2, height - height/8 - exitMetrics.getHeight()/2);
+			
+			g2d.setFont(this.font);
+		}
+		
+		
 
 
 		Toolkit.getDefaultToolkit().sync();
 	}
 
-
-	public void sendAllin(int id, int bet) {
-		// TODO Auto-generated method stub
+	private void resetPlayerMoves() {
+		for (int i = 0; i < player_moves.size(); i++) {
+			player_moves.set(i,"");
+		}
 		
 	}
+	
+
+	public void sendAllin(int id, int bet) {
+		resetPlayerMoves();
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getid() == id) {
+				player_moves.set(i,"All In " + bet);
+			}
+		}
+		
+	}
+
+
+	
 
 
 	public void win() {
-		// TODO Auto-generated method stub
+		win = true;
+		repaint();
 		
 	}
 
 
-	public void raise(int id) {
-		// TODO Auto-generated method stub
+	public void raise(int id, int bet) {
+		resetPlayerMoves();
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getid() == id) {
+				player_moves.set(i,"Raise " + bet);
+			}
+		}
 		
 	}
 
 
 	public void lose() {
-		// TODO Auto-generated method stub
+		lose = true;
+		repaint();
 		
 	}
 
 
 	public void fold(int id) {
-		// TODO Auto-generated method stub
+		resetPlayerMoves();
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getid() == id) {
+				player_moves.set(i,"Fold");
+			}
+		}
 		
 	}
 
@@ -615,8 +706,18 @@ public class TestPanel extends JPanel {
 
 
 	public void check(int id) {
-		// TODO Auto-generated method stub
+		resetPlayerMoves();
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getid() == id) {
+				player_moves.set(i,"Check");
+			}
+		}
 		
+	}
+
+
+	public void gameEnd() {
+		this.gameOver = true;
 	}
 
 

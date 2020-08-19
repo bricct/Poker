@@ -1,7 +1,6 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 /**
@@ -12,7 +11,7 @@ import javax.imageio.ImageIO;
  */
 public class Sprite {
 
-    private static BufferedImage spriteSheet, assetSheet, optionsSheet;
+    private static BufferedImage spriteSheet, assetSheet, optionsSheet, youWin, youLose;
     private static final int Y_SIZE = 96;
     private static final int X_SIZE = 69;
     private static final int AX_SIZE = 288;
@@ -223,15 +222,15 @@ public class Sprite {
      */
 	public static BufferedImage getMusicOnSprite() {
 			
-			int xGrid = 2;
-	    	int yGrid = 0;
-	    	
-	    	
-	        if (assetSheet == null) {
-	            assetSheet = loadAssets();
-	        }
-	
-	        return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
+		int xGrid = 2;
+    	int yGrid = 0;
+    	
+    	
+        if (assetSheet == null) {
+            assetSheet = loadAssets();
+        }
+
+        return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
 			
 			
 		}
@@ -331,18 +330,18 @@ public class Sprite {
      */
 	public static BufferedImage getFormSprite() {
 			
-			int xGrid = 0;
-	    	int yGrid = 0;
-	    	
-	    	
-	        if (optionsSheet == null) {
-	        	optionsSheet = loadOptionsAssets();
-	        }
-	
-	        return optionsSheet.getSubimage(xGrid * OX_SIZE, yGrid * OY_SIZE, OX_SIZE, OY_SIZE);
+		int xGrid = 0;
+    	int yGrid = 0;
+    	
+    	
+        if (optionsSheet == null) {
+        	optionsSheet = loadOptionsAssets();
+        }
+
+        return optionsSheet.getSubimage(xGrid * OX_SIZE, yGrid * OY_SIZE, OX_SIZE, OY_SIZE);
 			
 			
-		}
+	}
     
     /**
      * @return buffered image of the colon
@@ -392,5 +391,34 @@ public class Sprite {
 	    return optionsSheet.getSubimage((xGrid - 1) * OX_SMALL_SIZE + OX_SIZE, yGrid * AY_SIZE, OX_SMALL_SIZE, OX_SMALL_SIZE);
 	}
     
+    public static BufferedImage getWin() {
+    	if (youWin == null);
+
+        try {
+            youWin = ImageIO.read(new File("youWin.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return youWin;
+    }
     
+    public static BufferedImage getLose() {
+    	if (youLose == null);
+
+        try {
+            youLose = ImageIO.read(new File("youLose.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return youLose;
+    }
+	
+	
+	
+	
+	
 }

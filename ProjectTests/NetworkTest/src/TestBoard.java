@@ -3,7 +3,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,16 +13,19 @@ public class TestBoard extends JFrame {
 	private JButton fold, call, raise;
 	private TestPanel panel;
 	private JPanel buttonPanel;
-	// private Card card1, card2;
+//	private Card card1, card2;
 //	private User user;
-	//private boolean turn;
+//	private boolean turn;
 	private Card[] table_cards;
+//	private final int id;
+	private TestMenu master;
 
-	public TestBoard(TestMenu master, User user) {
+	public TestBoard(TestMenu master, User user, int id) {
 		//this.setSize(906, 520);
 //		this.user = user;
+		this.master = master;
 		this.buttonPanel = new JPanel(new GridLayout(1, 3));
-
+		//this.id = id;
 		this.fold = new JButton("Fold");
 		this.call = new JButton("Call");
 		this.raise = new JButton("Raise");
@@ -32,7 +34,7 @@ public class TestBoard extends JFrame {
 		// this.card1 = null;
 		// this.card2 = null;
 		System.out.println("reinit");
-		this.panel = new TestPanel(null, null);
+		this.panel = new TestPanel(this, null, null, id);
 
 		this.setIconImage(Sprite.getIconSprite());
 
@@ -211,8 +213,8 @@ public class TestBoard extends JFrame {
 	}
 
 
-	public void sendRaise(int id) {
-		this.panel.raise(id);
+	public void sendRaise(int id, int bet) {
+		this.panel.raise(id, bet);
 		
 	}
 
@@ -225,6 +227,19 @@ public class TestBoard extends JFrame {
 
 	public void sendAllin(int id, int bet) {
 		this.panel.sendAllin(id, bet);
+		
+	}
+
+
+	public void sendGameEnd() {
+		this.panel.gameEnd();
+		
+	}
+
+
+	public void exit() {
+		this.master.setVisible(true);
+		this.dispose();
 		
 	}
 

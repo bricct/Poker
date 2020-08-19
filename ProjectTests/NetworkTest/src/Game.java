@@ -1,5 +1,5 @@
-
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Game
 {
@@ -88,6 +88,8 @@ public class Game
 	                        if (currentCheckPay - queue.get(i).currMoney + bet > p.getMoney()) {
 	                        	bet = p.getMoney() - currentCheckPay + queue.get(i).currMoney;
 	                        	server.sendAllin(p.getid(), bet);
+	                        } else {
+	                        	server.sendRaise(p.getid(), bet);
 	                        }
 	                        
 	                        currentCheckPay += bet;
@@ -157,8 +159,6 @@ public class Game
             if(players.get(i).getMoney() > 0)
             {
                 queue.add(new PlayerTuple(players.get(i),0));
-            } else {
-            	players.remove(i);
             }
         }
         if(queue.size() == 1)
@@ -293,6 +293,20 @@ public class Game
             winner.addMoney(pot);
             server.sendWinnings(winner.getid(), pot);
             server.sendPot(0);
+            
+            Iterator<Player> player_itr = players.iterator(); 
+            
+            while (player_itr.hasNext()) {
+            	Player p = player_itr.next();
+            	if(p.getMoney() <= 0)
+                {
+                	player_itr.remove();
+                	server.sendLose(p.getid());
+                }
+            }
+
+            
+            
             return;
             
         }
@@ -324,6 +338,7 @@ public class Game
             
         }
         server.sendWin(players.get(0).getid());
+        server.sendGameEnd();
     }
 
 

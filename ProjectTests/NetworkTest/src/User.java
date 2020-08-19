@@ -14,7 +14,13 @@ public class User {
 
 		//PriorityQueue<String> commands = new PriorityQueue<>();
 		
-		board = new TestBoard(master, this);
+		
+
+
+
+		this.client = new Client(this);
+		this.id = client.connect();
+		board = new TestBoard(master, this, id);
 		//board.setVisible(true);
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setSize(master.getWidth(),master.getHeight());
@@ -27,11 +33,6 @@ public class User {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-
-
-		this.client = new Client(this);
-		this.id = client.connect();
 		System.out.println("" + id);
 		if (id == -1) System.out.println("uhoh");
 //		JFrame frame = new JFrame();
@@ -157,7 +158,7 @@ public class User {
 //			}
 
 		} else if (args[0].equals("raise")) {
-			board.sendRaise(Integer.parseInt(args[1]));
+			board.sendRaise(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 
 
 
@@ -246,6 +247,8 @@ public class User {
 		
 			this.board.resetHand();
 
+		} else if (args[0].equals("game-end")) {
+			this.board.sendGameEnd();
 		} else {
 			System.out.println("I dont know what to do with this " + args[0]);
 		}
