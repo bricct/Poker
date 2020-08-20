@@ -14,7 +14,7 @@ public class Combo implements Comparable<Combo>
     ArrayList<Card> fullHand;
     HashSet<Card> cards;
     HashMap<Integer, Integer> vals;
-    ArrayList<Card> comboHand;
+    ArrayList<Card> comboHand; 
     int bestCombo = 1; //1 = high card, 2 = pair, 3 = two pair, 4 = three of a kind, 5 = straight, 6 = flush, 7 = full house, 8 = four of a kind, 9 = straight flush, 10 = royal flush
 
     //Straight properties
