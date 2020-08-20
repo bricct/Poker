@@ -329,6 +329,7 @@ public class TestPanel extends JPanel {
 
 	private void resetTurnWin() {
 		turn_win = "";
+		repaint();
 		
 	}
 	
@@ -336,7 +337,6 @@ public class TestPanel extends JPanel {
 		
 		resetTurnWin();
 		if (id == players.get(0).getid()) {
-			this.money += pot;
 			turn_win = "Your turn";
 		} else {
 			for (Player p: players) {
@@ -345,6 +345,8 @@ public class TestPanel extends JPanel {
 				}
 			}
 		}
+		
+		this.repaint();
 	}
 	
 
