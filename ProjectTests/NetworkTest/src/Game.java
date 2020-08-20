@@ -12,26 +12,26 @@ public class Game
     private int currentCheckPay = 0;
     public Game(int ismall, int ibig, ArrayList<Player> iplayers, Server iserver)
     {
-        
+
     	players = iplayers;
-        
+
         small = ismall;
         big = ibig;
         server = iserver;
-        
-        
+
+
         deck = new Deck();
         deck.shuffle();
-        
-        
+
+
         boardCards = new ArrayList<>();
-        
+
 //        for(int i=0; i<inumPlayers; i++)
 //        {
 //            players.add(new Player(initialIncome));
 //        }
-        
-        
+
+
     }
 
     public int goAroundTable(ArrayList<PlayerTuple> queue, int pot)
@@ -40,20 +40,20 @@ public class Game
         boolean initialChecked = false;
         boolean skip_big = false;
         while(!check)
-        {	
+        {
         	int notallin = 0;
         	int i = 0;
         	if (currentCheckPay == big && skip_big == false) {
         		i = 1;
         		skip_big = true;
         	}
-        	
+
         	for (i = 0 ;i<queue.size();i++) {
         		if (!queue.get(i).player.isAllin()) {
         			notallin += 1;
         		}
         	}
-        	
+
         	if (notallin < 1) {
         		try {
 					Thread.sleep(2500);
@@ -61,9 +61,9 @@ public class Game
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-        		return pot; 
+        		return pot;
         	}
-        	
+
             for(i = 0 ;i<queue.size();i++)
             {
             	Player p = queue.get(i).player;
@@ -79,23 +79,23 @@ public class Game
             	} else if (notallin == 1) {
             		if (queue.get(i).currMoney == currentCheckPay) continue;
             	}
-            	
+
             	server.sendTurn(p.getid());
             	try {
-            		
+
 					cmd = server.nextCmd(p.getid());
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 					continue;
 				}
-            	
+
             	if (cmd == null) {
             		System.out.println("uhm no cmd from player");
             		continue;
             	}
-            	
-            	
+
+
                 //initialChecked is for checking if it's an initialBet. After initial bet, we break at the last better
                 if(initialChecked && queue.get(i).currMoney == currentCheckPay)
                 {
@@ -103,7 +103,7 @@ public class Game
                 }
                 else {//Do the action buttons: bet, check, fold
                     if(cmd[0].equals("check"))//If player checks...
-                    {	
+                    {
                     	if (currentCheckPay - queue.get(i).currMoney >= p.getMoney()) {
                     		server.sendAllin(p.getid(), queue.get(i).player.getMoney());
                     		pot += queue.get(i).player.getMoney();
@@ -114,17 +114,17 @@ public class Game
                         	System.out.println("removing " + (currentCheckPay - queue.get(i).currMoney) + " from player " + i + " money");
                         	pot += currentCheckPay - queue.get(i).currMoney;
                         }
-                        
+
                         queue.get(i).currMoney = currentCheckPay; //player set to current pot amount
-                        
+
                         server.sendMoney(p.getid(), p.getMoney());
                         server.sendPot(pot);
-                        
+
                     }else if(cmd[0].equals("raise") ) //IF bet
                     {
                     	try {
 	                        int bet = Integer.parseInt(cmd[1]); //<--------- CHANGE THIS
-	                        
+
 	                        if (currentCheckPay - queue.get(i).currMoney + bet >= p.getMoney()) {
 	                        	bet = p.getMoney() - currentCheckPay + queue.get(i).currMoney;
 	                        	server.sendAllin(p.getid(), bet);
@@ -132,15 +132,15 @@ public class Game
 	                        } else {
 	                        	server.sendRaise(p.getid(), bet);
 	                        }
-	                        
+
 	                        currentCheckPay += bet;
 	                        p.subMoney(currentCheckPay - queue.get(i).currMoney);
 	                        pot += currentCheckPay - queue.get(i).currMoney;
 	                        queue.get(i).currMoney = currentCheckPay;
-	                        
+
 	                        server.sendMoney(p.getid(), p.getMoney());
 	                        server.sendPot(pot);
-	                        
+
                     	} catch (NumberFormatException | IndexOutOfBoundsException e) {
                     		server.forceFold(p.getid());
                     		queue.remove(i);
@@ -150,9 +150,9 @@ public class Game
                             	//currentCheckPay = 0;
                                 return pot;
                             }
-                    	} 
+                    	}
                     } else if (cmd[0].equals("fold"))//Fold
-                    {   
+                    {
                         server.forceFold(p.getid());
                         queue.remove(i);
                         i--;
@@ -177,7 +177,7 @@ public class Game
             check = true;
             for(int j=0;j<queue.size();j++)
             {
-                
+
                 if(queue.get(j).currMoney != currentCheckPay)
                 {
                     //System.out.print(queue.get(j).getCurrMoney() + " " + currentCheckPay+"\n");
@@ -187,7 +187,7 @@ public class Game
             }
         }
         // currentCheckPay = 0;
-        
+
         //System.out.print("it's working\n");
         return pot;
     }
@@ -209,8 +209,8 @@ public class Game
         {
             return; //1 player left
         }
-        
-        
+
+
         Player smallBl = queue.get(0).player;
         smallBl.subMoney(small); //Big Blind
         pot = small;
@@ -218,14 +218,14 @@ public class Game
         server.sendBlind(smallBl.getid(), small);
         server.sendMoney(smallBl.getid(), smallBl.getMoney());
         server.sendPot(pot);
-        
-        
+
+
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         Player bigBl = queue.get(1).player;
         bigBl.subMoney(big); //Big Blind
         pot += big;
@@ -233,7 +233,7 @@ public class Game
         server.sendBlind(bigBl.getid(), big);
         server.sendMoney(bigBl.getid(), bigBl.getMoney());
         server.sendPot(pot);
-        
+
         currentCheckPay = big;
 
         //Deal cards to players in queue
@@ -244,11 +244,11 @@ public class Game
                 queue.get(j).player.addToHand(deck.draw());
             }
         }
-        
+
         server.sendCards(queue);
-        
-        
-        
+
+
+
         //pre-flop
         pot = goAroundTable(queue, pot); //updated pot, queue is passed by reference
         if(queue.size() == 1)
@@ -259,7 +259,7 @@ public class Game
             server.sendPot(0);
             return;
         }
-        
+
         //System.out.print("Flopped\n");
         //flop
         for(int i=0;i<3;i++)
@@ -267,7 +267,12 @@ public class Game
             boardCards.add(deck.draw());
         }
         server.sendFlop(boardCards.get(0), boardCards.get(1), boardCards.get(2));
-        
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         pot = goAroundTable(queue, pot); //updated pot, queue is passed by reference
         if(queue.size() == 1)
         {
@@ -277,12 +282,18 @@ public class Game
             server.sendPot(0);
             return;
         }
-        
-        
+
+
         //Turn
         boardCards.add(deck.draw());
         server.sendTurn(boardCards.get(3));
-        
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         pot = goAroundTable(queue, pot); //updated pot, queue is passed by reference
         if(queue.size() == 1)
         {
@@ -292,12 +303,12 @@ public class Game
             server.sendPot(0);
             return;
         }
-        
-        
+
+
         //River
         boardCards.add(deck.draw());
         server.sendRiver(boardCards.get(4));
-        
+
         pot = goAroundTable(queue, pot); //updated pot, queue is passed by reference
         if(queue.size() == 1)
         {
@@ -306,23 +317,23 @@ public class Game
             server.sendWinnings(winner.getid(), pot);
             server.sendPot(0);
             return;
-            
+
         }else
         {
-        	
-        	
+
+
         	for (int i = 0; i < queue.size(); i++) {
         		Player p = queue.get(i).player;
         		server.exposeCards(p.getid(), p.firstCard(), p.secCard());
         	}
-        	
+
         	try {
 				Thread.sleep(4000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-        	
-        	
+
+
             ArrayList<Combo> combos = new ArrayList<Combo>();
             for(int i=0;i<queue.size();i++)
             {
@@ -334,7 +345,7 @@ public class Game
 
                 combos.add(new Combo(playerhand, boardCards));
             }
-            
+
             //You can use this for displaying in the UI
             Combo bestCombo = combos.get(0);
             int itr = 0;
@@ -351,9 +362,9 @@ public class Game
             winner.addMoney(pot);
             server.sendWinnings(winner.getid(), pot);
             server.sendPot(0);
-            
-            Iterator<Player> player_itr = players.iterator(); 
-            
+
+            Iterator<Player> player_itr = players.iterator();
+
             while (player_itr.hasNext()) {
             	Player p = player_itr.next();
             	if(p.getMoney() <= 0)
@@ -363,14 +374,14 @@ public class Game
                 }
             }
 
-            
-            
+
+
             return;
-            
+
         }
 
 
-        
+
     }
 
 
@@ -393,7 +404,7 @@ public class Game
             deck.resetDeck();
             deck.shuffle();
             server.sendStartHand();
-            
+
         }
         server.sendWin(players.get(0).getid());
         server.sendGameEnd();
@@ -401,4 +412,3 @@ public class Game
 
 
 }
-
