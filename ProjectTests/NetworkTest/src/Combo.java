@@ -124,6 +124,10 @@ public class Combo implements Comparable<Combo>
                 {
                     counter++;
                 }
+                else
+                {
+                    break;
+                }
             }
             boolean wheel = false;
             //If i is 2 and there's 2,3,4 but no 5 and there's Ace (Wheel)
@@ -421,14 +425,14 @@ public class Combo implements Comparable<Combo>
     @Override
     public int compareTo(Combo other)
     {
-        for(int i=0;i<other.comboHand.size();i++)
-        {
-            System.out.print("hand:");
-            System.out.print(other.comboHand.get(i).value());
-        }
-        System.out.print("\n");
-        System.out.print(this.comboHand.size() + " " + other.comboHand.size() + "\n");
-        System.out.print(this.bestCombo + " " + other.bestCombo + "\n");
+        // for(int i=0;i<other.comboHand.size();i++)
+        // {
+        //     System.out.print("hand:");
+        //     System.out.print(other.comboHand.get(i).value());
+        // }
+        // System.out.print("\n");
+        // System.out.print(this.comboHand.size() + " " + other.comboHand.size() + "\n");
+        // System.out.print(this.bestCombo + " " + other.bestCombo + "\n");
         if(this.bestCombo > other.bestCombo)
         {
             return 1;
