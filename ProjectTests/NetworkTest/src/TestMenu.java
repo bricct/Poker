@@ -55,10 +55,10 @@ public class TestMenu extends JFrame {
 		port = 12345;
 
 		ip = new int[4];
-		ip[0] = 127;
-		ip[1] = 000;
-		ip[2] = 000;
-		ip[3] = 001;
+		ip[0] = 67;
+		ip[1] = 242;
+		ip[2] = 72;
+		ip[3] = 82;
 
 
 

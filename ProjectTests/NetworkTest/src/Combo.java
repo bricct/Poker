@@ -140,7 +140,7 @@ public class Combo implements Comparable<Combo>
                 }
                 else
                 {
-                    minStraight = 1;
+                    minStraight = 14;
                 }
             }
         }
@@ -152,17 +152,34 @@ public class Combo implements Comparable<Combo>
         if(fiveSuit > 0)
         {
             int count = 0;
-            for(int i=start;i<start+5;i++)
+            if(minStraight == 14)
             {
-                if(fullHand.contains(new Card(cardIt, fiveSuit)))
+                if(fullHand.contains(new Card(14, fiveSuit)))
                 {
                     count++;
                     cardIt++;
                 }
-            }
-            if(count == 4 && start == 1 && fullHand.contains(new Card(14, fiveSuit)))
+                start = 2;
+                for(int i=start;i<start+4;i++)
+                {
+                    
+                    if(fullHand.contains(new Card(cardIt, fiveSuit)))
+                    {
+                        count++;
+                        cardIt++;
+                    }
+                }
+            }else
             {
-                count++;
+                for(int i=start;i<start+5;i++)
+                {
+                    
+                    if(fullHand.contains(new Card(cardIt, fiveSuit)))
+                    {
+                        count++;
+                        cardIt++;
+                    }
+                }
             }
             if(count == 5)
             {
@@ -224,12 +241,42 @@ public class Combo implements Comparable<Combo>
         {
             bestCombo = 9;
             int start = minStraight;
-            for(int i=0;i<fullHand.size();i++)
+            if(start == 14)
             {
-                if(fullHand.get(i).value() == start && fullHand.get(i).suit() == fiveSuit)
+                for(int i=fullHand.size()-1;i>-1;i--)
                 {
-                    comboHand.add(fullHand.get(i));
-                    start++;
+                    if(fullHand.get(i).value() == start && fullHand.get(i).suit() == fiveSuit)
+                    {
+                        comboHand.add(fullHand.get(i));
+                        fullHand.remove(i);
+                        break;
+                    }
+                }
+                start = 2;
+                for(int i=0;i<fullHand.size();i++)
+                {
+                    if(fullHand.get(i).value() == start && fullHand.get(i).suit() == fiveSuit)
+                    {
+                        comboHand.add(fullHand.get(i));
+                        start++;
+                    }
+                }
+            }else
+            {
+                for(int i=0;i<fullHand.size();i++)
+                {
+                    if(fullHand.get(i).value() == start && fullHand.get(i).suit() == fiveSuit)
+                    {
+                        comboHand.add(fullHand.get(i));
+                        start++;
+                    }
+                }
+            }
+            if(comboHand.size() > 5)
+            {
+                for(int i=0;i<comboHand.size() - 5;i++)
+                {
+                    comboHand.remove(0);
                 }
             }
         }else if(mostNumSame == 4)
@@ -272,19 +319,44 @@ public class Combo implements Comparable<Combo>
         }else if(minStraight > 0)
         {
             bestCombo = 5;
-            int start = minStraight + 4;
-            int count = 0;
-            for(int i=fullHand.size()-1;i>-1;i--)
+            int start = minStraight;
+            if(start == 14)
             {
-                if(fullHand.get(i).value() == start){
-                    comboHand.add(fullHand.get(i));
-                    count++;
-                    start--;
-                    //for cases when there are more suit cards
-                    if(count > 5)
+                for(int i=fullHand.size()-1;i>-1;i--)
+                {
+                    if(fullHand.get(i).value() == 14)
                     {
+                        comboHand.add(fullHand.get(i));
+                        fullHand.remove(i);
                         break;
                     }
+                   
+                }
+                start = 2;
+                for(int i=0;i<fullHand.size();i++)
+                {
+                    if(fullHand.get(i).value() == start)
+                    {
+                        comboHand.add(fullHand.get(i));
+                        start++;
+                    }
+                }
+            }else
+            {
+                for(int i=0;i<fullHand.size();i++)
+                {
+                    if(fullHand.get(i).value() == start)
+                    {
+                        comboHand.add(fullHand.get(i));
+                        start++;
+                    }
+                }
+            }
+            if(comboHand.size() > 5)
+            {
+                for(int i=0;i<comboHand.size() - 5;i++)
+                {
+                    comboHand.remove(0);
                 }
             }
         }else if(mostNumSame == 3)
@@ -349,6 +421,14 @@ public class Combo implements Comparable<Combo>
     @Override
     public int compareTo(Combo other)
     {
+        for(int i=0;i<other.comboHand.size();i++)
+        {
+            System.out.print("hand:");
+            System.out.print(other.comboHand.get(i).value());
+        }
+        System.out.print("\n");
+        System.out.print(this.comboHand.size() + " " + other.comboHand.size() + "\n");
+        System.out.print(this.bestCombo + " " + other.bestCombo + "\n");
         if(this.bestCombo > other.bestCombo)
         {
             return 1;
@@ -364,12 +444,12 @@ public class Combo implements Comparable<Combo>
                 if(this.comboHand.get(4).value() == 14 && this.comboHand.get(0).value() == 2 && other.comboHand.get(4).value() == 5)
                 {
                     return -1;
-                }else if(other.comboHand.get(4).value() == 14 && other.comboHand.get(0).value() == 2 && this.comboHand.get(4).value() == 5)
+                }else if(other.comboHand.get(4).value() == 14 && other.comboHand.get(0).value() == 2 && this.comboHand.get(4).value() > 5 && this.comboHand.get(4).value() != 14)
                 {
                     return 1;
                 }else //check from top down who has higher straight
                 {
-                    for(int i=this.comboHand.size();i>-1;i--)
+                    for(int i=this.comboHand.size()-1;i>-1;i--)
                     {
                         if(this.comboHand.get(i).compareTo(other.comboHand.get(i)) > 0)
                         {
@@ -399,7 +479,7 @@ public class Combo implements Comparable<Combo>
                         return -1;
                     }else
                     {
-                        for(int i=this.comboHand.size();i>-1;i--)
+                        for(int i=this.comboHand.size()-1;i>-1;i--)
                         {
                             if(this.comboHand.get(i).compareTo(other.comboHand.get(i)) > 0)
                             {
