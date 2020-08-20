@@ -725,6 +725,8 @@ public class TestPanel extends JPanel {
 
 	public void gameEnd() {
 		this.gameOver = true;
+		System.out.println("Game over true");
+		repaint();
 	}
 
 

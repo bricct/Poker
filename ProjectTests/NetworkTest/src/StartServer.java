@@ -4,7 +4,7 @@ public class StartServer {
 	public static void main(String[] args) {
 		
 		
-		int num_players = 2;
+		int num_players = 4;
 		
 		try {
 			@SuppressWarnings("unused")

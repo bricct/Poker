@@ -21,7 +21,7 @@ public class TestBoard extends JFrame {
 	private Card[] table_cards;
 //	private final int id;
 	private TestMenu master;
-	private int raise_amt;
+	//private int raise_amt;
 	private JSpinner raise_spinner;
 
 	public TestBoard(TestMenu master, User user, int id) {
