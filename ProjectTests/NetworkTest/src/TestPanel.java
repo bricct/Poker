@@ -329,6 +329,7 @@ public class TestPanel extends JPanel {
 
 	private void resetTurnWin() {
 		turn_win = "";
+		repaint();
 		
 	}
 	
@@ -345,6 +346,8 @@ public class TestPanel extends JPanel {
 				}
 			}
 		}
+		
+		this.repaint();
 	}
 	
 

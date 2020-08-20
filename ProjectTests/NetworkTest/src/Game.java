@@ -54,9 +54,10 @@ public class Game
         		}
         	}
         	
-        	if (notallin <= 1) {
+        	if (notallin < 1) {
         		try {
-					Thread.sleep(500);
+					Thread.sleep(2500);
+					System.out.println("sleeping.........\n\n\n\n\n");
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -69,12 +70,14 @@ public class Game
             	String[] cmd;
             	if (p.isAllin()) {
             		try {
-						Thread.sleep(500);
+						Thread.sleep(1500);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
             		queue.get(i).currMoney = currentCheckPay;
             		continue;
+            	} else if (notallin == 1) {
+            		if (queue.get(i).currMoney == currentCheckPay) continue;
             	}
             	
             	server.sendTurn(p.getid());
