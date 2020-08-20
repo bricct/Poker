@@ -17,6 +17,15 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+/**
+ * @author Trey Briccetti
+ * @version v1.0
+ */
+
+/**
+ * @author bricc
+ *
+ */
 public class TestPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -28,43 +37,53 @@ public class TestPanel extends JPanel {
 	private int anim_select = 0;
 	BufferedImage card1_reg, card2_reg, back_reg, deck_reg, volume_on, volume_off, musicOn, musicOff, youWin, youLose;
 	Image icard1, icard2, iback, itable, ideck, ivolume, imusic;
-	Image[] chip_spr, itable_cards;
+	Image[] chip_spr, itable_cards, iplayer_cards;
 	private int width, height, c_height, b_height, c_width, b_width, ch_size;
 	private boolean[] card_set;
-	private boolean mchanging, win, lose;
-
+	private boolean mchanging, win, lose, vol_toggle, vchanging, gameOver;
 	private ArrayList<Player> players;
 	private ArrayList<String> player_moves;
 	private String turn_win;
-	//private int[] players;
-	private boolean vol_toggle;
-	private boolean vchanging;
-	private boolean gameOver;
 	private Font font;
 
 
+	/** Constructs a Panel for Displaying the Game
+	 * @param master The frame which holds this panel
+	 * @param card1 The first of the player's card
+	 * @param card2 The second of the player's cards
+	 * @param id Client id used in networking
+	 */
 	public TestPanel(TestBoard master, Card card1, Card card2, int id) {
+		
+		//set some initial values for the display
 		this.setSize(900, 480);
 		this.card1 = null;
 		this.card2 = null;
 		this.money = 0;
 		this.pot = 0;
 		this.to_add = 0;
-
+		
+		//create list of players and add self
 		this.players = new ArrayList<>();
 		players.add(new Player(id, TestMenu.name, 0));
 		
+		//initialize some display strings;
 		this.player_moves = new ArrayList<>();
 		player_moves.add("");
 		this.turn_win = "";
+		
+		//initialize array that holds the flop turn and river boolean values (dealt or not dealt)
 		this.card_set = new boolean[5];
 		for (int i = 0; i < 5; i++) {
 			this.card_set[i] = false;
 		}
 
+		//initialize animation variables
 		this.timer = new Timer(15, animator);
 		this.timer.start();
 
+		
+		//Initialize all necessary sprites and the custom font
 		Dimension scr_dim = getSize();
 		width = (int) scr_dim.getWidth() - 16;
 		height = (int) scr_dim.getHeight() - 39;
@@ -89,26 +108,31 @@ public class TestPanel extends JPanel {
 		}
 
 		itable = TestMenu.table;
-
-		chip_spr = new Image[6];
-
+		
 		for (int i = 0; i < 6; i++) {
 			chip_spr[i] = Sprite.getChipSprite(i);
 		}
+		
+		chip_spr = new Image[6];
+		itable_cards = new Image[5];
+		iplayer_cards = new Image[8];
 
 		
-
+		//initialize table card array for holding cards for flop turn and river
 		this.table_cards = new Card[5];
 
 		for (int i = 0; i < 5; i++) {
 			this.table_cards[i] = null;
 		}
 
-		itable_cards = new Image[5];
-
+		
+		
+		//initialize sound controller audio clips and volume
 		SoundEffects.init();
 		SoundEffects.volume = SoundEffects.Volume.LOW;
-
+		
+		
+		//initialize some volume and game state booleans
 		this.vol_toggle = true;
 		this.vchanging = false;
 		
@@ -117,14 +141,17 @@ public class TestPanel extends JPanel {
 		this.gameOver = false;
 
 		
-
+		
+		//this resizes all images on the screen every time that the screen is resized
 		this.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent componentEvent) {
 
 		    	updateSprites();
 		    }
 		});
-
+		
+		
+		//mouse listener to pick up mouse clicks on certain buttons
 		this.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -209,8 +236,9 @@ public class TestPanel extends JPanel {
 
 	}
 
-
-	public void updateSprites() {
+	
+	//updates all sprites according to size dimensions of screen
+	private void updateSprites() {
 		Dimension scr_dim = getSize();
 		width = (int) scr_dim.getWidth();
 		height = (int) scr_dim.getHeight();
@@ -241,7 +269,15 @@ public class TestPanel extends JPanel {
 			if (table_cards[i] == null) break;
 			itable_cards[i] = Sprite.getSprite(table_cards[i]).getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 		}
-
+		
+		for (int i = 0; i < 8; i ++) {
+			if (i/2 + 1 > players.size() - 1) break;
+			Player p = players.get(i/2 + 1);
+			if (p.firstCard() != null) iplayer_cards[i++] = Sprite.getSprite(p.firstCard()).getScaledInstance(b_width, b_height, Image.SCALE_FAST);
+			if (p.secCard() != null) iplayer_cards[i] = Sprite.getSprite(p.secCard()).getScaledInstance(b_width, b_height, Image.SCALE_FAST);
+		}
+			
+		
 		icard1 = card1_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 		icard2 = card2_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 		iback = back_reg.getScaledInstance(b_width, b_height, Image.SCALE_FAST);
@@ -268,6 +304,10 @@ public class TestPanel extends JPanel {
 
 
 
+	/** Sets the players cards to those passed
+	 * @param _card1 The first of the players cards
+	 * @param _card2 The second of the players cards
+	 */
 	public void setCards(Card _card1, Card _card2) {
 
 		if (_card1 == null || _card2 == null) {
@@ -298,6 +338,10 @@ public class TestPanel extends JPanel {
 
 	}
 
+	/** Sets the money of a player in the game
+	 * @param id Networking unique identifier of the player in question
+	 * @param money The amount of money that the player should be assigned
+	 */
 	public void setMoney(int id, int money) {
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).getid() == id) {
@@ -308,6 +352,10 @@ public class TestPanel extends JPanel {
 		this.repaint();
 	}
 
+	/** Displays the winner of the hand and the amount that they won
+	 * @param id Networking unique identifier of the player in question
+	 * @param pot The amount of money won by the player during this hand
+	 */
 	public void winHand(int id, int pot) {
 		resetTurnWin();
 		if (id == players.get(0).getid()) {
@@ -333,6 +381,9 @@ public class TestPanel extends JPanel {
 		
 	}
 	
+	/** Displays whose turn it is
+	 * @param id Networking unique identifier of the player in question
+	 */
 	public void turn(int id) {
 		
 		resetTurnWin();
@@ -350,6 +401,9 @@ public class TestPanel extends JPanel {
 	}
 	
 
+	/** Adds an amount of money to the pot
+	 * @param to_add the amount of money to add
+	 */
 	public void addToPot(int to_add) {
 		this.to_add = to_add;
 		anim_select = 3;
@@ -357,6 +411,9 @@ public class TestPanel extends JPanel {
 		this.repaint();
 	}
 
+	/** Updates and animates the table cards to have the first three dealt by the server
+	 * @param table_cards The table card array
+	 */
 	public void flop(Card[] table_cards) {
 		for (int i = 0; i < 5; i++) {
 			this.card_set[i] = false;
@@ -367,6 +424,9 @@ public class TestPanel extends JPanel {
 		this.repaint();
 	}
 
+	/** Updates and animates the table cards to have the fourth card dealt by the server
+	 * @param table_cards table_cards The table card array
+	 */
 	public void turn(Card[] table_cards) {
 		setTableCards(table_cards);
 		anim_select = 9;
@@ -374,6 +434,9 @@ public class TestPanel extends JPanel {
 		this.repaint();
 	}
 
+	/** Updates and animates the table cards to have the fifth card dealt by the server
+	 * @param table_cards table_cards The table card array
+	 */
 	public void river(Card[] table_cards) {
 		setTableCards(table_cards);
 		anim_select = 10;
@@ -392,32 +455,37 @@ public class TestPanel extends JPanel {
 
 	}
 
-	public void fold () {
-		//this.folded = true;
-		this.repaint();
-	}
 
+	/**	Sets the other players in the game display
+	 * @param players An array list containing the various players in the game
+	 */
 	public void setPlayers(ArrayList<Player> players) {
 		for (Player p: players) {
 			this.players.add(p);
 			this.player_moves.add("");
 		}
-
-		System.out.println("players was just set");
-		for (Player p : players) {
-			System.out.println(p.getName() + " " + p.getid());
-		}
 		this.repaint();
 	}
 
+	
+	/** Update the pot display in the middle of the top of the panel
+	 * @param pot The amount of money in the pot
+	 */
 	public void setPot(int pot) {
 		this.pot = pot;
 		SoundEffects.CHIP.play();
 		this.repaint();
 	}
 
+	
+	/** Resets the ui to the beginning of a new hand
+	 * 
+	 */
 	public void reset() {
 		resetPlayerMoves();
+		for (int i = 1; i < players.size(); i++) {
+			players.get(i).clearHand();
+		}
 		for (int i = 0; i < 5; i++) {
 			this.card_set[i] = false;
 		}
@@ -427,34 +495,150 @@ public class TestPanel extends JPanel {
 			e.printStackTrace();
 		}
 		SoundEffects.SHUFFLE.play();
-
-		//this.setCards(null, null);
-		//this.folded = true;
-		System.out.println("resetting ui");
+		//System.out.println("resetting ui");
 		this.table_cards = new Card[5];
 		this.repaint();
 
 	}
+	
+	//erase other players previous move info when a new turn happens
+	private void resetPlayerMoves() {
+		for (int i = 0; i < player_moves.size(); i++) {
+			player_moves.set(i,"");
+		}
+		
+	}
+	
+	
+	/** Draw message saying if another play is all-in
+	 * @param id Networking unique identifier of the player in question
+	 * @param bet the amount of money the player has bet to go all-in
+	 */
+	public void sendAllin(int id, int bet) {
+		resetPlayerMoves();
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getid() == id) {
+				player_moves.set(i,"All In " + bet);
+			}
+		}
+		
+	}
 
-//	private void setTableCards(Card[] table_cards) {
-//		this.table_cards = table_cards;
-//		int i;
-//		for (i = 0; i < 5; i ++) {
-//			if (table_cards[i] == null) break;
-//			itable_cards[i] = Sprite.getSprite(table_cards[i]).getScaledInstance(c_width, c_height, Image.SCALE_FAST);
-//		}
-//
-//	}
-//
-//	/**
-//	 * Sets the current players to the given listed players
-//	 * @param players list of players to be set to
-//	 */
-//	public void setPlayers(ArrayList<Player> players) {
-//		this.players = players;
-//		this.repaint();
-//	}
 
+	
+
+	/**Display winning screen briefly and then allow to disconnect
+	 * 
+	 */
+	public void win() {
+		win = true;
+		this.gameOver = true;
+		repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		win = false;
+	}
+
+	
+	/** Display if another player raised
+	 * @param id Networking unique identifier of the player in question
+	 * @param bet the maount of money the player has just bet
+	 */
+	public void raise(int id, int bet) {
+		resetPlayerMoves();
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getid() == id) {
+				player_moves.set(i,"Raise " + bet);
+			}
+		}
+		
+	}
+
+	/** Display losing screen briefly and then allow to disconnect
+	 * 
+	 */
+	public void lose() {
+		lose = true;
+		this.gameOver = true;
+		repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		lose = false;
+		
+		
+	}
+
+	/**Display if another player folded
+	 * @param id Networking unique identifier of the player in question
+	 */
+	public void fold(int id) {
+		resetPlayerMoves();
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getid() == id) {
+				player_moves.set(i,"Fold");
+			}
+		}
+		
+	}
+	
+	/**reveal another players cards (at end of hand if it comes down to it)
+	 * @param id Networking unique identifier of the player in question
+	 * @param card1 The first card of the player in questions hand
+	 * @param card2 The second card of the player in questions hand
+	 */
+	public void setPlayerCards(int id, Card card1, Card card2) {
+		for (Player p: players) {
+			if (p.getid() == id) {
+				p.addToHand(card1);
+				p.addToHand(card2);
+			}
+		}
+		updateSprites();
+		repaint();
+		
+	}
+	
+
+	/** Doesn't do anything just yet
+	 * @param id Networking unique identifier of the player in question
+	 */
+	public void dc(int id) {
+	}
+
+	
+	
+	/** Displays if another person has checked
+	 * @param id Networking unique identifier of the player in question
+	 */
+	public void check(int id) {
+		resetPlayerMoves();
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getid() == id) {
+				player_moves.set(i,"Check");
+			}
+		}
+		
+	}
+
+
+	/** Displays a button allowing the player to easily disconnect and go back to the menu
+	 * 
+	 */
+	public void gameEnd() {
+		this.gameOver = true;
+		System.out.println("Game over true");
+		repaint();
+	}
+
+
+	
+	//single action listener responsible for controlling the various animations of the display
 	private ActionListener animator = new ActionListener() {
 
 		public void actionPerformed(ActionEvent e) {
@@ -482,9 +666,7 @@ public class TestPanel extends JPanel {
 				timer.stop();
 			}
 			if (anim_select == 4) {
-				//pot += to_add;
 				to_add = 0;
-				//SoundEffects.CHIP.play();
 				timer.stop();
 			}
 			if (anim_select == 11) {
@@ -507,8 +689,11 @@ public class TestPanel extends JPanel {
 
 		Graphics2D g2d = (Graphics2D) g;
 
+		//draw background image
 		g2d.drawImage(itable, 0, 0, this);
 
+		
+		//if cards are null draw backs of cards otherwise draw the cards
 		if (this.card1 == null || this.card2 == null) {
 			card1_reg = back_reg;
 			card2_reg = back_reg;
@@ -517,13 +702,16 @@ public class TestPanel extends JPanel {
 			card2_reg = Sprite.getSprite(this.card2);
 		}
 
-		//player cards
+		
+		
+		//Animate player cards
 		if (anim_select == 0) g2d.drawImage(icard1, (width/2) - c_width , height - (height/4) + ((20-c_anim) * (height/24)), this);
 		else g2d.drawImage(icard1, (width/2) - c_width , height - (height/4), this);
 		if (anim_select == 1) g2d.drawImage(icard2, (width/2) + 5, height - (height/4) + ((20-c_anim) * (height/24)), this);
 		else if (anim_select > 1) g2d.drawImage(icard2, (width/2) + 5, height - (height/4), this);
 
-
+		
+		//set font & color for drawing some info strings
 		g2d.setColor(Color.white);
 		g2d.setFont(this.font);
 		
@@ -562,7 +750,6 @@ public class TestPanel extends JPanel {
 
 
 		//draw pot chips
-
 		int[] pot = Chips.getChips(this.pot);
 		for (int i = 5; i >= 0; i--) {
 			for (int j = 0; j < pot[i]; j++) {
@@ -570,11 +757,13 @@ public class TestPanel extends JPanel {
 			}
 		}
 
+		//Draw top bar info strings (name, turn, pot)
 		g2d.drawString("Pot $ " + this.pot , width/2 - c_width, height/4 - 2 * ch_size);
 		g2d.drawString("Your name is " + players.get(0).getName(), width/2 + width/4 - metrics.stringWidth("Your name is " + players.get(0).getName())/2, height/4 - 2 * ch_size + metrics.getHeight());
 		g2d.drawString(turn_win , width/7, height/4 - 2 * ch_size + metrics.getHeight());
 
-
+		
+		//animate chips sliding across table on a raise
 		if (anim_select == 3) {
 			int[] to_add = Chips.getChips(this.to_add);
 			for (int i = 5; i >= 0; i--) {
@@ -589,27 +778,30 @@ public class TestPanel extends JPanel {
 		
 
 
-
-		//other players cards
+		//draw other player's cards, names, and cash
 		//p2
 		if (players.size() > 1) {
-			//if (still_in.contains(players.get(1))) {
-			//if (players.get(1).firstCard() == null || players.get(1).secCard() == null) {
+			if (players.get(1).firstCard() == null || players.get(1).secCard() == null) {
 				g2d.drawImage(iback, (width/4) - b_width, height - (height/3), this);
 				g2d.drawImage(iback, (width/4) + 5, height - (height/3), this);
-
+			} else {
+				g2d.drawImage(iplayer_cards[0], (width/4) - b_width, height - (height/3), this);
+				g2d.drawImage(iplayer_cards[1], (width/4) + 5, height - (height/3), this);
+			}
 				g2d.drawString(players.get(1).getName(),width/4 - b_width, height - height/3 + b_height + ch_size/2);
 				g2d.drawString("Cash $" + players.get(1).getMoney() , width/4 - b_width, height - height/3 + c_height + ch_size/2);// + c_height + ch_size/2);
 
 				g2d.drawString(player_moves.get(1), width/4 - b_width, height - height/3 - metrics.getHeight());
-				//g2d.drawString()
-			//}
-			//}
 		}
 		//p3
 		if (players.size() > 2) {
-			g2d.drawImage(iback, 3 * (width/4) - b_width, height - (height/3), this);
-			g2d.drawImage(iback, 3 * (width/4) + 5, height - (height/3), this);
+			if (players.get(1).firstCard() == null || players.get(1).secCard() == null) {
+				g2d.drawImage(iback, 3 * (width/4) - b_width, height - (height/3), this);
+				g2d.drawImage(iback, 3 * (width/4) + 5, height - (height/3), this);
+			} else {
+				g2d.drawImage(iplayer_cards[2], 3 * (width/4) - b_width, height - (height/3), this);
+				g2d.drawImage(iplayer_cards[3], 3 * (width/4) + 5, height - (height/3), this);
+			}
 			g2d.drawString(players.get(2).getName(),3 * (width/4) - b_width, height - height/3 + b_height + ch_size/2);
 			g2d.drawString("Cash $" + players.get(2).getMoney() , 3 * (width/4) - b_width, height - height/3 + c_height + ch_size/2);// + c_height + ch_size/2);
 			g2d.drawString(player_moves.get(2), 3 * (width/4) - b_width, height - height/3 - metrics.getHeight());
@@ -618,8 +810,14 @@ public class TestPanel extends JPanel {
 
 		//p4
 		if (players.size() > 3) {
-			g2d.drawImage(iback, (width/8) - b_width, height/2 - (b_height/2), this);
-			g2d.drawImage(iback, (width/8) + 5, height/2 - (b_height/2), this);
+			if (players.get(1).firstCard() == null || players.get(1).secCard() == null) {
+		
+				g2d.drawImage(iback, (width/8) - b_width, height/2 - (b_height/2), this);
+				g2d.drawImage(iback, (width/8) + 5, height/2 - (b_height/2), this);
+			} else {
+				g2d.drawImage(iplayer_cards[4], (width/8) - b_width, height/2 - (b_height/2), this);
+				g2d.drawImage(iplayer_cards[5], (width/8) + 5, height/2 - (b_height/2), this);
+			}
 			g2d.drawString(players.get(3).getName(),(width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2);
 			g2d.drawString("Cash $" + players.get(3).getMoney() , (width/8) - b_width, height/2 - 3*b_height/2 + (c_height - b_height) + ch_size/2);// + c_height + ch_size/2);
 			g2d.drawString(player_moves.get(3), (width/8) - b_width, height/2  + ch_size/2 + metrics.getHeight());
@@ -628,8 +826,14 @@ public class TestPanel extends JPanel {
 
 		//p5
 		if (players.size() > 4) {
-			g2d.drawImage(iback, 7 * (width/8) - b_width, height/2 - (b_height/2), this);
-			g2d.drawImage(iback, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
+			if (players.get(1).firstCard() == null || players.get(1).secCard() == null) {
+		
+				g2d.drawImage(iback, 7 * (width/8) - b_width, height/2 - (b_height/2), this);
+				g2d.drawImage(iback, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
+			} else {
+				g2d.drawImage(iplayer_cards[6], 7 * (width/8) - b_width, height/2 - (b_height/2), this);
+				g2d.drawImage(iplayer_cards[7], 7 * (width/8) + 5 , height/2 - (b_height/2), this);
+			}
 			g2d.drawString(players.get(4).getName(), 7 * (width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2);
 			g2d.drawString("Cash $" + players.get(4).getMoney() ,  7 * (width/8) - b_width, height/2 - 3*b_height/2 + (c_height - b_height) + ch_size/2);// + c_height + ch_size/2);
 			g2d.drawString(player_moves.get(4), 7 * (width/8) - b_width, height/2 + ch_size/2 +  metrics.getHeight());
@@ -638,12 +842,12 @@ public class TestPanel extends JPanel {
 
 
 
-
+		//draw music and volume icons in top corners
 		g2d.drawImage(imusic, 2, 5, this);
 		g2d.drawImage(ivolume, width - (2*ch_size) - 2, 5, this);
 		
 		
-		
+		//display winning or losing screens/disconnect buttons when warranted
 		if (this.win) {
 			g2d.drawImage(youWin.getScaledInstance(width,  height, Image.SCALE_FAST), 0, 0, this);
 			g2d.setColor(Color.yellow);
@@ -681,116 +885,10 @@ public class TestPanel extends JPanel {
 		
 		
 
-
+		//idk what this does but someone on the internet said its important
 		Toolkit.getDefaultToolkit().sync();
 	}
-
-	private void resetPlayerMoves() {
-		for (int i = 0; i < player_moves.size(); i++) {
-			player_moves.set(i,"");
-		}
-		
-	}
 	
-
-	public void sendAllin(int id, int bet) {
-		resetPlayerMoves();
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).getid() == id) {
-				player_moves.set(i,"All In " + bet);
-			}
-		}
-		
-	}
-
-
-	
-
-
-	public void win() {
-		win = true;
-		this.gameOver = true;
-		repaint();
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		win = false;
-	}
-
-
-	public void raise(int id, int bet) {
-		resetPlayerMoves();
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).getid() == id) {
-				player_moves.set(i,"Raise " + bet);
-			}
-		}
-		
-	}
-
-
-	public void lose() {
-		lose = true;
-		this.gameOver = true;
-		repaint();
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		lose = false;
-		
-		
-	}
-
-
-	public void fold(int id) {
-		resetPlayerMoves();
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).getid() == id) {
-				player_moves.set(i,"Fold");
-			}
-		}
-		
-	}
-
-
-	public void dc(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public void check(int id) {
-		resetPlayerMoves();
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).getid() == id) {
-				player_moves.set(i,"Check");
-			}
-		}
-		
-	}
-
-
-	public void gameEnd() {
-		this.gameOver = true;
-		System.out.println("Game over true");
-		repaint();
-	}
-
-
-
-
-
-
-
-
-
-
 
 
 }

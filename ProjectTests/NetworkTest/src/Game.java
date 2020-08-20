@@ -309,6 +309,20 @@ public class Game
             
         }else
         {
+        	
+        	
+        	for (int i = 0; i < queue.size(); i++) {
+        		Player p = queue.get(i).player;
+        		server.exposeCards(p.getid(), p.firstCard(), p.secCard());
+        	}
+        	
+        	try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        	
+        	
             ArrayList<Combo> combos = new ArrayList<Combo>();
             for(int i=0;i<queue.size();i++)
             {

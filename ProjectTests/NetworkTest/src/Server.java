@@ -394,5 +394,11 @@ public class Server {
 	public void sendTurn(int id) {
 		distributeCmd(-1, "player-turn " + id);
 	}
+
+	public void exposeCards(int id, Card firstCard, Card secCard) {
+		
+		distributeCmd(id, "player-cards " + id + " " + firstCard.value() + " " + firstCard.suit() + " " + secCard.value() + " " + secCard.suit());
+		
+	}
 	
 }

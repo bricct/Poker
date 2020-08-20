@@ -12,28 +12,16 @@ public class TestRun {
 		EventQueue.invokeLater(() -> {
 
 			try {
-			     GraphicsEnvironment ge =
-			         GraphicsEnvironment.getLocalGraphicsEnvironment();
-			     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("UglyPoker.ttf")));
+				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("UglyPoker.ttf")));
 			} catch (IOException|FontFormatException e) {
-			     //Handle exception
+				e.printStackTrace();
 			}
 
 			TestTitle title = new TestTitle();
 			title.setVisible(true);
 			title.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-//			@SuppressWarnings("unused")
-//			User user = new User();
-//			@SuppressWarnings("unused")
-//			User user2 = new User();
-//			@SuppressWarnings("unused")
-//			User user3 = new User();
-////			@SuppressWarnings("unused")
-////			User user4 = new User();
-////			@SuppressWarnings("unused")
-////			User user5 = new User();
-//
 		});
 
 

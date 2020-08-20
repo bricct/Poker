@@ -248,6 +248,8 @@ public class User {
 
 		} else if (args[0].equals("player-turn")) {
 			this.board.sendTurn(Integer.parseInt(args[1]));
+		} else if (args[0].equals("player-cards")) {
+			this.board.sendPlayerCards(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
 		}else if (args[0].equals("you-win")) {
 			this.board.sendWin();
 		} else if (args[0].equals("you-lose")) {

@@ -9,36 +9,35 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+/**
+ * @author Trey Briccetti
+ * @version v1.0
+ *
+ */
 public class TestBoard extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JButton fold, call, raise;
 	private TestPanel panel;
 	private JPanel buttonPanel;
-//	private Card card1, card2;
-//	private User user;
-//	private boolean turn;
 	private Card[] table_cards;
-//	private final int id;
 	private TestMenu master;
-	//private int raise_amt;
 	private JSpinner raise_spinner;
-
+	/**
+	 * @param master
+	 * @param user
+	 * @param id
+	 */
 	public TestBoard(TestMenu master, User user, int id) {
-		//this.setSize(906, 520);
-//		this.user = user;
+
 		this.master = master;
 		this.buttonPanel = new JPanel(new GridLayout(1, 4));
-		//this.id = id;
-		//this.raise_amt = 1;
+
 		this.fold = new JButton("Fold");
 		this.call = new JButton("Call");
 		this.raise = new JButton("Raise");
 		this.raise_spinner = new JSpinner(new SpinnerNumberModel(1, 1, 1500, 1));
-		//this.turn = false;
 
-		// this.card1 = null;
-		// this.card2 = null;
 		System.out.println("reinit");
 		this.panel = new TestPanel(this, null, null, id);
 
@@ -92,7 +91,7 @@ public class TestBoard extends JFrame {
 
 				try {
 					user.sendMessage("raise " + (int) raise_spinner.getValue());
-					panel.addToPot(20);
+					panel.addToPot((int) raise_spinner.getValue());
 			    } catch (Exception ee) {
 			    	System.out.println("oopsies");
 			    	ee.printStackTrace();
@@ -111,43 +110,61 @@ public class TestBoard extends JFrame {
 		this.add(this.buttonPanel, BorderLayout.SOUTH);
 		this.add(this.panel, BorderLayout.CENTER);
 
-
-
-
 	}
 
 
+
+
+
+	/**
+	 * 
+	 */
 	public void fold() {
 		System.out.println("folding");
-		// card1 = null;
-		// card2 = null;
-		panel.fold();
+		panel.repaint();
 		panel.setCards(null, null);
 	}
 
 
 
+	/**
+	 * @param card1
+	 * @param card2
+	 */
 	public void setCards(Card card1, Card card2) {
-		// this.card1 = card1;
-		// this.card2 = card2;
 		panel.setCards(card1, card2);
 	}
 
+	/**
+	 * @param id
+	 * @param money
+	 */
 	public void setMoney(int id, int money) {
 		this.panel.setMoney(id, money);
 	}
 
 
+	/**
+	 * @param players
+	 */
 	public void setPlayers(ArrayList<Player> players) {
 		this.panel.setPlayers(players);
 	}
 
 
+	/**
+	 * @param pot
+	 */
 	public void setPot(int pot) {
 		this.panel.setPot(pot);
 	}
 
 
+	/**
+	 * @param card1
+	 * @param card2
+	 * @param card3
+	 */
 	public void setFlop(Card card1, Card card2, Card card3) {
 			table_cards = new Card[5];
 
@@ -161,6 +178,9 @@ public class TestBoard extends JFrame {
 	}
 
 
+	/**
+	 * @param card
+	 */
 	public void setTurn(Card card) {
 
 		table_cards[3] = card;
@@ -169,6 +189,9 @@ public class TestBoard extends JFrame {
 		panel.turn(table_cards);
 	}
 
+	/**
+	 * @param card
+	 */
 	public void setRiver(Card card) {
 
 		table_cards[4] = card;
@@ -176,27 +199,41 @@ public class TestBoard extends JFrame {
 		panel.river(table_cards);
 	}
 
+	/**
+	 * @param id
+	 * @param pot
+	 */
 	public void setWinnings(int id, int pot) {
 		this.panel.winHand(id, pot);
 	}
 	
+	/**
+	 * @param id
+	 */
 	public void sendTurn(int id) {
 		this.panel.turn(id);
 	}
 
+	/**
+	 * 
+	 */
 	public void resetHand() {
-		// this.card1 = null;
-		// this.card2 = null;
 		table_cards = new Card[5];
 		this.panel.reset();
 	}
 
 
+	/**
+	 * @param bet
+	 */
 	public void sendBet(int bet) {
 		this.panel.addToPot(bet);
 	}
 
 
+	/**
+	 * 
+	 */
 	public void sendLoss() {
 		this.panel.lose();
 		
@@ -206,48 +243,87 @@ public class TestBoard extends JFrame {
 
 
 
+	/**
+	 * @param id
+	 */
 	public void sendFold(int id) {
 		this.panel.fold(id);
 		
 	}
 
 
+	/**
+	 * @param id
+	 */
 	public void sendDisconnect(int id) {
 		this.panel.dc(id);
 		
 	}
 
 
+	/**
+	 * @param id
+	 */
 	public void sendCheck(int id) {
 		this.panel.check(id);
 		
 	}
 
 
+	/**
+	 * @param id
+	 * @param bet
+	 */
 	public void sendRaise(int id, int bet) {
 		this.panel.raise(id, bet);
 		
 	}
+	
+	/**
+	 * @param id
+	 * @param value1
+	 * @param suit1
+	 * @param value2
+	 * @param suit2
+	 */
+	public void sendPlayerCards(int id, int value1, int suit1, int value2, int suit2) {
+		this.panel.setPlayerCards(id, new Card(value1, suit1), new Card(value2, suit2));
+		
+	}
 
 
+
+	/**
+	 * 
+	 */
 	public void sendWin() {
 		this.panel.win();
 		
 	}
 
 
+	/**
+	 * @param id
+	 * @param bet
+	 */
 	public void sendAllin(int id, int bet) {
 		this.panel.sendAllin(id, bet);
 		
 	}
 
 
+	/**
+	 * 
+	 */
 	public void sendGameEnd() {
 		this.panel.gameEnd();
 		
 	}
 
 
+	/**
+	 * 
+	 */
 	public void exit() {
 		this.master.menu();
 		this.master.setVisible(true);
@@ -257,5 +333,7 @@ public class TestBoard extends JFrame {
 		
 	}
 
+
+	
 
 }

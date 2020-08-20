@@ -100,7 +100,8 @@ public class Player {
      * @return first card
      */
     public Card firstCard()
-    {
+    {	
+    	if (hand.size() < 1) return null;
         return hand.get(0);
     }
 
@@ -110,6 +111,7 @@ public class Player {
      */
     public Card secCard()
     {
+    	if (hand.size() < 2) return null;
         return hand.get(1);
     }
 
