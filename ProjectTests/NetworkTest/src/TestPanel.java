@@ -109,14 +109,16 @@ public class TestPanel extends JPanel {
 
 		itable = TestMenu.table;
 		
-		for (int i = 0; i < 6; i++) {
-			chip_spr[i] = Sprite.getChipSprite(i);
-		}
-		
 		chip_spr = new Image[6];
 		itable_cards = new Image[5];
 		iplayer_cards = new Image[8];
 
+		
+		for (int i = 0; i < 6; i++) {
+			chip_spr[i] = Sprite.getChipSprite(i);
+		}
+		
+		
 		
 		//initialize table card array for holding cards for flop turn and river
 		this.table_cards = new Card[5];
