@@ -176,8 +176,12 @@ public class TestBoard extends JFrame {
 		panel.river(table_cards);
 	}
 
-	public void setWinnings(int pot) {
-		this.panel.winHand(pot);
+	public void setWinnings(int id, int pot) {
+		this.panel.winHand(id, pot);
+	}
+	
+	public void sendTurn(int id) {
+		this.panel.turn(id);
 	}
 
 	public void resetHand() {
@@ -245,6 +249,7 @@ public class TestBoard extends JFrame {
 
 
 	public void exit() {
+		this.master.menu();
 		this.master.setVisible(true);
 		this.master.setLocationRelativeTo(this);
 		this.master.setSize(this.getWidth(), this.getHeight());

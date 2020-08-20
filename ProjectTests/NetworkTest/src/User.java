@@ -242,10 +242,13 @@ public class User {
 
 
 		} else if (args[0].equals("winnings")) {
-			this.board.setWinnings(Integer.parseInt(args[1]));
+			
+			this.board.setWinnings(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 
 
-		} else if (args[0].equals("you-win")) {
+		} else if (args[0].equals("player-turn")) {
+			this.board.sendTurn(Integer.parseInt(args[1]));
+		}else if (args[0].equals("you-win")) {
 			this.board.sendWin();
 		} else if (args[0].equals("you-lose")) {
 			this.board.sendLoss();

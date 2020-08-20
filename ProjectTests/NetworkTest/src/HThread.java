@@ -14,7 +14,7 @@ public class HThread extends Thread {
 	public void run() {
 		
 		try {
-			this.server = new Server(5, starting_cash, bblind, port);
+			this.server = new Server(3, starting_cash, bblind, port);
 		} catch (IOException | InterruptedException e) {
 			System.out.println("ERROR: Server Failure");
 		}

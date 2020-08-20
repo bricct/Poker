@@ -40,17 +40,46 @@ public class Game
         boolean initialChecked = false;
         boolean skip_big = false;
         while(!check)
-        {
+        {	
+        	int notallin = 0;
         	int i = 0;
         	if (currentCheckPay == big && skip_big == false) {
         		i = 1;
         		skip_big = true;
         	}
+        	
+        	for (i = 0 ;i<queue.size();i++) {
+        		if (!queue.get(i).player.isAllin()) {
+        			notallin += 1;
+        		}
+        	}
+        	
+        	if (notallin <= 1) {
+        		try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+        		return pot; 
+        	}
+        	
             for(i = 0 ;i<queue.size();i++)
             {
             	Player p = queue.get(i).player;
             	String[] cmd;
+            	if (p.isAllin()) {
+            		try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+            		queue.get(i).currMoney = currentCheckPay;
+            		continue;
+            	}
+            	
+            	server.sendTurn(p.getid());
             	try {
+            		
 					cmd = server.nextCmd(p.getid());
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -71,10 +100,18 @@ public class Game
                 }
                 else {//Do the action buttons: bet, check, fold
                     if(cmd[0].equals("check"))//If player checks...
-                    {
-                        queue.get(i).player.subMoney(currentCheckPay - queue.get(i).currMoney);
-                        System.out.println("removing " + (currentCheckPay - queue.get(i).currMoney) + " from player " + i + " money");
-                        pot += currentCheckPay - queue.get(i).currMoney;
+                    {	
+                    	if (currentCheckPay - queue.get(i).currMoney >= p.getMoney()) {
+                    		server.sendAllin(p.getid(), queue.get(i).player.getMoney());
+                    		pot += queue.get(i).player.getMoney();
+                    		queue.get(i).player.subMoney(queue.get(i).player.getMoney());
+                    		queue.get(i).player.allin();
+                        } else {
+                        	queue.get(i).player.subMoney(currentCheckPay - queue.get(i).currMoney);
+                        	System.out.println("removing " + (currentCheckPay - queue.get(i).currMoney) + " from player " + i + " money");
+                        	pot += currentCheckPay - queue.get(i).currMoney;
+                        }
+                        
                         queue.get(i).currMoney = currentCheckPay; //player set to current pot amount
                         
                         server.sendMoney(p.getid(), p.getMoney());
@@ -88,6 +125,7 @@ public class Game
 	                        if (currentCheckPay - queue.get(i).currMoney + bet >= p.getMoney()) {
 	                        	bet = p.getMoney() - currentCheckPay + queue.get(i).currMoney;
 	                        	server.sendAllin(p.getid(), bet);
+	                        	queue.get(i).player.allin();
 	                        } else {
 	                        	server.sendRaise(p.getid(), bet);
 	                        }
@@ -158,6 +196,7 @@ public class Game
         {
             if(players.get(i).getMoney() > 0)
             {
+            	players.get(i).notAllin();
                 queue.add(new PlayerTuple(players.get(i),0));
             }
         }
