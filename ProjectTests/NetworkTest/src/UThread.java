@@ -18,6 +18,7 @@ public class UThread extends Thread {
 			} catch (Exception e) {
 				//e.printStackTrace();
 				System.out.println("Disconnected from server");
+				
 				client.sendMessageToUser("game-end -1");
 				//client.sendMessageToUser("kicked");
 				break;

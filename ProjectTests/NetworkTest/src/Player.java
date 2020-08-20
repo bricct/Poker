@@ -11,6 +11,7 @@ public class Player {
     private int money;
     private final int id;
     private String name;
+    private boolean allin;
 
     /**
      * Constructor class for setting up the player and determining how much
@@ -18,6 +19,7 @@ public class Player {
      */
     public Player(int iid, String iname, int imoney)
     {
+    	allin = false;
         if(imoney < 0)
         {
             throw new IllegalArgumentException("Money can't be negative");
@@ -116,7 +118,18 @@ public class Player {
 		
 	}
     
+    public void allin() {
+    	allin = true;
+    }
     
+    public boolean isAllin() {
+    	return allin;
+    }
+
+	public void notAllin() {
+		allin = false;
+		
+	}
     
     
     

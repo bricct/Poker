@@ -340,7 +340,7 @@ public class Server {
 	}
 
 	public void sendWinnings(int id, int pot) {
-		sendCmd(id, "winnings " + pot);
+		distributeCmd(-1, "winnings " + id + " " + pot);
 		
 	}
 
@@ -391,5 +391,8 @@ public class Server {
 		distributeCmd(-1, "game-end");
 	}
 	
+	public void sendTurn(int id) {
+		distributeCmd(-1, "player-turn " + id);
+	}
 	
 }

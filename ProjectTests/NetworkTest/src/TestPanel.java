@@ -35,6 +35,7 @@ public class TestPanel extends JPanel {
 
 	private ArrayList<Player> players;
 	private ArrayList<String> player_moves;
+	private String turn_win;
 	//private int[] players;
 	private boolean vol_toggle;
 	private boolean vchanging;
@@ -55,7 +56,7 @@ public class TestPanel extends JPanel {
 		
 		this.player_moves = new ArrayList<>();
 		player_moves.add("");
-		
+		this.turn_win = "";
 		this.card_set = new boolean[5];
 		for (int i = 0; i < 5; i++) {
 			this.card_set[i] = false;
@@ -307,12 +308,45 @@ public class TestPanel extends JPanel {
 		this.repaint();
 	}
 
-	public void winHand(int pot) {
-		this.money += pot;
+	public void winHand(int id, int pot) {
+		resetTurnWin();
+		if (id == players.get(0).getid()) {
+			this.money += pot;
+			turn_win = "You won $" + pot;
+		} else {
+			for (Player p: players) {
+				if (p.getid() == id) {
+					turn_win = p.getName() + " won $" + pot;
+				}
+			}
+		}
+		
+		
 		SoundEffects.CHIP.play();
 		this.repaint();
 	}
 
+
+	private void resetTurnWin() {
+		turn_win = "";
+		
+	}
+	
+	public void turn(int id) {
+		
+		resetTurnWin();
+		if (id == players.get(0).getid()) {
+			this.money += pot;
+			turn_win = "Your turn";
+		} else {
+			for (Player p: players) {
+				if (p.getid() == id) {
+					turn_win = p.getName() + "s turn";
+				}
+			}
+		}
+	}
+	
 
 	public void addToPot(int to_add) {
 		this.to_add = to_add;
@@ -535,7 +569,8 @@ public class TestPanel extends JPanel {
 		}
 
 		g2d.drawString("Pot $ " + this.pot , width/2 - c_width, height/4 - 2 * ch_size);
-		g2d.drawString("Your name " + players.get(0).getName(), width/2 + width/4 - metrics.stringWidth("Your name " + players.get(0).getName())/2, height/4 - 2 * ch_size);
+		g2d.drawString("Your name is " + players.get(0).getName(), width/2 + width/4 - metrics.stringWidth("Your name is " + players.get(0).getName())/2, height/4 - 2 * ch_size + metrics.getHeight());
+		g2d.drawString(turn_win , width/7, height/4 - 2 * ch_size + metrics.getHeight());
 
 
 		if (anim_select == 3) {
@@ -585,7 +620,7 @@ public class TestPanel extends JPanel {
 			g2d.drawImage(iback, (width/8) + 5, height/2 - (b_height/2), this);
 			g2d.drawString(players.get(3).getName(),(width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2);
 			g2d.drawString("Cash $" + players.get(3).getMoney() , (width/8) - b_width, height/2 - 3*b_height/2 + (c_height - b_height) + ch_size/2);// + c_height + ch_size/2);
-			g2d.drawString(player_moves.get(3), (width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2 + metrics.getHeight());
+			g2d.drawString(player_moves.get(3), (width/8) - b_width, height/2  + ch_size/2 + metrics.getHeight());
 
 		}
 
@@ -595,7 +630,7 @@ public class TestPanel extends JPanel {
 			g2d.drawImage(iback, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
 			g2d.drawString(players.get(4).getName(), 7 * (width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2);
 			g2d.drawString("Cash $" + players.get(4).getMoney() ,  7 * (width/8) - b_width, height/2 - 3*b_height/2 + (c_height - b_height) + ch_size/2);// + c_height + ch_size/2);
-			g2d.drawString(player_moves.get(4), 7 * (width/8) - b_width, height/2 - 3*b_height/2 + ch_size/2 +  metrics.getHeight());
+			g2d.drawString(player_moves.get(4), 7 * (width/8) - b_width, height/2 + ch_size/2 +  metrics.getHeight());
 
 		}
 
@@ -672,8 +707,15 @@ public class TestPanel extends JPanel {
 
 	public void win() {
 		win = true;
+		this.gameOver = true;
 		repaint();
-		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		win = false;
 	}
 
 
@@ -690,7 +732,16 @@ public class TestPanel extends JPanel {
 
 	public void lose() {
 		lose = true;
+		this.gameOver = true;
 		repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		lose = false;
+		
 		
 	}
 
