@@ -14,11 +14,16 @@ public class User {
 
 		//PriorityQueue<String> commands = new PriorityQueue<>();
 		
+		String ip = "";
+		ip += TestMenu.ip[0];
+		ip += "."+ TestMenu.ip[1];
+		ip += "." + TestMenu.ip[2];
+		ip += "." + TestMenu.ip[3];
 		
 
 
 
-		this.client = new Client(this);
+		this.client = new Client(this, ip, TestMenu.port);
 		this.id = client.connect();
 		board = new TestBoard(master, this, id);
 		//board.setVisible(true);
@@ -114,12 +119,13 @@ public class User {
 //			}
 		} else if (args[0].equals("money")) {
 //			try {
+			
+				int id = Integer.parseInt(args[1]);
+				int money = Integer.parseInt(args[2]);
 
-				int money = Integer.parseInt(args[1]);
+				//System.out.println(id + " " + money + " " + (this.board == null));
 
-				System.out.println(money + " " + (this.board == null));
-
-				this.board.setMoney(money);
+				this.board.setMoney(id, money);
 
 //			} catch (NumberFormatException e1) {
 //				System.out.println("Error: cannot parse money value");

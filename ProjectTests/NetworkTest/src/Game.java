@@ -85,7 +85,7 @@ public class Game
                     	try {
 	                        int bet = Integer.parseInt(cmd[1]); //<--------- CHANGE THIS
 	                        
-	                        if (currentCheckPay - queue.get(i).currMoney + bet > p.getMoney()) {
+	                        if (currentCheckPay - queue.get(i).currMoney + bet >= p.getMoney()) {
 	                        	bet = p.getMoney() - currentCheckPay + queue.get(i).currMoney;
 	                        	server.sendAllin(p.getid(), bet);
 	                        } else {

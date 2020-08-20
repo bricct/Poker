@@ -71,8 +71,13 @@ public class TestPanel extends JPanel {
 		font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
 		
 		back_reg = Sprite.getBackSprite();
-
 		deck_reg = Sprite.getDeckSprite();
+		volume_on = Sprite.getVolumeSprite(0);
+		volume_off = Sprite.getVolumeSprite(1);
+		musicOn = Sprite.getMusicOnSprite();
+		musicOff = Sprite.getMusicOffSprite();
+		youWin = Sprite.getWin();
+		youLose = Sprite.getLose();
 
 		if (card1 == null || card2 == null) {
 			card1_reg = back_reg;
@@ -90,8 +95,7 @@ public class TestPanel extends JPanel {
 			chip_spr[i] = Sprite.getChipSprite(i);
 		}
 
-		volume_on = Sprite.getVolumeSprite(0);
-		volume_off = Sprite.getVolumeSprite(1);
+		
 
 		this.table_cards = new Card[5];
 
@@ -111,10 +115,7 @@ public class TestPanel extends JPanel {
 		this.lose = false;
 		this.gameOver = false;
 
-		musicOn = Sprite.getMusicOnSprite();
-		musicOff = Sprite.getMusicOffSprite();
-		youWin = Sprite.getWin();
-		youLose = Sprite.getLose();
+		
 
 		this.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent componentEvent) {
@@ -296,8 +297,13 @@ public class TestPanel extends JPanel {
 
 	}
 
-	public void setMoney(int money) {
-		this.money = money;
+	public void setMoney(int id, int money) {
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).getid() == id) {
+				if (i == 0) this.money = money;
+				players.get(i).setMoney(money);
+			}
+		}
 		this.repaint();
 	}
 
@@ -529,6 +535,7 @@ public class TestPanel extends JPanel {
 		}
 
 		g2d.drawString("Pot $ " + this.pot , width/2 - c_width, height/4 - 2 * ch_size);
+		g2d.drawString("Your name " + players.get(0).getName(), width/2 + width/4 - metrics.stringWidth("Your name " + players.get(0).getName())/2, height/4 - 2 * ch_size);
 
 
 		if (anim_select == 3) {

@@ -110,6 +110,11 @@ public class Player {
     {
         return hand.get(1);
     }
+
+	public void setMoney(int money) {
+		this.money = money;
+		
+	}
     
     
     

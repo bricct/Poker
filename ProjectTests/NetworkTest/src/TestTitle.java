@@ -20,6 +20,7 @@ public class TestTitle extends JFrame {
 	 */
 	public TestTitle() {
 		this.setSize(906, 520);
+		this.setLocationRelativeTo(null);
 		this.control = false;
 		this.shift = false;
 		this.c = false;
@@ -91,7 +92,7 @@ public class TestTitle extends JFrame {
 		int width = (int) scr_dim.getWidth();
 		int height = (int) scr_dim.getHeight();
 		board.setSize(width, height);
-		board.setLocationRelativeTo(null);
+		board.setLocationRelativeTo(this);
 		board.setVisible(true);
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		dispose();

@@ -9,15 +9,18 @@ public class Client {
 	private DataOutputStream outToServer;
 	private DataInputStream inFromServer;
 	private User user;
-	private int client_id;
-	public Client(User user) {
+	private int client_id, port;
+	private String ip;
+	public Client(User user, String ip, int port) {
 		this.user = user;
+		this.ip = ip;
+		this.port = port;
 	}
 	
 	public int connect() {
 		try {
 			
-			socketConnection = new Socket("127.0.0.1", 11112);
+			socketConnection = new Socket(this.ip, this.port);
 			
 			
 			//QUERY PASSING

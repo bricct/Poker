@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class TestBoard extends JFrame {
 
@@ -19,16 +21,20 @@ public class TestBoard extends JFrame {
 	private Card[] table_cards;
 //	private final int id;
 	private TestMenu master;
+	private int raise_amt;
+	private JSpinner raise_spinner;
 
 	public TestBoard(TestMenu master, User user, int id) {
 		//this.setSize(906, 520);
 //		this.user = user;
 		this.master = master;
-		this.buttonPanel = new JPanel(new GridLayout(1, 3));
+		this.buttonPanel = new JPanel(new GridLayout(1, 4));
 		//this.id = id;
+		//this.raise_amt = 1;
 		this.fold = new JButton("Fold");
 		this.call = new JButton("Call");
 		this.raise = new JButton("Raise");
+		this.raise_spinner = new JSpinner(new SpinnerNumberModel(1, 1, 1500, 1));
 		//this.turn = false;
 
 		// this.card1 = null;
@@ -85,7 +91,7 @@ public class TestBoard extends JFrame {
 
 
 				try {
-					user.sendMessage("raise " + 20);
+					user.sendMessage("raise " + (int) raise_spinner.getValue());
 					panel.addToPot(20);
 			    } catch (Exception ee) {
 			    	System.out.println("oopsies");
@@ -100,6 +106,7 @@ public class TestBoard extends JFrame {
 		this.buttonPanel.add(fold);
 		this.buttonPanel.add(call);
 		this.buttonPanel.add(raise);
+		this.buttonPanel.add(raise_spinner);
 
 		this.add(this.buttonPanel, BorderLayout.SOUTH);
 		this.add(this.panel, BorderLayout.CENTER);
@@ -126,8 +133,8 @@ public class TestBoard extends JFrame {
 		panel.setCards(card1, card2);
 	}
 
-	public void setMoney(int money) {
-		this.panel.setMoney(money);
+	public void setMoney(int id, int money) {
+		this.panel.setMoney(id, money);
 	}
 
 
@@ -239,6 +246,8 @@ public class TestBoard extends JFrame {
 
 	public void exit() {
 		this.master.setVisible(true);
+		this.master.setLocationRelativeTo(this);
+		this.master.setSize(this.getWidth(), this.getHeight());
 		this.dispose();
 		
 	}
