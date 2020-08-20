@@ -199,19 +199,16 @@ public class Combo implements Comparable<Combo>
         Collections.sort(popVals);
         for(int i=popVals.size()-1;i > -1;i--)
         {
+            //System.out.print("yea that worked: "+popVals.get(i)+ " " + vals.get(popVals.get(i)) + "\n");
             if(vals.get(popVals.get(i)) > mostNumSame)
             {
-                mostNumSame = vals.get(popVals.get(i));
-                biggestNumVal = popVals.get(i);
-                if(mostNumSame == 2)
+                if(mostNumSame == 2 && vals.get(popVals.get(i)) == 3)
                 {
-                    if(popVals.get(i) > bestDouble)
-                    {
-                        bestDouble = popVals.get(i);
-                    }
                     containsDouble = true;
                 }
-            }else if(vals.get(popVals.get(i)) == mostNumSame && popVals.get(i) > biggestNumVal)
+                mostNumSame = vals.get(popVals.get(i));
+                biggestNumVal = popVals.get(i);
+            }else if(vals.get(popVals.get(i)) <= mostNumSame)
             {
                 if(vals.get(popVals.get(i)) == 2)
                 {
@@ -221,7 +218,6 @@ public class Combo implements Comparable<Combo>
                 {
                     bestDouble = popVals.get(i);
                 }
-                biggestNumVal = popVals.get(i);
             }
         }
     }
