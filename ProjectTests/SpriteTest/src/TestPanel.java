@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -38,6 +39,8 @@ public class TestPanel extends JPanel {
 	private boolean mchanging;
 
 	private ArrayList<Player> players;
+	
+	private Font font;
 
 
 
@@ -72,6 +75,8 @@ public class TestPanel extends JPanel {
 		Dimension scr_dim = getSize();
 		width = (int) scr_dim.getWidth() - 16;
 		height = (int) scr_dim.getHeight() - 39;
+		
+		this.font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
 
 		back_reg = Sprite.getBackSprite();
 
@@ -126,6 +131,8 @@ public class TestPanel extends JPanel {
 		    	Dimension scr_dim = getSize();
 				width = (int) scr_dim.getWidth();
 				height = (int) scr_dim.getHeight();
+				
+				font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
 
 				itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
@@ -426,7 +433,7 @@ public class TestPanel extends JPanel {
 
 
 		g2d.setColor(Color.white);
-		g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, height/100));
+		g2d.setFont(font);
 
 
 
@@ -484,8 +491,8 @@ public class TestPanel extends JPanel {
 		}
 
 
-		g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, height/100));
-
+		g2d.setFont(font);
+		FontMetrics metrics = g2d.getFontMetrics(font);
 
 
 		//other players cards
@@ -498,7 +505,7 @@ public class TestPanel extends JPanel {
 
 				g2d.drawString(players.get(1).getName(),width/4 - b_width, height - height/3 + b_height + ch_size/2);
 				g2d.drawString("Cash $" + players.get(1).getMoney() , width/4 - b_width, height - height/3 + c_height + ch_size/2);// + c_height + ch_size/2);
-
+				g2d.drawString("Raise", width/4 - b_width, height - height/3 - metrics.getHeight());
 
 				//g2d.drawString()
 			//}

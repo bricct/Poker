@@ -14,7 +14,18 @@ public class User {
 
 		//PriorityQueue<String> commands = new PriorityQueue<>();
 		
-		board = new TestBoard(master, this);
+		String ip = "";
+		ip += TestMenu.ip[0];
+		ip += "."+ TestMenu.ip[1];
+		ip += "." + TestMenu.ip[2];
+		ip += "." + TestMenu.ip[3];
+		
+
+
+
+		this.client = new Client(this, ip, TestMenu.port);
+		this.id = client.connect();
+		board = new TestBoard(master, this, id);
 		//board.setVisible(true);
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setSize(master.getWidth(),master.getHeight());
@@ -27,11 +38,6 @@ public class User {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-
-
-		this.client = new Client(this);
-		this.id = client.connect();
 		System.out.println("" + id);
 		if (id == -1) System.out.println("uhoh");
 //		JFrame frame = new JFrame();
@@ -113,12 +119,13 @@ public class User {
 //			}
 		} else if (args[0].equals("money")) {
 //			try {
+			
+				int id = Integer.parseInt(args[1]);
+				int money = Integer.parseInt(args[2]);
 
-				int money = Integer.parseInt(args[1]);
+				//System.out.println(id + " " + money + " " + (this.board == null));
 
-				System.out.println(money + " " + (this.board == null));
-
-				this.board.setMoney(money);
+				this.board.setMoney(id, money);
 
 //			} catch (NumberFormatException e1) {
 //				System.out.println("Error: cannot parse money value");
@@ -157,7 +164,7 @@ public class User {
 //			}
 
 		} else if (args[0].equals("raise")) {
-			board.sendRaise(Integer.parseInt(args[1]));
+			board.sendRaise(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 
 
 
@@ -246,6 +253,8 @@ public class User {
 		
 			this.board.resetHand();
 
+		} else if (args[0].equals("game-end")) {
+			this.board.sendGameEnd();
 		} else {
 			System.out.println("I dont know what to do with this " + args[0]);
 		}

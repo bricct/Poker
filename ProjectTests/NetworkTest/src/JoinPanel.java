@@ -218,11 +218,12 @@ public class JoinPanel extends JPanel {
             	
             	
             	
-            	if (x >= (width/2 - (c_big - o_width - 3 * o_small)/2 + c_width/2 + (10*t_width) - (18*t_width)) && x < (width/2 - (c_big - o_width - 3 * o_small)/2 + c_big/2 + (12*t_width)) ) { 
+            	if (x >= (width/2 - (c_big - o_width - 3 * o_small)/2 + c_big/2 - (12*t_width)) && x < (width/2 - (c_big - o_width - 3 * o_small)/2 + c_big/2 + (12*t_width)) ) { 
             		
             		if (y >= height/4 - (c_height/2) + o_height/2 - 6 * t_height/5 - o_short/2 && y <= height/4 - (c_height/2) + o_height/2 - 6 * t_height/5 +o_short/2) {
             			
             			int index = ((width/2 - (c_big - o_width - 3 * o_small)/2 + c_big/2 + (12*t_width) + t_width) - (x - t_width/2)) / (2*t_width) - 1;
+            			System.out.println("" + index);
             			int ip_byte = 3 - index/3;
             			int pow = ((int)Math.pow(10,index%3));
             			TestMenu.ip[ip_byte] += pow;

@@ -49,6 +49,7 @@ public class Combo implements Comparable<Combo>
             cards.add(playerHand.get(i));
             playHand.add(playerHand.get(i));
         }
+        
         Collections.sort(playerHand);
 
         for(int i=0;i<community.size();i++)

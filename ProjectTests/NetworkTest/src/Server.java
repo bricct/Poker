@@ -16,20 +16,22 @@ public class Server {
 	private HashSet<Integer> disconnected;
 	private ArrayList<Player> players;
 	//private Deck deck;
-	private final int startingMoney;
+	private final int startingMoney, bblind, port;
 	
-	public Server(int num_players) throws IOException, InterruptedException{   
+	public Server(int num_players, int startingMoney, int bblind, int port) throws IOException, InterruptedException{   
 		
 		
 		this.clients = new AtomicInteger(0);
 		this.commands = new PriorityQueue<>();
 		this.threads = new ArrayList<>();
 		this.disconnected = new HashSet<Integer>();
-		this.startingMoney = 1500;
+		this.startingMoney = startingMoney;
+		this.bblind = bblind;
+		this.port = port;
 	    
 		while(clients.intValue() < num_players){
 			System.out.println(clients.intValue() + "");
-	        ServerSocket ss=new ServerSocket(11112);
+	        ServerSocket ss=new ServerSocket(this.port);
 	        System.out.println("Waiting for Clients to connect"); 
 	        Socket s=ss.accept();
 	        CThread t=new CThread(s, clients.getAndIncrement(), commands);
@@ -80,7 +82,7 @@ public class Server {
 		sendPlayerInfo();
 		
 		
-		Game game = new Game(5, 20, this.players, this);
+		Game game = new Game(this.bblind/2, this.bblind, this.players, this);
 		game.playGame();
 		
 		
@@ -157,11 +159,10 @@ public class Server {
 			return -1;
 		}
 		
-		int val = 0;
 		
 		if (args.length >= 3)  {
 			try {
-				val = Integer.parseInt(args[2]);
+				Integer.parseInt(args[2]);
 			} catch (NumberFormatException e) {
 				return -1;
 			}
@@ -173,13 +174,13 @@ public class Server {
 			
 		if (cmd.equals("fold")) {
 			//do something
-			distributeCmd(id, cmd);
-		} else if (cmd.equals("raise")) {
-			//do something
-			distributeCmd(id, cmd + " " + val);
+			distributeCmd(-1, cmd);
+//		} else if (cmd.equals("raise")) {
+//			//do something
+//			distributeCmd(id, cmd + " " + val);
 		} else if (cmd.equals("check")) {
 			//do something
-			distributeCmd(id, cmd);
+			distributeCmd(-1, cmd + " " + id);
 		} else if (cmd.equals("disconnected")) {
 			//do something
 			distributeCmd(id, cmd);
@@ -328,7 +329,7 @@ public class Server {
 	}
 
 	public void sendMoney(int id, int money) {
-		sendCmd(id, "money " + money);
+		distributeCmd(-1, "money " + id + " " + money);
 
 		
 	}
@@ -367,6 +368,11 @@ public class Server {
 		distributeCmd(-1, "reset-hand");
 		
 	}
+	
+	
+	public void sendRaise(int id, int bet) {
+		distributeCmd(-1,  "raise " + id + " " + bet);
+	}
 
 	public void sendAllin(int getid, int bet) {
 		distributeCmd(-1, "all-in " + getid + " " + bet);
@@ -381,7 +387,9 @@ public class Server {
 		sendCmd(id, "you-lose");
 	}
 
-	
+	public void sendGameEnd() {
+		distributeCmd(-1, "game-end");
+	}
 	
 	
 }

@@ -9,15 +9,18 @@ public class Client {
 	private DataOutputStream outToServer;
 	private DataInputStream inFromServer;
 	private User user;
-	private int client_id;
-	public Client(User user) {
+	private int client_id, port;
+	private String ip;
+	public Client(User user, String ip, int port) {
 		this.user = user;
+		this.ip = ip;
+		this.port = port;
 	}
 	
 	public int connect() {
 		try {
 			
-			socketConnection = new Socket("127.0.0.1", 11112);
+			socketConnection = new Socket(this.ip, this.port);
 			
 			
 			//QUERY PASSING
@@ -52,7 +55,9 @@ public class Client {
 	
 	
 	public String getMessage() throws Exception {
-		return this.inFromServer.readUTF();
+		String msg = this.inFromServer.readUTF();
+		if (msg.equals("game-end -1")) socketConnection.shutdownOutput();
+		return msg;
 	}
 	
 	public void sendMessageToUser(String msg) {

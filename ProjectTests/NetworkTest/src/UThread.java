@@ -1,4 +1,3 @@
-
 public class UThread extends Thread {
 	private Client client;
 	//private PriorityQueue<String> cmds;
@@ -17,8 +16,10 @@ public class UThread extends Thread {
 				client.sendMessageToUser(msg);
 				System.out.println(msg +  " ");
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				System.out.println("Disconnected from server");
+				//client.sendMessageToUser("game-end -1");
+				client.sendMessageToUser("kicked");
 				break;
 			}
 			try {
