@@ -144,6 +144,7 @@ public class Game
                     	} catch (NumberFormatException | IndexOutOfBoundsException e) {
                     		server.forceFold(p.getid());
                     		queue.remove(i);
+                    		i--;
                             if(queue.size() == 1)
                             {
                             	//currentCheckPay = 0;
@@ -154,6 +155,7 @@ public class Game
                     {   
                         server.forceFold(p.getid());
                         queue.remove(i);
+                        i--;
                         if(queue.size() == 1)
                         {
                         	//currentCheckPay = 0;
