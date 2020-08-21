@@ -1,0 +1,159 @@
+
+
+
+
+update other player moves by drawing to panel -- Done
+
+display other player cards --done
+
+display winnings -- done
+
+handle winning and losing a game (with splash screens) --done
+
+back out button --in progress
+
+better networking (disconnection handling, data transfer verification of some sort) --kinda fixed
+
+
+
+
+
+
+Start Server/Player Count (start cancel) alert panel
+
+Game Ended -- Done
+
+Disconnected (yes no) alert panel
+
+Waiting for game to start (cancel) alert panel
+
+Disconnect panel(yes no)
+
+
+
+
+
+actual game ui buttons (fold, check, call, raise, and raise slider)
+
+
+Server
+turn 1 3 4 4 5 4
+
+
+Client
+OK!\n
+
+
+Combo Exceptions:
+Combo line 403
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index: 6, Size: 6
+        at java.util.ArrayList.rangeCheck(Unknown Source)
+        at java.util.ArrayList.get(Unknown Source)
+        at Combo.compareTo(Combo.java:373)
+
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index: 5, Size: 5
+        at java.util.ArrayList.rangeCheck(Unknown Source)
+        at java.util.ArrayList.get(Unknown Source)
+        at Combo.compareTo(Combo.java:373)
+        at Game.playRound(Game.java:286)
+        at Game.playGame(Game.java:327)
+        at Server.<init>(Server.java:84)
+        at StartServer.main(StartServer.java:11)
+
+on table straight
+
+Exception in thread "Thread-8" java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+        at java.util.ArrayList.rangeCheck(Unknown Source)
+        at java.util.ArrayList.get(Unknown Source)
+        at Combo.compareTo(Combo.java:418)
+        at Game.playRound(Game.java:303)
+        at Game.playGame(Game.java:344)
+        at Server.<init>(Server.java:86)
+        at HThread.run(HThread.java:17)
+
+on full house tie
+
+
+Exception in thread "Thread-8" java.lang.IndexOutOfBoundsException: Index: 5, Size: 5
+        at java.util.ArrayList.rangeCheck(Unknown Source)
+        at java.util.ArrayList.get(Unknown Source)
+        at Combo.compareTo(Combo.java:374)
+        at Game.playRound(Game.java:303)
+        at Game.playGame(Game.java:344)
+        at Server.<init>(Server.java:86)
+        at HThread.run(HThread.java:17)
+
+On 3 table card straight 7:J
+
+Exception in thread "Thread-8" java.lang.IndexOutOfBoundsException: Index: 5, Size: 5
+        at java.util.ArrayList.rangeCheck(Unknown Source)
+        at java.util.ArrayList.get(Unknown Source)
+        at Combo.compareTo(Combo.java:374)
+        at Game.playRound(Game.java:327)
+        at Game.playGame(Game.java:368)
+        at Server.<init>(Server.java:86)
+        at HThread.run(HThread.java:17)
+
+on 3 table card straight 8-Q
+
+Exception in thread "Thread-8" java.lang.IndexOutOfBoundsException: Index: 5, Size: 5
+        at java.util.ArrayList.rangeCheck(Unknown Source)
+        at java.util.ArrayList.get(Unknown Source)
+        at Combo.compareTo(Combo.java:404)
+        at Game.playRound(Game.java:327)
+        at Game.playGame(Game.java:368)
+        at Server.<init>(Server.java:86)
+        at HThread.run(HThread.java:17)
+
+on 4 table card full house 3x5 2xA
+
+
+Combo Bugs:
+high card with pair on table
+2nd Kicker Card
+1 pair with kicker
+
+
+folding skips a turn sometimes (should be fixed)
+
+
+
+
+
+
+hosting options (big blind amount, initial money, players, port)  	--done
+
+	Big blind (10, 20, 50)
+		small blind = big blind / 2
+	
+	initial money (500, 1000, 1500)
+		max_raise = initial money/10 (or maybe max_raise = total money)
+
+	players (2, 3, 4, 5)
+
+	port (must be typed :( )
+
+	or maybe like this???
+
+	||||
+	vvvv
+
+	^^^^^
+	12345
+	vvvvv	
+
+
+
+
+
+display pot value --done
+
+display other player names handling --done
+
+main menu (host game, start game, options) --done
+
+display money values of self and others --done
+
+options (table color, name) -- done
+
+music --done
