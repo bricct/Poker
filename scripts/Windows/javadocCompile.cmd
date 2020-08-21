@@ -1,4 +1,5 @@
 cd ..
 cd ..
-javadoc -author -version -d docs ./src/*.java
+cd src
+javadoc -author -version -d ../docs *
 cmd \k
