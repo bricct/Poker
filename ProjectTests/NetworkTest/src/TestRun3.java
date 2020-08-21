@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JFrame;
 
+/**
+ * Simple test class function for testing our objects
+ */
 public class TestRun3 {
 
 	public static void main(String[] args) {

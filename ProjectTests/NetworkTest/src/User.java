@@ -2,16 +2,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
+/**
+ * User is our class representation for a user (or player)
+ * Handles mostly the connection based algorithms
+ */
 public class User {
 
 
 	private Client client;
 	private TestBoard board;
 	private final int id;
+
+	/**
+	 * Constructor function for our user class
+	 * @param master parent component to output messages to
+	 */
 	public User(TestMenu master) {
-
-
-
 		//PriorityQueue<String> commands = new PriorityQueue<>();
 		
 		String ip = "";
@@ -77,6 +83,11 @@ public class User {
 
 	}
 
+	/**
+	 * Sends message to server
+	 * @param msg The message to send
+	 * @throws Exception 
+	 */
 	public void sendMessage(String msg) throws Exception {
 		try {
 	    	client.sendMessage(id + " " + msg);
@@ -87,6 +98,11 @@ public class User {
 	}
 
 
+	/**
+	 * Operation function for handling a multide of our commands
+	 * @param cmd The command to be used
+	 * @throws Exception
+	 */
 	public void operate(String cmd) throws Exception {
 		if (cmd.equals("kicked")) {
 			this.client.disconnect();
@@ -266,9 +282,5 @@ public class User {
 			System.out.println("I dont know what to do with this " + args[0]);
 		}
 	}
-
-
-
-
 
 }

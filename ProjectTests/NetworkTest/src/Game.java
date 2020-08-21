@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Game is our class representation of our poker game
+ * It holds all our poker components and handles rounds
+ * 
+ */
 public class Game
 {
     private ArrayList<Player> players;
@@ -10,6 +15,14 @@ public class Game
     private int big;
     private Server server;
     private int currentCheckPay = 0;
+
+    /**
+     * Constructor for our game class
+     * @param ismall small blind value
+     * @param ibig big blind value
+     * @param iplayers number of players
+     * @param iserver the server to send messages to
+     */
     public Game(int ismall, int ibig, ArrayList<Player> iplayers, Server iserver)
     {
 
@@ -34,6 +47,13 @@ public class Game
 
     }
 
+    /**
+     * Checking process for going around the table in a stage
+     * 
+     * @param queue queue of the players
+     * @param pot current opt
+     * @return returns current pot with added bets
+     */
     public int goAroundTable(ArrayList<PlayerTuple> queue, int pot)
     {
         boolean check = false;
@@ -192,6 +212,9 @@ public class Game
         return pot;
     }
 
+    /**
+     * Plays one round of a poker game
+     */
     public void playRound()
     {
         int pot = 0;
@@ -379,12 +402,11 @@ public class Game
             return;
 
         }
-
-
-
     }
 
-
+    /**
+     * Main function for starting up the poker game
+     */
     public void playGame() {
         while (players.size() > 1) {
             try {
@@ -409,6 +431,4 @@ public class Game
         server.sendWin(players.get(0).getid());
         server.sendGameEnd();
     }
-
-
 }
