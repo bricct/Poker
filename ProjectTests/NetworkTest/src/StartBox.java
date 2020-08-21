@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 import javax.swing.JFrame;
 
 public class StartBox extends JFrame {
@@ -7,9 +9,13 @@ public class StartBox extends JFrame {
 	private StartPanel panel;
 	public StartBox(HThread master) {
 		this.master = master;
+		this.setSize(400, 200);
+		this.setResizable(false);
+		this.setBackground(Color.black);
+		
 		this.panel = new StartPanel(this);
-		//this.setResizable(false);
-		this.setSize(400, 400);
+		this.panel.setBackground(Color.black);
+		
 		
 		this.add(this.panel);
 		
@@ -28,5 +34,6 @@ public class StartBox extends JFrame {
 	
 	public void cancelServer() {
 		master.sendStop();
+		this.dispose();
 	}
 }

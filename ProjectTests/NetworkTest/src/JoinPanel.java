@@ -183,7 +183,7 @@ public class JoinPanel extends JPanel {
 	                		}
 	                	} else if (checking) {
 	                		if (x >= width/2 - c_width/2 + (c_width - c_small) && x < width/2 - c_width/2 + c_width) {
-	                			master.game();
+	                			master.game(false);
 	                			
 	                		}
 	                	}

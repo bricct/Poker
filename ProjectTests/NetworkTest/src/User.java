@@ -22,9 +22,11 @@ public class User {
 		
 
 
-
+		System.out.println(ip);
 		this.client = new Client(this, ip, TestMenu.port);
+		System.out.println("Attempting to connect");
 		this.id = client.connect();
+		System.out.println("connected");
 		board = new TestBoard(master, this, id);
 		//board.setVisible(true);
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

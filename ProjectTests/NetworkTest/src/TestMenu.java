@@ -153,8 +153,15 @@ public class TestMenu extends JFrame {
 	 * @param mus_toggle
 	 * @param mode
 	 */
-	public void game() {
+	public void game(boolean hosting) {
+		if (hosting) {
+			TestMenu.ip[0] = 127;
+			TestMenu.ip[1] = 0;
+			TestMenu.ip[2] = 0;
+			TestMenu.ip[3] = 1;
+		}
 		new User(this);
+		
 		// TestBoard board = new TestBoard(this, new User());
 		// Dimension scr_dim = getSize();
 		// int width = (int) scr_dim.getWidth();
@@ -165,7 +172,9 @@ public class TestMenu extends JFrame {
 		// board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// this.setVisible(false);
 	}
-
+	
+	
+	
 	/**
 	 * Triggers the actual menu ui
 	 * @param mus_toggle

@@ -1,6 +1,5 @@
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
 
 public class StartThread extends Thread {
 	
@@ -16,7 +15,10 @@ public class StartThread extends Thread {
 		EventQueue.invokeLater(() -> {
 			this.startBox = new StartBox(master);
 			this.startBox.setVisible(true);
-			this.startBox.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		});
+	}
+	
+	public void close() {
+		this.startBox.dispose();
 	}
 }
