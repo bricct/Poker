@@ -7,8 +7,12 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 /**
+<<<<<<< HEAD
  * @author Trey Briccetti
  * @version 1.0
+=======
+ * Simple test class function for testing our objects
+>>>>>>> fa226723b060b2bd3be4b3f3bf4daf8008ebad3d
  */
 public class TestRun {
 
