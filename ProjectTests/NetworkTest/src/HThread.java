@@ -1,9 +1,11 @@
-//import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-//import javax.swing.JFrame;
 
+/**
+ * @author Trey Briccetti
+ * @version 1.0
+ */
 public class HThread extends Thread {
 	private final int port, starting_cash, bblind;
 	private static final int max_connected = 5;
@@ -12,6 +14,12 @@ public class HThread extends Thread {
 	private TestMenu master;
 	private StartThread t;
 	
+	/** Creates a thread to create and control when a server starts
+	 * @param port The port the server will be hosted on
+	 * @param starting_cash Starting cash of the players
+	 * @param bblind Blind amount of the game
+	 * @param master The main menu
+	 */
 	public HThread(int port, int starting_cash, int bblind, TestMenu master) {
 		this.port = port;
 		this.starting_cash = starting_cash;
@@ -21,6 +29,9 @@ public class HThread extends Thread {
 	}
 	
 	
+	/**
+	 * Creates a server and a frame to control the server
+	 */
 	public void run() {
 		
 		t = new StartThread(this);
@@ -39,33 +50,33 @@ public class HThread extends Thread {
 		
 	}
 	
+	/** Starts the server and joins the host
+	 * 
+	 */
 	public void sendStart() {
 		this.status.incrementAndGet();
 		System.out.println("updating status to start");
 		master.game(true);
 	}
 	
-	public void sendJoin() {
-		t.close();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Joining own game");
-		master.game(true);
-		
-	}
-	
+	/** Cancels the server
+	 * 
+	 */
 	public void sendStop() {
 		this.status.decrementAndGet();
 		master.game(true);
 	}
 	
+	/** Updates the number of people connected to the server
+	 * @param val The number of connections to the server
+	 */
 	public void updateConnected(int val) {
 		this.connected = val;
 	}
 	
+	/** Returns the number of connections to the server
+	 * @return The number of connections to the server
+	 */
 	public int getConnected () {
 		return this.connected;
 	}
