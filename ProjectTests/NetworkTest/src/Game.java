@@ -47,7 +47,7 @@ public class Game
      * Checking process for going around the table in a stage
      * 
      * @param queue queue of the players
-     * @param pot current opt
+     * @param pot current pot
      * @return returns current pot with added bets
      */
     public int goAroundTable(ArrayList<PlayerTuple> queue, int pot)

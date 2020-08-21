@@ -3,13 +3,10 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /**
-<<<<<<< HEAD
  * @author Trey Briccetti
  * @version 1.0
-=======
  * User is our class representation for a user (or player)
  * Handles mostly the connection based algorithms
->>>>>>> fa226723b060b2bd3be4b3f3bf4daf8008ebad3d
  */
 public class User {
 
@@ -17,16 +14,6 @@ public class User {
 	private Client client;
 	private TestBoard board;
 	private final int id;
-<<<<<<< HEAD
-	
-	/** Constructs a user to connect to the server and display
-	 * @param master The main menu
-	 */
-	public User(TestMenu master) {
-
-
-=======
->>>>>>> fa226723b060b2bd3be4b3f3bf4daf8008ebad3d
 
 	/**
 	 * Constructor function for our user class
@@ -74,19 +61,14 @@ public class User {
 
 	}
 
-<<<<<<< HEAD
-	/** Sends a message to the server
-	 * @param msg The message to be sent
-	 */
-	public void sendMessage(String msg) {
-=======
+
 	/**
 	 * Sends message to server
 	 * @param msg The message to send
 	 * @throws Exception 
 	 */
 	public void sendMessage(String msg) throws Exception {
->>>>>>> fa226723b060b2bd3be4b3f3bf4daf8008ebad3d
+
 		try {
 	    	client.sendMessage(id + " " + msg);
 	    } catch (Exception ee) {
@@ -96,17 +78,11 @@ public class User {
 	}
 
 
-<<<<<<< HEAD
 	/** Operates on a command by the server and forwards method calls to the display frame
 	 * @param cmd The Command sent by the server
 	 * @throws Exception If a message is corrupted during transit an exception is thrown
-=======
-	/**
-	 * Operation function for handling a multide of our commands
-	 * @param cmd The command to be used
-	 * @throws Exception
->>>>>>> fa226723b060b2bd3be4b3f3bf4daf8008ebad3d
 	 */
+
 	public void operate(String cmd) throws Exception {
 		if (cmd.equals("kicked")) {
 			this.client.disconnect();
