@@ -19,7 +19,7 @@ import ui.panels.PortPanel;
 /**
  * Menu class for the game
  */
-public class TestMenu extends JFrame {
+public class MenuFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panel;
@@ -49,13 +49,13 @@ public class TestMenu extends JFrame {
 	 * Constructor for the menu panel
 	 * @param mode mode of the game
 	 */
-	public TestMenu(boolean mode) {
+	public MenuFrame(boolean mode) {
 		this.setSize(906, 520);
 		System.out.println(this.getWidth() + " " +  this.getHeight());
 
-		TestMenu.mode = mode;
+		MenuFrame.mode = mode;
 
-		TestMenu.mus_toggle = true;
+		MenuFrame.mus_toggle = true;
 
 		MusicController.init();
 		MusicController.volume = MusicController.Volume.LOW;
@@ -65,14 +65,14 @@ public class TestMenu extends JFrame {
 		port = 12345;
 
 		ip = new int[4];
-		ip[0] = 67;
-		ip[1] = 242;
-		ip[2] = 72;
-		ip[3] = 82;
+		ip[0] = 127;
+		ip[1] = 0;
+		ip[2] = 0;
+		ip[3] = 1;
 
 
 
-		if (TestMenu.mode)
+		if (MenuFrame.mode)
 			MusicController.THEME.play();
 		else {
 			MusicController.SECRET.play();
@@ -80,9 +80,9 @@ public class TestMenu extends JFrame {
 		tables = new BufferedImage[3];
 		try {
 			//title = ImageIO.read(new File("title.png"));
-			tables[0] = ImageIO.read(new File("tableGreen.png"));
-			tables[1] = ImageIO.read(new File("tableRed.png"));
-			tables[2] = ImageIO.read(new File("tablePurple.png"));
+			tables[0] = ImageIO.read(new File("resources/sprites/tableGreen.png"));
+			tables[1] = ImageIO.read(new File("resources/sprites/tableRed.png"));
+			tables[2] = ImageIO.read(new File("resources/sprites/tablePurple.png"));
 		} catch (IOException e) {
 
 			// TODO Auto-generated catch block
@@ -165,10 +165,10 @@ public class TestMenu extends JFrame {
 	 */
 	public void game(boolean hosting) {
 		if (hosting) {
-			TestMenu.ip[0] = 127;
-			TestMenu.ip[1] = 0;
-			TestMenu.ip[2] = 0;
-			TestMenu.ip[3] = 1;
+			MenuFrame.ip[0] = 127;
+			MenuFrame.ip[1] = 0;
+			MenuFrame.ip[2] = 0;
+			MenuFrame.ip[3] = 1;
 		}
 		new User(this);
 

@@ -8,14 +8,14 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JFrame;
 
-import ui.frames.TestTitle;
+import ui.frames.TitleFrame;
 
 /**
  * @author Trey Briccetti
  * @version 1.0
  * Simple test class function for testing our objects
  */
-public class TestRun {
+public class Run {
 
 	
 	/**	Launches the game
@@ -26,12 +26,12 @@ public class TestRun {
 
 			try {
 				GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-				ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("UglyPoker.ttf")));
+				ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/font/UglyPoker.ttf")));
 			} catch (IOException|FontFormatException e) {
 				e.printStackTrace();
 			}
 
-			TestTitle title = new TestTitle();
+			TitleFrame title = new TitleFrame();
 			title.setVisible(true);
 			title.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

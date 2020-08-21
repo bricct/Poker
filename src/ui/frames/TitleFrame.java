@@ -13,7 +13,7 @@ import ui.panels.TitlePanel;
 /**
  * Testing class for testing the title panel class
  */
-public class TestTitle extends JFrame {
+public class TitleFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private TitlePanel panel;
@@ -22,7 +22,7 @@ public class TestTitle extends JFrame {
 	/**
 	 * Constructor for testing the panel
 	 */
-	public TestTitle() {
+	public TitleFrame() {
 		this.setSize(906, 520);
 		this.setLocationRelativeTo(null);
 		this.control = false;
@@ -91,7 +91,7 @@ public class TestTitle extends JFrame {
 	 * Creates a game object for the test class
 	 */
 	public void game(boolean normalMode) {
-		TestMenu board = new TestMenu(normalMode);
+		MenuFrame board = new MenuFrame(normalMode);
 		Dimension scr_dim = getSize();
 		int width = (int) scr_dim.getWidth();
 		int height = (int) scr_dim.getHeight();

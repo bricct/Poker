@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 import sound.MusicController;
 import ui.Sprite;
-import ui.frames.TestMenu;
+import ui.frames.MenuFrame;
 
 /**
  * MenuPanel is our UI panel for handling the menu options within the game
@@ -34,7 +34,7 @@ public class MenuPanel extends JPanel {
 	 * Menupanel constructor
 	 * @param master Parent jframe to be embedded in.
 	 */
-	public MenuPanel(TestMenu master) {
+	public MenuPanel(MenuFrame master) {
 
 
 		
@@ -60,10 +60,10 @@ public class MenuPanel extends JPanel {
 		c_width = width/10 * 3; 
 		c_small = width/10;
 		
-		itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+		itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 		
 		imenuButton = menuButton.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
-		if(TestMenu.mus_toggle)
+		if(MenuFrame.mus_toggle)
 			imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		else
 			imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -92,11 +92,11 @@ public class MenuPanel extends JPanel {
 				font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/100 + width/300));
 				
 				
-				itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+				itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 				
 				imenuButton = menuButton.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 				
-				if(TestMenu.mus_toggle)
+				if(MenuFrame.mus_toggle)
 					imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				else
 					imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -200,22 +200,22 @@ public class MenuPanel extends JPanel {
             	} else if (y >  5 && y < 5 + c_height) {
                 	if (x >= 2 && x < 2 + c_small) {
                 		if (mchanging) {
-                			if (TestMenu.mus_toggle) {
+                			if (MenuFrame.mus_toggle) {
     	                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-    	                		if (TestMenu.mode)
+    	                		if (MenuFrame.mode)
     	                			MusicController.THEME.stop();
     	                		else {
     	                			MusicController.SECRET.stop();
     	                		}
     	                	} else {
     	                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-    	                		if (TestMenu.mode)
+    	                		if (MenuFrame.mode)
     	                			MusicController.THEME.play();
     	                		else {
     	                			MusicController.SECRET.play();
     	                		}
     	                	}
-    	            		TestMenu.mus_toggle = !TestMenu.mus_toggle;
+    	            		MenuFrame.mus_toggle = !MenuFrame.mus_toggle;
     	            		repaint();
                 		}
                 	}

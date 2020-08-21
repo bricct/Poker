@@ -7,9 +7,9 @@ import javax.sound.sampled.*;
  *
  */
 public enum SoundEffects {
-   DRAW("draw.wav"),   // explosion
-   SHUFFLE("shuffle.wav"),         // gong
-   CHIP("chips.wav");       // bullet
+   DRAW("resources/sounds/draw.wav"),   // explosion
+   SHUFFLE("resources/sounds/shuffle.wav"),         // gong
+   CHIP("resources/sounds/chips.wav");       // bullet
 
    // Nested class for specifying volume
    public static enum Volume {

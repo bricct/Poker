@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 
 import sound.MusicController;
 import ui.Sprite;
-import ui.frames.TestMenu;
+import ui.frames.MenuFrame;
 
 /**
  * Optionspanel deals with the UI of the game for the options menu.
@@ -36,7 +36,7 @@ public class OptionsPanel extends JPanel {
 	 * Constructor for the options panel
 	 * @param master The parent jframe to be embedded in
 	 */
-	public OptionsPanel(TestMenu master) {
+	public OptionsPanel(MenuFrame master) {
 
 		this.setSize(master.getWidth(), master.getHeight());
 		Dimension scr_dim = getSize();
@@ -65,10 +65,10 @@ public class OptionsPanel extends JPanel {
 
 		o_small = o_width/10;
 
-		itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+		itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
 		iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
-		if(TestMenu.mus_toggle)
+		if(MenuFrame.mus_toggle)
 			imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		else
 			imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -97,10 +97,10 @@ public class OptionsPanel extends JPanel {
 				font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
 
 
-				itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+				itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
 				iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
-				if(TestMenu.mus_toggle)
+				if(MenuFrame.mus_toggle)
 					imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				else
 					imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -176,38 +176,38 @@ public class OptionsPanel extends JPanel {
             			if (tableing) {
             				if (y < height/7 + o_height && y > height/7) {
             					if (SwingUtilities.isRightMouseButton(e)) {
-            						TestMenu.table_ind -= 1;
-		            				if (TestMenu.table_ind < 0) {
-		            					TestMenu.table_ind = TestMenu.table_c.length - 1;
+            						MenuFrame.table_ind -= 1;
+		            				if (MenuFrame.table_ind < 0) {
+		            					MenuFrame.table_ind = MenuFrame.table_c.length - 1;
 		            				}
 	            				} else if (SwingUtilities.isLeftMouseButton(e)) {
 
-	            					TestMenu.table_ind += 1;
-		            				if (TestMenu.table_ind == TestMenu.table_c.length) {
-		            					TestMenu.table_ind = 0;
+	            					MenuFrame.table_ind += 1;
+		            				if (MenuFrame.table_ind == MenuFrame.table_c.length) {
+		            					MenuFrame.table_ind = 0;
 		            				}
 	            				}
 
-            					TestMenu.table = TestMenu.tables[TestMenu.table_ind];
-            					itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+            					MenuFrame.table = MenuFrame.tables[MenuFrame.table_ind];
+            					itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 	            				repaint();
 	            			}
             			}
             			if (naming) {
 	            			if (y < height/7 + (c_height/3 * 4) + o_height && y > height/7 + (c_height/3 * 4)) {
 	            				if (SwingUtilities.isRightMouseButton(e)) {
-	            					TestMenu.name_ind -= 1;
-		            				if (TestMenu.name_ind < 0) {
-		            					TestMenu.name_ind = TestMenu.names.length - 1;
+	            					MenuFrame.name_ind -= 1;
+		            				if (MenuFrame.name_ind < 0) {
+		            					MenuFrame.name_ind = MenuFrame.names.length - 1;
 		            				}
 	            				} else if (SwingUtilities.isLeftMouseButton(e)) {
 
-	            					TestMenu.name_ind += 1;
-		            				if (TestMenu.name_ind == TestMenu.names.length) {
-		            					TestMenu.name_ind = 0;
+	            					MenuFrame.name_ind += 1;
+		            				if (MenuFrame.name_ind == MenuFrame.names.length) {
+		            					MenuFrame.name_ind = 0;
 		            				}
 	            				}
-	            				TestMenu.name = TestMenu.names[TestMenu.name_ind];
+	            				MenuFrame.name = MenuFrame.names[MenuFrame.name_ind];
 	            				repaint();
 		            		}
             			}
@@ -217,22 +217,22 @@ public class OptionsPanel extends JPanel {
             	} else if (mchanging) {
             		if (y >  5 && y < 5 + c_height) {
             			if (x >= 2 && x < 2 + c_small) {
-                			if (TestMenu.mus_toggle) {
+                			if (MenuFrame.mus_toggle) {
     	                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-    	                		if (TestMenu.mode)
+    	                		if (MenuFrame.mode)
     	                			MusicController.THEME.stop();
     	                		else {
     	                			MusicController.SECRET.stop();
     	                		}
     	                	} else {
     	                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-    	                		if (TestMenu.mode)
+    	                		if (MenuFrame.mode)
     	                			MusicController.THEME.play();
     	                		else {
     	                			MusicController.SECRET.play();
     	                		}
     	                	}
-    	            		TestMenu.mus_toggle = !TestMenu.mus_toggle;
+    	            		MenuFrame.mus_toggle = !MenuFrame.mus_toggle;
     	            		repaint();
                 		}
                 	}
@@ -278,9 +278,9 @@ public class OptionsPanel extends JPanel {
 		FontMetrics metrics = g2d.getFontMetrics(font);
 
 		g2d.drawString("TABLE" , width/2 - 2*o_width/3 - (3*o_small/2), height/7 + c_height/3);
-		g2d.drawString(TestMenu.table_c[TestMenu.table_ind], width/2 + 3*o_small/2 + o_width/2 - metrics.stringWidth(TestMenu.table_c[TestMenu.table_ind])/2, height/7 + o_height/2 - metrics.getHeight()/2);
+		g2d.drawString(MenuFrame.table_c[MenuFrame.table_ind], width/2 + 3*o_small/2 + o_width/2 - metrics.stringWidth(MenuFrame.table_c[MenuFrame.table_ind])/2, height/7 + o_height/2 - metrics.getHeight()/2);
 		g2d.drawString("NAME", width/2 - (2*o_width/3) - 3*o_small/2, height/7 + (c_height/3 * 4) + c_height/3);
-		g2d.drawString(TestMenu.name, width/2 + 3*o_small/2 + o_width/2 - metrics.stringWidth(TestMenu.name)/2, height/7 + (c_height/3 * 4) + o_height/2 - metrics.getHeight()/2);
+		g2d.drawString(MenuFrame.name, width/2 + 3*o_small/2 + o_width/2 - metrics.stringWidth(MenuFrame.name)/2, height/7 + (c_height/3 * 4) + o_height/2 - metrics.getHeight()/2);
 	}
 
 

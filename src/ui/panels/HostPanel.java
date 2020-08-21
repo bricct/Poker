@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 
 import sound.MusicController;
 import ui.Sprite;
-import ui.frames.TestMenu;
+import ui.frames.MenuFrame;
 
 public class HostPanel extends JPanel {
 
@@ -34,7 +34,7 @@ public class HostPanel extends JPanel {
 	/** Creates a Menu Panel that allows the host to select options for hosting a game
 	 * @param master The Main Menu
 	 */
-	public HostPanel(TestMenu master) {
+	public HostPanel(MenuFrame master) {
 
 
 		this.setSize(master.getWidth(), master.getHeight());
@@ -64,10 +64,10 @@ public class HostPanel extends JPanel {
 
 		o_small = o_width/10;
 
-		itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+		itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
 		iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
-		if(TestMenu.mus_toggle)
+		if(MenuFrame.mus_toggle)
 			imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		else
 			imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -97,10 +97,10 @@ public class HostPanel extends JPanel {
 				font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
 
 
-				itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+				itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
 				iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
-				if(TestMenu.mus_toggle)
+				if(MenuFrame.mus_toggle)
 					imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				else
 					imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -191,37 +191,37 @@ public class HostPanel extends JPanel {
             			if (tableing) {
             				if (y < height/7 + o_height && y > height/7) {
             					if (SwingUtilities.isRightMouseButton(e)) {
-            						TestMenu.starting_ind -= 1;
-		            				if (TestMenu.starting_ind < 0) {
-		            					TestMenu.starting_ind = TestMenu.starting_c.length - 1;
+            						MenuFrame.starting_ind -= 1;
+		            				if (MenuFrame.starting_ind < 0) {
+		            					MenuFrame.starting_ind = MenuFrame.starting_c.length - 1;
 		            				}
 	            				} else if (SwingUtilities.isLeftMouseButton(e)) {
 
-	            					TestMenu.starting_ind += 1;
-		            				if (TestMenu.starting_ind == TestMenu.table_c.length) {
-		            					TestMenu.starting_ind = 0;
+	            					MenuFrame.starting_ind += 1;
+		            				if (MenuFrame.starting_ind == MenuFrame.table_c.length) {
+		            					MenuFrame.starting_ind = 0;
 		            				}
 	            				}
 
-            					TestMenu.starting_cash = TestMenu.starting_c[TestMenu.starting_ind];
+            					MenuFrame.starting_cash = MenuFrame.starting_c[MenuFrame.starting_ind];
 	            				repaint();
 	            			}
             			}
             			if (naming) {
 	            			if (y < height/7 + (c_height/3 * 4) + o_height && y > height/7 + (c_height/3 * 4)) {
 	            				if (SwingUtilities.isRightMouseButton(e)) {
-	            					TestMenu.blind_ind -= 1;
-		            				if (TestMenu.blind_ind < 0) {
-		            					TestMenu.blind_ind = TestMenu.blind_c.length - 1;
+	            					MenuFrame.blind_ind -= 1;
+		            				if (MenuFrame.blind_ind < 0) {
+		            					MenuFrame.blind_ind = MenuFrame.blind_c.length - 1;
 		            				}
 	            				} else if (SwingUtilities.isLeftMouseButton(e)) {
 
-	            					TestMenu.blind_ind += 1;
-		            				if (TestMenu.blind_ind == TestMenu.blind_c.length) {
-		            					TestMenu.blind_ind = 0;
+	            					MenuFrame.blind_ind += 1;
+		            				if (MenuFrame.blind_ind == MenuFrame.blind_c.length) {
+		            					MenuFrame.blind_ind = 0;
 		            				}
 	            				}
-	            				TestMenu.blind_cash = TestMenu.blind_c[TestMenu.blind_ind];
+	            				MenuFrame.blind_cash = MenuFrame.blind_c[MenuFrame.blind_ind];
 	            				repaint();
 		            		}
             			}
@@ -231,22 +231,22 @@ public class HostPanel extends JPanel {
             	} else if (mchanging) {
             		if (y >  5 && y < 5 + c_height) {
                     	if (x >= 2 && x < 2 + c_small) {
-	            			if (TestMenu.mus_toggle) {
+	            			if (MenuFrame.mus_toggle) {
 		                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-		                		if (TestMenu.mode)
+		                		if (MenuFrame.mode)
 		                			MusicController.THEME.stop();
 		                		else {
 		                			MusicController.SECRET.stop();
 		                		}
 		                	} else {
 		                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-		                		if (TestMenu.mode)
+		                		if (MenuFrame.mode)
 		                			MusicController.THEME.play();
 		                		else {
 		                			MusicController.SECRET.play();
 		                		}
 		                	}
-		            		TestMenu.mus_toggle = !TestMenu.mus_toggle;
+		            		MenuFrame.mus_toggle = !MenuFrame.mus_toggle;
 		            		repaint();
                     	}
 
@@ -288,9 +288,9 @@ public class HostPanel extends JPanel {
 		FontMetrics metrics = g2d.getFontMetrics(font);
 
 		g2d.drawString("STARTING $" , width/2 - metrics.stringWidth("STARTING $")/2 - o_width/2 - (3*o_small/2), height/7 + c_height/3);
-		g2d.drawString("$" + TestMenu.starting_cash, width/2 + 3*o_small/2 + o_width/2 - metrics.stringWidth("$" + TestMenu.starting_cash)/2, height/7 + o_height/2 - metrics.getHeight()/2);
+		g2d.drawString("$" + MenuFrame.starting_cash, width/2 + 3*o_small/2 + o_width/2 - metrics.stringWidth("$" + MenuFrame.starting_cash)/2, height/7 + o_height/2 - metrics.getHeight()/2);
 		g2d.drawString("BLIND $", width/2 - metrics.stringWidth("BLIND $")/2 - o_width/2 - (3*o_small/2), height/7 + (c_height/3 * 4) + c_height/3);
-		g2d.drawString("$" + TestMenu.blind_cash, width/2 + 3*o_small/2 + o_width/2 - metrics.stringWidth("$" + TestMenu.blind_cash)/2, height/7 + (c_height/3 * 4) + o_height/2 - metrics.getHeight()/2);
+		g2d.drawString("$" + MenuFrame.blind_cash, width/2 + 3*o_small/2 + o_width/2 - metrics.stringWidth("$" + MenuFrame.blind_cash)/2, height/7 + (c_height/3 * 4) + o_height/2 - metrics.getHeight()/2);
 
 		g2d.drawImage(imusic, 2, 5, this);
 

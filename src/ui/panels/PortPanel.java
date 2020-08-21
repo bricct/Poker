@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import netwrk.HThread;
 import sound.MusicController;
 import ui.Sprite;
-import ui.frames.TestMenu;
+import ui.frames.MenuFrame;
 
 /**
  * Portpanel deals with the ui for when the user is inputting a port into the game to connect to
@@ -38,7 +38,7 @@ public class PortPanel extends JPanel {
 	 * Constructor for the port panel
 	 * @param master The parent jframe to be embedded in
 	 */
-	public PortPanel(TestMenu master) {
+	public PortPanel(MenuFrame master) {
 
 
 		this.setSize(master.getWidth(), master.getHeight());
@@ -75,12 +75,12 @@ public class PortPanel extends JPanel {
 		o_short = o_height/10 * 2;
 
 
-		itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+		itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
 		ibutton = button.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 
 		iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
-		if(TestMenu.mus_toggle)
+		if(MenuFrame.mus_toggle)
 			imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		else
 			imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -119,11 +119,11 @@ public class PortPanel extends JPanel {
 
 
 
-				itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+				itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
 				ibutton = button.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 				iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
-				if(TestMenu.mus_toggle)
+				if(MenuFrame.mus_toggle)
 					imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				else
 					imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -194,11 +194,11 @@ public class PortPanel extends JPanel {
 	                	} else if (checking) {
 	                		if (x >= width/2 - c_width/2 + (c_width - c_small) && x < width/2 - c_width/2 + c_width) {
 	                			//master.setVisible(false);
-	                			HThread thread = new HThread(TestMenu.port, TestMenu.starting_cash, TestMenu.blind_cash, master);
-	                			TestMenu.ip[0] = 127;
-	                			TestMenu.ip[1] = 0;
-	                			TestMenu.ip[2] = 0;
-	                			TestMenu.ip[3] = 1;
+	                			HThread thread = new HThread(MenuFrame.port, MenuFrame.starting_cash, MenuFrame.blind_cash, master);
+	                			MenuFrame.ip[0] = 127;
+	                			MenuFrame.ip[1] = 0;
+	                			MenuFrame.ip[2] = 0;
+	                			MenuFrame.ip[3] = 1;
 	                			thread.start();
 	                			//master.game();
 
@@ -216,15 +216,15 @@ public class PortPanel extends JPanel {
 
             			int index = ((width/2 - (c_width - o_width - 3 * o_small)/2 + c_width/2 + (4*t_width) + t_width) - (x - t_width/2)) / (2*t_width);
             			int pow = ((int)Math.pow(10,index));
-            			TestMenu.port += pow;
-            			if (TestMenu.port > 65535) TestMenu.port = 0;
+            			MenuFrame.port += pow;
+            			if (MenuFrame.port > 65535) MenuFrame.port = 0;
 
             		} else if (y >= 2 * height/5 - (c_height/2) + o_height/2 + t_height/2 && y <= 2 * height/5 - (c_height/2) + o_height/2 + t_height/2 + o_short) {
 
             			int index = ((width/2 - (c_width - o_width - 3 * o_small)/2 + c_width/2 + (4*t_width) + t_width) - (x - t_width/2)) / (2*t_width);
             			int pow = ((int)Math.pow(10,index));
-            			TestMenu.port -= pow;
-            			if (TestMenu.port < 0) TestMenu.port = 65535;
+            			MenuFrame.port -= pow;
+            			if (MenuFrame.port < 0) MenuFrame.port = 65535;
             		}
 
 
@@ -233,22 +233,22 @@ public class PortPanel extends JPanel {
                 } else if (y >  5 && y < 5 + c_height) {
                 	if (x >= 2 && x < 2 + c_small) {
                 		if (mchanging) {
-                			if (TestMenu.mus_toggle) {
+                			if (MenuFrame.mus_toggle) {
     	                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-    	                		if (TestMenu.mode)
+    	                		if (MenuFrame.mode)
     	                			MusicController.THEME.stop();
     	                		else {
     	                			MusicController.SECRET.stop();
     	                		}
     	                	} else {
     	                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-    	                		if (TestMenu.mode)
+    	                		if (MenuFrame.mode)
     	                			MusicController.THEME.play();
     	                		else {
     	                			MusicController.SECRET.play();
     	                		}
     	                	}
-    	            		TestMenu.mus_toggle = !TestMenu.mus_toggle;
+    	            		MenuFrame.mus_toggle = !MenuFrame.mus_toggle;
     	            		repaint();
                 		}
                 	}
@@ -296,7 +296,7 @@ public class PortPanel extends JPanel {
 
 		g2d.drawString("PORT #" , width/2 - (c_width + o_width + 3*o_small)/2 + o_width/2 - metrics.stringWidth("PORT #")/2, 2 * height/5 - (c_height/2) + o_height/2 - metrics.getHeight()/2);
 
-		int port = TestMenu.port;
+		int port = MenuFrame.port;
 
 
 		for (int i = 0; i < 5; i++) {

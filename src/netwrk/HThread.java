@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import ui.StartThread;
-import ui.frames.TestMenu;
+import ui.frames.MenuFrame;
 
 
 /**
@@ -16,7 +16,7 @@ public class HThread extends Thread {
 	private static final int max_connected = 5;
 	private int connected = 0;
 	private AtomicInteger status;
-	private TestMenu master;
+	private MenuFrame master;
 	private StartThread t;
 
 	/** Creates a thread to create and control when a server starts
@@ -25,7 +25,7 @@ public class HThread extends Thread {
 	 * @param bblind Blind amount of the game
 	 * @param master The main menu
 	 */
-	public HThread(int port, int starting_cash, int bblind, TestMenu master) {
+	public HThread(int port, int starting_cash, int bblind, MenuFrame master) {
 		this.port = port;
 		this.starting_cash = starting_cash;
 		this.bblind = bblind;

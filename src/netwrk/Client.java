@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import ui.frames.TestMenu;
+import ui.frames.MenuFrame;
 
 /**
  * Client is our class representation of our clients that will
@@ -51,7 +51,7 @@ public class Client {
 				this.client_id = Integer.parseInt(getMessage());
 
 				//outToServer.writeUTF(this.client_id + " connected");
-				sendMessage(this.client_id + " " + TestMenu.name);
+				sendMessage(this.client_id + " " + MenuFrame.name);
 				return this.client_id;
 			} catch (NumberFormatException e) {
 				System.out.println("Oopsies something went wrong");

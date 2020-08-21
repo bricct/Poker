@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 
 import sound.MusicController;
 import ui.Sprite;
-import ui.frames.TestMenu;
+import ui.frames.MenuFrame;
 
 /**
  * Join panel is our JPanel object for handling when the user is prior to joining a game
@@ -35,7 +35,7 @@ public class JoinPanel extends JPanel {
 	 * The constructor for the joinpanel object
 	 * @param master master frame to be embedded in
 	 */
-	public JoinPanel(TestMenu master) {
+	public JoinPanel(MenuFrame master) {
 
 
 		this.setSize(master.getWidth(), master.getHeight());
@@ -74,12 +74,12 @@ public class JoinPanel extends JPanel {
 
 
 
-		itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+		itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
 		ibutton = button.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 
 		iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
-		if(TestMenu.mus_toggle)
+		if(MenuFrame.mus_toggle)
 			imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 		else
 			imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -119,11 +119,11 @@ public class JoinPanel extends JPanel {
 
 
 
-				itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+				itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
 				ibutton = button.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 				iformButton = formButton.getScaledInstance(o_width, o_height, Image.SCALE_FAST);
-				if(TestMenu.mus_toggle)
+				if(MenuFrame.mus_toggle)
 					imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
 				else
 					imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
@@ -210,15 +210,15 @@ public class JoinPanel extends JPanel {
 
             			int index = ((width/2 - (c_width - o_width - 3 * o_small)/2 + c_width/2 + (4*t_width) + t_width) - (x - t_width/2)) / (2*t_width);
             			int pow = ((int)Math.pow(10,index));
-            			TestMenu.port += pow;
-            			if (TestMenu.port > 65535) TestMenu.port = 0;
+            			MenuFrame.port += pow;
+            			if (MenuFrame.port > 65535) MenuFrame.port = 0;
 
             		} else if (y >= height/2 - (c_height/2) + o_height/2 + t_height/2 && y <= height/2 - (c_height/2) + o_height/2 + t_height/2 + o_short) {
 
             			int index = ((width/2 - (c_width - o_width - 3 * o_small)/2 + c_width/2 + (4*t_width) + t_width) - (x - t_width/2)) / (2*t_width);
             			int pow = ((int)Math.pow(10,index));
-            			TestMenu.port -= pow;
-            			if (TestMenu.port < 0) TestMenu.port = 65535;
+            			MenuFrame.port -= pow;
+            			if (MenuFrame.port < 0) MenuFrame.port = 65535;
             		}
 
 
@@ -236,8 +236,8 @@ public class JoinPanel extends JPanel {
             			System.out.println("" + index);
             			int ip_byte = 3 - index/3;
             			int pow = ((int)Math.pow(10,index%3));
-            			TestMenu.ip[ip_byte] += pow;
-            			if (TestMenu.ip[ip_byte] > 255) TestMenu.ip[ip_byte] = 0;
+            			MenuFrame.ip[ip_byte] += pow;
+            			if (MenuFrame.ip[ip_byte] > 255) MenuFrame.ip[ip_byte] = 0;
 
 
 
@@ -246,8 +246,8 @@ public class JoinPanel extends JPanel {
             			int index = ((width/2 - (c_big - o_width - 3 * o_small)/2 + c_big/2 + (12*t_width) + t_width) - (x - t_width/2)) / (2*t_width) - 1;
             			int ip_byte = 3 - index/3;
             			int pow = ((int)Math.pow(10,index%3));
-            			TestMenu.ip[ip_byte] -= pow;
-            			if (TestMenu.ip[ip_byte] < 0) TestMenu.ip[ip_byte] = 255;
+            			MenuFrame.ip[ip_byte] -= pow;
+            			if (MenuFrame.ip[ip_byte] < 0) MenuFrame.ip[ip_byte] = 255;
 
             		}
 
@@ -261,22 +261,22 @@ public class JoinPanel extends JPanel {
             	if (y >  5 && y < 5 + c_height) {
                 	if (x >= 2 && x < 2 + c_small) {
                 		if (mchanging) {
-                			if (TestMenu.mus_toggle) {
+                			if (MenuFrame.mus_toggle) {
     	                		imusic = musicOff.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-    	                		if (TestMenu.mode)
+    	                		if (MenuFrame.mode)
     	                			MusicController.THEME.stop();
     	                		else {
     	                			MusicController.SECRET.stop();
     	                		}
     	                	} else {
     	                		imusic = musicOn.getScaledInstance(c_small, c_height, Image.SCALE_FAST);
-    	                		if (TestMenu.mode)
+    	                		if (MenuFrame.mode)
     	                			MusicController.THEME.play();
     	                		else {
     	                			MusicController.SECRET.play();
     	                		}
     	                	}
-    	            		TestMenu.mus_toggle = !TestMenu.mus_toggle;
+    	            		MenuFrame.mus_toggle = !MenuFrame.mus_toggle;
     	            		repaint();
                 		}
                 	}
@@ -335,7 +335,7 @@ public class JoinPanel extends JPanel {
 		g2d.drawString("IP #", width/2 - (c_big + o_width + 3*o_small)/2 + o_width/2 - metrics.stringWidth("IP #")/2, height/4 - (c_height/2) + o_height/2 - metrics.getHeight()/2);
 		g2d.drawString("PORT #" , width/2 - (c_width + o_width + 3*o_small)/2 + o_width/2 - metrics.stringWidth("PORT #")/2, height/2 - (c_height/2) + o_height/2 - metrics.getHeight()/2);
 
-		int port = TestMenu.port;
+		int port = MenuFrame.port;
 
 
 		for (int i = 0; i < 5; i++) {
@@ -350,7 +350,7 @@ public class JoinPanel extends JPanel {
 		}
 
 		for (int j = 0; j < 4; j++) {
-			int ip_byte = TestMenu.ip[3-j];
+			int ip_byte = MenuFrame.ip[3-j];
 			for (int i = 0; i < 3; i++) {
 
 				t_width = metrics.stringWidth("A");

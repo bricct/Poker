@@ -36,8 +36,8 @@ public class TitlePanel extends JPanel {
 		height = (int) scr_dim.getHeight();
 
 		try {
-			title = ImageIO.read(new File("title.png"));
-			table = ImageIO.read(new File("tableGreen.png"));
+			title = ImageIO.read(new File("resources/sprites/title.png"));
+			table = ImageIO.read(new File("resources/sprites/tableGreen.png"));
 		} catch (IOException e) {
 
 			// TODO Auto-generated catch block

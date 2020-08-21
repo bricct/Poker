@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 
 import game.Card;
 import game.Player;
-import ui.frames.TestBoard;
-import ui.frames.TestMenu;
+import ui.frames.BoardFrame;
+import ui.frames.MenuFrame;
 
 /**
  * @author Trey Briccetti
@@ -19,30 +19,30 @@ public class User {
 
 
 	private Client client;
-	private TestBoard board;
+	private BoardFrame board;
 	private final int id;
 
 	/**
 	 * Constructor function for our user class
 	 * @param master parent component to output messages to
 	 */
-	public User(TestMenu master) {
+	public User(MenuFrame master) {
 		//PriorityQueue<String> commands = new PriorityQueue<>();
 
 		String ip = "";
-		ip += TestMenu.ip[0];
-		ip += "."+ TestMenu.ip[1];
-		ip += "." + TestMenu.ip[2];
-		ip += "." + TestMenu.ip[3];
+		ip += MenuFrame.ip[0];
+		ip += "."+ MenuFrame.ip[1];
+		ip += "." + MenuFrame.ip[2];
+		ip += "." + MenuFrame.ip[3];
 
 
 
 		System.out.println(ip);
-		this.client = new Client(this, ip, TestMenu.port);
+		this.client = new Client(this, ip, MenuFrame.port);
 		System.out.println("Attempting to connect");
 		this.id = client.connect();
 		System.out.println("connected");
-		board = new TestBoard(master, this, id);
+		board = new BoardFrame(master, this, id);
 		//board.setVisible(true);
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setSize(master.getWidth(),master.getHeight());

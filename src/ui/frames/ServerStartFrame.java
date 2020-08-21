@@ -7,12 +7,12 @@ import javax.swing.JFrame;
 import netwrk.HThread;
 import ui.panels.StartPanel;
 
-public class StartBox extends JFrame {
+public class ServerStartFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private HThread master;
 	private StartPanel panel;
-	public StartBox(HThread master) {
+	public ServerStartFrame(HThread master) {
 		this.master = master;
 		this.setSize(400, 200);
 		this.setResizable(false);

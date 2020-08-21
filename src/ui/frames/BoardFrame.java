@@ -15,28 +15,28 @@ import game.Card;
 import game.Player;
 import netwrk.User;
 import ui.Sprite;
-import ui.panels.TestPanel;
+import ui.panels.BoardPanel;
 
 /**
  * @author Trey Briccetti
  * @version v1.0
  *
  */
-public class TestBoard extends JFrame {
+public class BoardFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JButton fold, call, raise;
-	private TestPanel panel;
+	private BoardPanel panel;
 	private JPanel buttonPanel;
 	private Card[] table_cards;
-	private TestMenu master;
+	private MenuFrame master;
 	private JSpinner raise_spinner;
 	/** Creates a Frame that holds The game display UI
 	 * @param master The Main Menu
 	 * @param user The User
 	 * @param id Unique identifier of the user used in networking
 	 */
-	public TestBoard(TestMenu master, User user, int id) {
+	public BoardFrame(MenuFrame master, User user, int id) {
 
 		this.master = master;
 		this.buttonPanel = new JPanel(new GridLayout(1, 4));
@@ -47,7 +47,7 @@ public class TestBoard extends JFrame {
 		this.raise_spinner = new JSpinner(new SpinnerNumberModel(1, 1, 1500, 1));
 
 		System.out.println("reinit");
-		this.panel = new TestPanel(this, null, null, id);
+		this.panel = new BoardPanel(this, null, null, id);
 
 		this.setIconImage(Sprite.getIconSprite());
 

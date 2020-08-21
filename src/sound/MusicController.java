@@ -15,9 +15,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * Music controller class for the in game music
  */
 public enum MusicController {
-	THEME("Poker Theme.wav", "Poker Theme Loop.wav"),       // bullet
+	THEME("resources/music/wav/Poker Theme.wav", "resources/music/wav/Poker Theme Loop.wav"),       // bullet
 
-	SECRET("SuperSecretHiddenTheme.wav", "SuperSecretHiddenThemeLoop.wav");
+	SECRET("resources/music/wav/SuperSecretHiddenTheme.wav", "resources/music/wav/SuperSecretHiddenThemeLoop.wav");
 
    // Nested class for specifying volume
    public static enum Volume {

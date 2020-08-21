@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import ui.Sprite;
-import ui.frames.StartBox;
+import ui.frames.ServerStartFrame;
 
 /**
  * Startpanel is the ui for starting the game on the host side
@@ -28,7 +28,7 @@ import ui.frames.StartBox;
 public class StartPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private StartBox master;
+	private ServerStartFrame master;
 	private Timer connected_timer;
 	private Font font;
 	private int connected;
@@ -41,7 +41,7 @@ public class StartPanel extends JPanel {
 	 * Constructor for the start panel
 	 * @param master The parent jframe to be embedded in
 	 */
-	public StartPanel(StartBox master) {
+	public StartPanel(ServerStartFrame master) {
 		this.master = master;
 		this.connected = 0;
 		this.connected_timer = new Timer(200, updatePanel);

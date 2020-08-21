@@ -25,8 +25,8 @@ import sound.MusicController;
 import sound.SoundEffects;
 import ui.Chips;
 import ui.Sprite;
-import ui.frames.TestBoard;
-import ui.frames.TestMenu;
+import ui.frames.BoardFrame;
+import ui.frames.MenuFrame;
 
 /**
  * @author Trey Briccetti
@@ -37,7 +37,7 @@ import ui.frames.TestMenu;
  * @author bricc
  *
  */
-public class TestPanel extends JPanel {
+public class BoardPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	protected Card card1, card2;
@@ -64,7 +64,7 @@ public class TestPanel extends JPanel {
 	 * @param card2 The second of the player's cards
 	 * @param id Client id used in networking
 	 */
-	public TestPanel(TestBoard master, Card card1, Card card2, int id) {
+	public BoardPanel(BoardFrame master, Card card1, Card card2, int id) {
 
 		//set some initial values for the display
 		this.setSize(900, 480);
@@ -76,7 +76,7 @@ public class TestPanel extends JPanel {
 
 		//create list of players and add self
 		this.players = new ArrayList<>();
-		players.add(new Player(id, TestMenu.name, 0));
+		players.add(new Player(id, MenuFrame.name, 0));
 
 		//initialize some display strings;
 		this.player_moves = new ArrayList<>();
@@ -118,7 +118,7 @@ public class TestPanel extends JPanel {
 			card2_reg = Sprite.getSprite(card2);
 		}
 
-		itable = TestMenu.table;
+		itable = MenuFrame.table;
 
 		chip_spr = new Image[6];
 		itable_cards = new Image[5];
@@ -210,22 +210,22 @@ public class TestPanel extends JPanel {
 
 							System.out.println("mchanging on release");
 							if (x > 2 && x < ch_size*2 + 2) {
-								if (TestMenu.mus_toggle) {
+								if (MenuFrame.mus_toggle) {
 									imusic = musicOff.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
-									if (TestMenu.mode)
+									if (MenuFrame.mode)
 										MusicController.THEME.stop();
 									else {
 										MusicController.SECRET.stop();
 									}
 								} else {
 									imusic = musicOn.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
-									if (TestMenu.mode)
+									if (MenuFrame.mode)
 										MusicController.THEME.play();
 									else {
 										MusicController.SECRET.play();
 									}
 								}
-								TestMenu.mus_toggle = !TestMenu.mus_toggle;
+								MenuFrame.mus_toggle = !MenuFrame.mus_toggle;
 								repaint();
 
 							}
@@ -258,7 +258,7 @@ public class TestPanel extends JPanel {
 
 		font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
 
-		itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
+		itable = MenuFrame.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
 		c_width = (int) Math.floor((double)width/13.0 );
 		c_height = (int) Math.floor((double)height/5.0 );
@@ -301,7 +301,7 @@ public class TestPanel extends JPanel {
 		else
 			ivolume = volume_off.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
 
-		if (TestMenu.mus_toggle)
+		if (MenuFrame.mus_toggle)
 			imusic = musicOn.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);
 		else
 			imusic = musicOff.getScaledInstance(ch_size*2, ch_size*2, Image.SCALE_FAST);

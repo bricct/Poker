@@ -34,7 +34,7 @@ public class Sprite {
         BufferedImage sprite = null;
 
         try {
-            sprite = ImageIO.read(new File("spritesheet.png"));
+            sprite = ImageIO.read(new File("resources/sprites/spritesheet.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class Sprite {
         BufferedImage assets = null;
 
         try {
-            assets = ImageIO.read(new File("assets.png"));
+            assets = ImageIO.read(new File("resources/sprites/assets.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,7 +70,7 @@ public class Sprite {
         BufferedImage options = null;
 
         try {
-        	options = ImageIO.read(new File("optionsAssets.png"));
+        	options = ImageIO.read(new File("resources/sprites/optionsAssets.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -399,7 +399,7 @@ public class Sprite {
     	if (youWin == null);
 
         try {
-            youWin = ImageIO.read(new File("youWin.png"));
+            youWin = ImageIO.read(new File("resources/sprites/youWin.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -412,7 +412,7 @@ public class Sprite {
     	if (youLose == null);
 
         try {
-            youLose = ImageIO.read(new File("youLose.png"));
+            youLose = ImageIO.read(new File("resources/sprites/youLose.png"));
 
         } catch (IOException e) {
             e.printStackTrace();

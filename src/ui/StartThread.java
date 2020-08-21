@@ -3,7 +3,7 @@ package ui;
 import java.awt.EventQueue;
 
 import netwrk.HThread;
-import ui.frames.StartBox;
+import ui.frames.ServerStartFrame;
 
 
 /**
@@ -13,7 +13,7 @@ import ui.frames.StartBox;
 public class StartThread extends Thread {
 	
 	private HThread master;
-	private StartBox startBox;
+	private ServerStartFrame startBox;
 	
 	/** Creates a thread to run the start server frame and panel
 	 * @param master The Hosting thread which created this thread
@@ -28,7 +28,7 @@ public class StartThread extends Thread {
 	 */
 	public void run() {
 		EventQueue.invokeLater(() -> {
-			this.startBox = new StartBox(master);
+			this.startBox = new ServerStartFrame(master);
 			this.startBox.setVisible(true);
 		});
 	}
