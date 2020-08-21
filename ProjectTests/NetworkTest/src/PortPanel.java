@@ -12,6 +12,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
+/**
+ * Portpanel deals with the ui for when the user is inputting a port into the game to connect to
+ */
 public class PortPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -24,7 +27,10 @@ public class PortPanel extends JPanel {
 	
 	
 
-	
+	/**
+	 * Constructor for the port panel
+	 * @param master The parent jframe to be embedded in
+	 */
 	public PortPanel(TestMenu master) {
 
 		

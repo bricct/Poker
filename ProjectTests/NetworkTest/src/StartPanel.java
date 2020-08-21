@@ -17,6 +17,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+/**
+ * Startpanel is the ui for starting the game on the host side
+ */
 public class StartPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -29,6 +32,10 @@ public class StartPanel extends JPanel {
 	private BufferedImage form, button;
 	private Image iform, ibutton;
 	
+	/**
+	 * Constructor for the start panel
+	 * @param master The parent jframe to be embedded in
+	 */
 	public StartPanel(StartBox master) {
 		this.master = master;
 		this.connected = 0;

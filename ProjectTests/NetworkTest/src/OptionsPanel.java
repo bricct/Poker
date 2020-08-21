@@ -13,6 +13,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/**
+ * Optionspanel deals with the UI of the game for the options menu.
+ */
 public class OptionsPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -23,7 +26,10 @@ public class OptionsPanel extends JPanel {
 	private Font font;
 	
 
-	
+	/**
+	 * Constructor for the options panel
+	 * @param master The parent jframe to be embedded in
+	 */
 	public OptionsPanel(TestMenu master) {
 
 		this.setSize(master.getWidth(), master.getHeight());

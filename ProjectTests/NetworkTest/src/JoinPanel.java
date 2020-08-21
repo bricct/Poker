@@ -12,7 +12,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
-
+/**
+ * Join panel is our JPanel object for handling when the user is prior to joining a game
+ */
 public class JoinPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -23,8 +25,10 @@ public class JoinPanel extends JPanel {
 	private Font font;
 	
 	
-
-	
+	/**
+	 * The constructor for the joinpanel object
+	 * @param master master frame to be embedded in
+	 */	
 	public JoinPanel(TestMenu master) {
 
 		

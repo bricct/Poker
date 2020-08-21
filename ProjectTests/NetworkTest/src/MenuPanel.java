@@ -11,6 +11,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
+/**
+ * MenuPanel is our UI panel for handling the menu options within the game
+ */
 public class MenuPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -21,7 +24,10 @@ public class MenuPanel extends JPanel {
 
 	private Font font;
 	
-	
+	/**
+	 * Menupanel constructor
+	 * @param master Parent jframe to be embedded in.
+	 */
 	public MenuPanel(TestMenu master) {
 
 
