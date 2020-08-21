@@ -1,14 +1,8 @@
 import java.io.*;
 import javax.sound.sampled.*;
 
-/**
- * This enum encapsulates all the sound effects of a game, so as to separate the sound playing
- * codes from the game codes.
- * 1. Define all your sound effect names and the associated wave file.
- * 2. To play a specific sound, simply invoke SoundEffect.SOUND_NAME.play().
- * 3. You might optionally invoke the static method SoundEffect.init() to pre-load all the
- *    sound files, so that the play is not paused while loading the file for the first time.
- * 4. You can use the static variable SoundEffect.volume to mute the sound.
+/** Houses the sounf effects for the game and allows them to be played
+ * 
  */
 public enum SoundEffects {
    DRAW("draw.wav"),   // explosion

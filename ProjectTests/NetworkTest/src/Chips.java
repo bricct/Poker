@@ -1,6 +1,15 @@
 
+/** 
+ * @author Trey Briccetti
+ * @version 1.0
+ */
+
 public class Chips {
 
+	/**
+	 * @param _amt The amount of money to be divided into an array
+	 * @return Array representing how many chips of each type need to be drawn to display an amount of money
+	 */
 	public static int[] getChips(int _amt) {
 		
 		int[] chips = new int[6];

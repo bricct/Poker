@@ -58,14 +58,13 @@ public enum MusicController {
    /**
     * Plays the music
     */
-   // Play or Re-play the sound effect from the beginning, by rewinding.
    public void play() {
       if (volume != Volume.MUTE) {
     	  off = false;
          if (loop_clip.isRunning())
-            loop_clip.stop();   // Stop the player if it is still running
+            loop_clip.stop();
          if (intro_clip.isRunning())
-             intro_clip.stop();   // Stop the player if it is still running
+             intro_clip.stop();
          
          MusicThread musicThread = new MusicThread();
          musicThread.start();
