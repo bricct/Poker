@@ -14,6 +14,12 @@ private PriorityQueue<String> cmds;
 
 	CThread() throws IOException{}
 	
+	/** Creates a thread to listen for message from a particular client
+	 * @param s The socket
+	 * @param id The id of the particular client
+	 * @param cmds The priority queue the messages will be pushed into
+	 * @throws IOException
+	 */
 	CThread(Socket s, int id, PriorityQueue<String> cmds) throws IOException{
 	    this.s=s;
 	    this.cmds = cmds;
@@ -21,6 +27,9 @@ private PriorityQueue<String> cmds;
 	    infromClient = new DataInputStream(s.getInputStream());
 	    outToClient = new DataOutputStream(s.getOutputStream());
 	}
+		/** Sends an id to the player and then Constantly polls for messages from the user
+		 *
+		 */
 		public void run(){  
 			
 			
@@ -63,6 +72,10 @@ private PriorityQueue<String> cmds;
 	        this.cmds.add(msg);
 		}
 		
+		/** Sends a message to the user
+		 * @param msg The message to be sent from the server to the client
+		 * @throws IOException
+		 */
 		public void sendMessage(String msg) throws IOException {
 			outToClient.writeUTF(msg);
 		}

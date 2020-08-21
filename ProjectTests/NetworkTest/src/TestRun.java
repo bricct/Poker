@@ -6,8 +6,16 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JFrame;
 
+/**
+ * @author Trey Briccetti
+ * @version 1.0
+ */
 public class TestRun {
 
+	
+	/**	Launches the game
+	 * 
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 

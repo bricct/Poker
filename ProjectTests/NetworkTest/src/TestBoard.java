@@ -23,10 +23,10 @@ public class TestBoard extends JFrame {
 	private Card[] table_cards;
 	private TestMenu master;
 	private JSpinner raise_spinner;
-	/**
-	 * @param master
-	 * @param user
-	 * @param id
+	/** Creates a Frame that holds The game display UI
+	 * @param master The Main Menu
+	 * @param user The User 
+	 * @param id Unique identifier of the user used in networking
 	 */
 	public TestBoard(TestMenu master, User user, int id) {
 
@@ -116,7 +116,7 @@ public class TestBoard extends JFrame {
 
 
 
-	/**
+	/** Tells the panel to fold the current hand
 	 * 
 	 */
 	public void fold() {
@@ -127,43 +127,43 @@ public class TestBoard extends JFrame {
 
 
 
-	/**
-	 * @param card1
-	 * @param card2
+	/** Sets the cards of the player to specific cards in the display
+	 * @param card1 The first card to be set
+	 * @param card2 The second card to be set
 	 */
 	public void setCards(Card card1, Card card2) {
 		panel.setCards(card1, card2);
 	}
 
-	/**
-	 * @param id
-	 * @param money
+	/** Sets the money of a player in the display panel
+	 * @param id The unique identifier of the user in question
+	 * @param money The amount of money to be set
 	 */
 	public void setMoney(int id, int money) {
 		this.panel.setMoney(id, money);
 	}
 
 
-	/**
-	 * @param players
+	/** Sets the players in the display
+	 * @param players An array list containing the players
 	 */
 	public void setPlayers(ArrayList<Player> players) {
 		this.panel.setPlayers(players);
 	}
 
 
-	/**
-	 * @param pot
+	/** Sets the pot in the display
+	 * @param pot The amount of money to be set to the pot
 	 */
 	public void setPot(int pot) {
 		this.panel.setPot(pot);
 	}
 
 
-	/**
-	 * @param card1
-	 * @param card2
-	 * @param card3
+	/** Forwards the three cards in the flop to the display
+	 * @param card1 The first card in the flop
+	 * @param card2 The second card in the flop
+	 * @param card3 The third card in the flop
 	 */
 	public void setFlop(Card card1, Card card2, Card card3) {
 			table_cards = new Card[5];
@@ -178,8 +178,8 @@ public class TestBoard extends JFrame {
 	}
 
 
-	/**
-	 * @param card
+	/** Forwards the turn card to the display
+	 * @param card The turn card
 	 */
 	public void setTurn(Card card) {
 
@@ -189,8 +189,8 @@ public class TestBoard extends JFrame {
 		panel.turn(table_cards);
 	}
 
-	/**
-	 * @param card
+	/** Forwards the river card to the display
+	 * @param card The river card
 	 */
 	public void setRiver(Card card) {
 
@@ -199,22 +199,22 @@ public class TestBoard extends JFrame {
 		panel.river(table_cards);
 	}
 
-	/**
-	 * @param id
-	 * @param pot
+	/** Sends winnings of a player to the display
+	 * @param id The networking id of the player in question
+	 * @param pot The amount of money won by the player in question
 	 */
 	public void setWinnings(int id, int pot) {
 		this.panel.winHand(id, pot);
 	}
 	
-	/**
+	/** Updates the display to show whose turn it is
 	 * @param id
 	 */
 	public void sendTurn(int id) {
 		this.panel.turn(id);
 	}
 
-	/**
+	/** Resets the panel ui for the next hand
 	 * 
 	 */
 	public void resetHand() {
@@ -223,16 +223,16 @@ public class TestBoard extends JFrame {
 	}
 
 
-	/**
-	 * @param bet
+	/** Sends a bet to the display
+	 * @param bet The amount of money being bet
 	 */
 	public void sendBet(int bet) {
 		this.panel.addToPot(bet);
 	}
 
 
-	/**
-	 * 
+	/** Tells the display to show the you lose screen
+	 *
 	 */
 	public void sendLoss() {
 		this.panel.lose();
@@ -243,8 +243,8 @@ public class TestBoard extends JFrame {
 
 
 
-	/**
-	 * @param id
+	/** Tells the display to show that a user folded
+	 * @param id The networking id of the player in question
 	 */
 	public void sendFold(int id) {
 		this.panel.fold(id);
@@ -252,8 +252,8 @@ public class TestBoard extends JFrame {
 	}
 
 
-	/**
-	 * @param id
+	/** Tells the display that a user has disconnected
+	 * @param id The id of the player who disconnected
 	 */
 	public void sendDisconnect(int id) {
 		this.panel.dc(id);
@@ -261,8 +261,8 @@ public class TestBoard extends JFrame {
 	}
 
 
-	/**
-	 * @param id
+	/** Tells the display to show that a user checked
+	 * @param id The networking id of the player in question
 	 */
 	public void sendCheck(int id) {
 		this.panel.check(id);
@@ -270,21 +270,21 @@ public class TestBoard extends JFrame {
 	}
 
 
-	/**
-	 * @param id
-	 * @param bet
+	/** Tells the display to show that a user raised
+	 * @param id The networking id of the player in question
+	 * @param bet The amount of money raised by the player in question
 	 */
 	public void sendRaise(int id, int bet) {
 		this.panel.raise(id, bet);
 		
 	}
 	
-	/**
-	 * @param id
-	 * @param value1
-	 * @param suit1
-	 * @param value2
-	 * @param suit2
+	/** Reveals the cards of another player in the game
+	 * @param id The player in question
+ 	 * @param value1 The value of the first card
+	 * @param suit1 The suit of the first card
+	 * @param value2 The value of the second card
+	 * @param suit2 The suit of the second card
 	 */
 	public void sendPlayerCards(int id, int value1, int suit1, int value2, int suit2) {
 		this.panel.setPlayerCards(id, new Card(value1, suit1), new Card(value2, suit2));
@@ -293,7 +293,7 @@ public class TestBoard extends JFrame {
 
 
 
-	/**
+	/** Tells the display to show the you win screen
 	 * 
 	 */
 	public void sendWin() {
@@ -302,9 +302,9 @@ public class TestBoard extends JFrame {
 	}
 
 
-	/**
-	 * @param id
-	 * @param bet
+	/** Tells the display to show that a player has gone all in
+	 * @param id The networking id of the player in question
+	 * @param bet The amount of money the player has gone all in with
 	 */
 	public void sendAllin(int id, int bet) {
 		this.panel.sendAllin(id, bet);
@@ -312,7 +312,7 @@ public class TestBoard extends JFrame {
 	}
 
 
-	/**
+	/** Tells the display to show the leave game option
 	 * 
 	 */
 	public void sendGameEnd() {
@@ -321,7 +321,7 @@ public class TestBoard extends JFrame {
 	}
 
 
-	/**
+	/** Exits the game frame and returns to the main menu
 	 * 
 	 */
 	public void exit() {

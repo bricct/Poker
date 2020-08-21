@@ -2,12 +2,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
+/**
+ * @author Trey Briccetti
+ * @version 1.0
+ */
 public class User {
 
 
 	private Client client;
 	private TestBoard board;
 	private final int id;
+	
+	/** Constructs a user to connect to the server and display
+	 * @param master The main menu
+	 */
 	public User(TestMenu master) {
 
 
@@ -42,13 +50,6 @@ public class User {
 		}
 		System.out.println("" + id);
 		if (id == -1) System.out.println("uhoh");
-//		JFrame frame = new JFrame();
-//		frame.setVisible(true);
-//		frame.setResizable(false);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-//		frame.add(b);
-//		frame.pack();
 
 		UThread t = new UThread(client);
 		t.start();
@@ -58,35 +59,25 @@ public class User {
 
 
 
-
-//			while(true) {
-//		    	String cmd = commands.poll();
-//		    	if (cmd != null) {
-//		    		System.out.println(cmd);
-//
-//		    	}
-//		    	try {
-//					Thread.sleep(20);
-//				} catch (InterruptedException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-//		    }
-
-
-
 	}
 
-	public void sendMessage(String msg) throws Exception {
+	/** Sends a message to the server
+	 * @param msg The message to be sent
+	 */
+	public void sendMessage(String msg) {
 		try {
 	    	client.sendMessage(id + " " + msg);
 	    } catch (Exception ee) {
-	    	System.out.println("oopsies");
+	    	System.out.println("Error: Client unable to send message");
 	    	ee.printStackTrace();
 	    }
 	}
 
 
+	/** Operates on a command by the server and forwards method calls to the display frame
+	 * @param cmd The Command sent by the server
+	 * @throws Exception If a message is corrupted during transit an exception is thrown
+	 */
 	public void operate(String cmd) throws Exception {
 		if (cmd.equals("kicked")) {
 			this.client.disconnect();
@@ -102,7 +93,7 @@ public class User {
 
 
 		if (args[0].equals("cards")) {
-//			try {
+
 
 				int value1 = Integer.parseInt(args[1]);
 				int suit1 = Integer.parseInt(args[2]);
@@ -112,30 +103,17 @@ public class User {
 
 				this.board.setCards(new Card(value1, suit1), new Card(value2, suit2));
 
-//			} catch (NumberFormatException e1) {
-//				System.out.println("Error: cannot parse card values");
-//				return;
-//			} catch (IndexOutOfBoundsException e2) {
-//				System.out.println("Error: not enough card values passed in");
-//				return;
-//			}
+
 		} else if (args[0].equals("money")) {
-//			try {
+
 			
 				int id = Integer.parseInt(args[1]);
 				int money = Integer.parseInt(args[2]);
 
-				//System.out.println(id + " " + money + " " + (this.board == null));
-
 				this.board.setMoney(id, money);
 
-//			} catch (NumberFormatException e1) {
-//				System.out.println("Error: cannot parse money value");
-//				return;
-//			}
 
 		} else if (args[0].equals("players")) {
-//			try {
 
 				int num_players = Integer.parseInt(args[1]);
 				int starting_money = Integer.parseInt(args[2]);
@@ -150,20 +128,9 @@ public class User {
 					players.add(new Player(id, name, starting_money));
 				}
 				
-//				
-//				
-//				int[] players = new int[num_players];
-//
-//				for (int i = 1; i < num_players; i++) {
-//					players[i-1] = Integer.parseInt(args[i+1]);
-//				}
 
 				this.board.setPlayers(players);
 
-//			} catch (NumberFormatException e1) {
-//				System.out.println("Error: cannot parse player values");
-//				return;
-//			}
 
 		} else if (args[0].equals("raise")) {
 			board.sendRaise(Integer.parseInt(args[1]), Integer.parseInt(args[2]));

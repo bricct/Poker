@@ -15,9 +15,18 @@ public class Server {
 	private ArrayList<CThread> threads;
 	private HashSet<Integer> disconnected;
 	private ArrayList<Player> players;
-	//private Deck deck;
 	private final int startingMoney, bblind, port;
 	
+	/** Constructs a server that sends and receives game state update messages to and from the client
+	 * @param num_players The max number of players
+	 * @param startingMoney The starting money every player gets
+	 * @param bblind The amount of money the big blind is
+	 * @param port The port the server is being hosted on
+	 * @param master The Thread which creates the server
+	 * @param status An integer that allows the user to start the game with any number of players less than 5 connected
+	 * @throws IOException 
+	 * @throws InterruptedException
+	 */
 	public Server(int num_players, int startingMoney, int bblind, int port, HThread master, AtomicInteger status) throws IOException, InterruptedException{   
 		
 		
@@ -79,42 +88,21 @@ public class Server {
 		}
 		
 		
-//		
-//		for (int i = 0; i < threads.size(); i++) {
-//			players.add(new Player(i, ((int)i)+"", startingMoney));
-//			sendMoney(i, startingMoney);
-//		}
-//		
-		
-		
-		
-		
 		sendPlayerInfo();
 		
 		
 		Game game = new Game(this.bblind/2, this.bblind, this.players, this);
 		game.playGame();
-		
-		
-		//this.deck = new Deck();
-		//this.deck.shuffle();
-		
-	    
-	    
-	    
-	    
-	    //sendCards();
-	    //sendInitialMoney();
-	    
-	    
-	    
-	    
-	
-	
-	
-	
+
 	    }
 	
+	
+	
+	/** Stalls the server until a message is received from a particular user
+	 * @param id The user id
+	 * @return An array of parsed strings representing the message form the user
+	 * @throws InterruptedException
+	 */
 	public String[] nextCmd(int id) throws InterruptedException {
 		boolean next_cmd_found = false;
 		int cmd_id = -1;
@@ -143,9 +131,6 @@ public class Server {
 	    			
 	    		}
 	    		
-	    		
-	    		//System.out.println(cmd);
-	    		//executeCmd(cmd);
 	    	}
 	    	Thread.sleep(20);
 	    }
@@ -155,6 +140,10 @@ public class Server {
 	}
 	
 	
+	/** Executes a command on the server
+	 * @param process The command message
+	 * @return 0 if the message was a known operation otherwise it returns -1
+	 */
 	public int executeCmd(String process) {
 		String[] args = process.split(" ");
 		
@@ -183,25 +172,24 @@ public class Server {
 		if (cmd.equals("disconnected")) disconnected.add(new Integer(id));
 			
 		if (cmd.equals("fold")) {
-			//do something
 			distributeCmd(-1, cmd);
-//		} else if (cmd.equals("raise")) {
-//			//do something
-//			distributeCmd(id, cmd + " " + val);
 		} else if (cmd.equals("check")) {
-			//do something
 			distributeCmd(-1, cmd + " " + id);
 		} else if (cmd.equals("disconnected")) {
-			//do something
 			distributeCmd(id, cmd);
 		} else {
-			//distributeCmd(id, cmd);
 			return -1;
 		}
 			
 		return 0;
 	}
 	
+	
+	
+	/** Distributes a command to all clients except that with user id == id
+	 * @param id The user who sent the message, -1 if from the server
+	 * @param cmd The command to be distriubuted to the clients
+	 */
 	private void distributeCmd(int id, String cmd) {
 		
 		for (int i = 0; i < this.threads.size(); i++) {
@@ -237,6 +225,10 @@ public class Server {
 		}
 	}
 	
+	
+	/** Sends cards to all active players
+	 * @param queue The queue of people to recieve cards
+	 */
 	public void sendCards(ArrayList<PlayerTuple> queue) {
 		
 		for (int i = 0; i < queue.size(); i++) {
@@ -259,38 +251,7 @@ public class Server {
 	}	
 		
 		
-		
-		
-//		for (int i = 0; i < this.threads.size(); i++) {
-//			
-//			if (!disconnected.contains(new Integer(i))) {
-//				try {
-//					
-//					threads.get(i).sendMessage("cards" + " " + card1.value() + " " + card1.suit() + " " + card2.value() + " " + card2.suit());
-//	
-//					System.out.println("sending cards " + card1.value() + " " + card1.suit() + " " + card2.value() + " " + card2.suit() + " to client " + i);
-//				} catch (IOException e) {
-//					System.out.println("someting wong");
-//				}
-//			}	
-//		}
-	
-	
-//	private void sendInitialMoney() {
-//		for (int i = 0; i < this.threads.size(); i++) {
-//					
-//			if (!disconnected.contains(new Integer(i))) {
-//				try {
-//					
-//					threads.get(i).sendMessage("money " + this.startingMoney);
-//	
-//					System.out.println("sending money " + this.startingMoney + " to client " + i);
-//				} catch (IOException e) {
-//					System.out.println("someting wong");
-//				}
-//			}	
-//		}
-//	}
+
 	
 	private void sendPlayerInfo() {
 		for (int i = 0; i < this.threads.size(); i++) {
@@ -324,87 +285,141 @@ public class Server {
 	}
 
 	
+	/** Sends a message to the clients that a person has folded
+	 * @param id The id of the player who folded
+	 */
 	public void forceFold(int id) {
-		// TODO Auto-generated method stub
 		sendCmd(id, "fold");
 		
 		distributeCmd(id, "fold");
 		
 	}
 	
-	//send to all
+	/** Sends the current pot amount to all players
+	 * @param pot The amount of money in the pot
+	 */
 	public void sendPot(int pot) {
 		distributeCmd(-1, "pot " + pot);
 		
 	}
 
+	/** Sends the money of a player all players
+	 * @param id the id of the player in question
+	 * @param money the amount of money the player has
+	 */
 	public void sendMoney(int id, int money) {
 		distributeCmd(-1, "money " + id + " " + money);
 
 		
 	}
 
+	/** Sends the blinds to a player
+	 * @param id the id of the player in question
+	 * @param val The amount of money the blind is
+	 */
 	public void sendBlind(int id, int val) {
 		sendCmd(id, "blind " + val);
 		
 	}
 
+	/** Sends the winnings of a player to all players
+	 * @param id the id of the player in question
+	 * @param pot The amount of money in the pot
+	 */
 	public void sendWinnings(int id, int pot) {
 		distributeCmd(-1, "winnings " + id + " " + pot);
 		
 	}
 
 	
-	//send to all
+	/** Sends the flop cards to all players
+	 * @param card1 The first card in the flop
+	 * @param card2 The second card in the flop
+	 * @param card3 The third card in the flop
+	 */
 	public void sendFlop(Card card1, Card card2, Card card3) {
 		distributeCmd(-1, "flop " + card1.value() + " " + card1.suit() + " " + card2.value() + " " + card2.suit() + " " + card3.value() + " " + card3.suit());
 		
 	}
+
 	
-	//send to all
+	/** Sends the turn card to all players
+	 * @param card the turn card
+	 */
 	public void sendTurn(Card card) {
 		distributeCmd(-1, "turn " + card.value() + " " + card.suit());
 		
 	}
 
-	//send to all
+
+	/** Sends the river card all players
+	 * @param card the river card
+	 */
 	public void sendRiver(Card card) {
 		distributeCmd(-1, "river " + card.value() + " " + card.suit());
 		
 	}
 
-	//send to all
+
+	/** Sends the reset ui command to all players
+	 * 
+	 */
 	public void sendStartHand() {
 		distributeCmd(-1, "reset-hand");
 		
 	}
 	
 	
+	/** Sends the raise of a player to all players
+	 * @param id the id of the player in question
+	 * @param bet the amount of money raised by the player
+	 */
 	public void sendRaise(int id, int bet) {
 		distributeCmd(-1,  "raise " + id + " " + bet);
 	}
 
-	public void sendAllin(int getid, int bet) {
-		distributeCmd(-1, "all-in " + getid + " " + bet);
+	/** Sends the all in of a player to all players
+	 * @param id the id of the player in question 
+	 * @param bet the amount of money the player went all in with
+	 */
+	public void sendAllin(int id, int bet) {
+		distributeCmd(-1, "all-in " + id + " " + bet);
 		
 	}
 	
+	/**  Sends a win to a player
+	 * @param id the id of the player in question
+	 */
 	public void sendWin(int id) {
 		sendCmd(id, "you-win");
 	}
 	
+	/** Sends a loss to a player
+	 * @param id the id of the player in question
+	 */
 	public void sendLose(int id) {
 		sendCmd(id, "you-lose");
 	}
 
+	/** Sends the game ending message to all players
+	 * 
+	 */
 	public void sendGameEnd() {
 		distributeCmd(-1, "game-end");
 	}
-	
+	 
+	/** Sends whose turn it is to all players
+	 * @param id the id of the player in question
+	 */
 	public void sendTurn(int id) {
 		distributeCmd(-1, "player-turn " + id);
 	}
 
+	/** Exposes the cards of a player to all other players
+	 * @param id the id of the player in question
+	 * @param firstCard The first card of the player
+	 * @param secCard The second card of the player
+	 */
 	public void exposeCards(int id, Card firstCard, Card secCard) {
 		
 		distributeCmd(id, "player-cards " + id + " " + firstCard.value() + " " + firstCard.suit() + " " + secCard.value() + " " + secCard.suit());

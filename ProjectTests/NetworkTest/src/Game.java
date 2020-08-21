@@ -26,10 +26,6 @@ public class Game
 
         boardCards = new ArrayList<>();
 
-//        for(int i=0; i<inumPlayers; i++)
-//        {
-//            players.add(new Player(initialIncome));
-//        }
 
 
     }

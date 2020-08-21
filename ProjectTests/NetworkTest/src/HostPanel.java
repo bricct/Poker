@@ -25,6 +25,9 @@ public class HostPanel extends JPanel {
 	
 
 	
+	/** Creates a Menu Panel that allows the host to select options for hosting a game
+	 * @param master The Main Menu
+	 */
 	public HostPanel(TestMenu master) {
 
 		
@@ -260,11 +263,6 @@ public class HostPanel extends JPanel {
 	
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-		
-		
-		
-		
-		
 
 		
 		g2d.drawImage(itable, 0, 0, this);
