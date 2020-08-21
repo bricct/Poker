@@ -17,9 +17,8 @@ public class Server {
 	private ArrayList<Player> players;
 	//private Deck deck;
 	private final int startingMoney, bblind, port;
-	private volatile boolean hasStarted, stopped;
 	
-	public Server(int num_players, int startingMoney, int bblind, int port, HThread master) throws IOException, InterruptedException{   
+	public Server(int num_players, int startingMoney, int bblind, int port, HThread master, AtomicInteger status) throws IOException, InterruptedException{   
 		
 		
 		this.clients = new AtomicInteger(0);
@@ -29,12 +28,12 @@ public class Server {
 		this.startingMoney = startingMoney;
 		this.bblind = bblind;
 		this.port = port;
-		this.hasStarted = false;
 	    
-		while((clients.intValue() < 5 || this.hasStarted) && !this.stopped){
+		while((clients.intValue() < 5 && (status.intValue() == 0))){
 			System.out.println(clients.intValue() + "");
 	        ServerSocket ss=new ServerSocket(this.port);
 	        System.out.println("Waiting for Clients to connect"); 
+	        
 	        Socket s=ss.accept();
 	        CThread t=new CThread(s, clients.getAndIncrement(), commands);
 	        threads.add(t);
@@ -42,10 +41,14 @@ public class Server {
 	        Thread.sleep(20);
 	        ss.close();
 	        master.updateConnected(clients.intValue());
+	        System.out.println("status " + status.intValue());
 	    
 	    }    
 		
-		if (this.stopped) {
+		System.out.println("Server Starting");
+		
+		if (status.intValue() < 0) {
+			sendGameEnd();
 			throw new InterruptedException("Host has cancelled the server");
 		}
 	    
@@ -111,15 +114,6 @@ public class Server {
 	
 	
 	    }
-	
-	public void start() {
-		this.hasStarted = true;
-	}
-	
-	public void stop() {
-		this.stopped = true;
-	}
-	
 	
 	public String[] nextCmd(int id) throws InterruptedException {
 		boolean next_cmd_found = false;

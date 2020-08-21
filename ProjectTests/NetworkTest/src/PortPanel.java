@@ -181,13 +181,13 @@ public class PortPanel extends JPanel {
 	                	} else if (checking) {
 	                		if (x >= width/2 - c_width/2 + (c_width - c_small) && x < width/2 - c_width/2 + c_width) {
 	                			//master.setVisible(false);
-	                			HThread thread = new HThread(TestMenu.port, TestMenu.starting_cash, TestMenu.blind_cash);
+	                			HThread thread = new HThread(TestMenu.port, TestMenu.starting_cash, TestMenu.blind_cash, master);
 	                			TestMenu.ip[0] = 127;
 	                			TestMenu.ip[1] = 0;
 	                			TestMenu.ip[2] = 0;
 	                			TestMenu.ip[3] = 1;
 	                			thread.start();
-	                			master.game();
+	                			//master.game();
 	                			
 	                			
 	                		}

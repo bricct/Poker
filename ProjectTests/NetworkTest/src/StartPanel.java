@@ -5,10 +5,14 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -22,14 +26,15 @@ public class StartPanel extends JPanel {
 	private int connected;
 	private int width, height;
 	private boolean starting, cancelling;
-	//private BufferedImage form, button;
+	private BufferedImage form, button;
 	private Image iform, ibutton;
+	
 	public StartPanel(StartBox master) {
 		this.master = master;
 		this.connected = 0;
-		this.connected_timer = new Timer(20, updatePanel);
+		this.connected_timer = new Timer(200, updatePanel);
 		this.connected_timer.start();
-		this.font = new Font("UglyPoker.ttf", Font.TRUETYPE_FONT, 14);
+		this.font = new Font("UglyPoker", Font.TRUETYPE_FONT, 5);
 		this.starting = false;
 		this.cancelling = false;
 		
@@ -37,8 +42,29 @@ public class StartPanel extends JPanel {
 		width = (int) scr_dim.getWidth() - 16;
 		height = (int) scr_dim.getHeight() - 39;
 		
-		this.ibutton = Sprite.getButtonSprite().getScaledInstance(width, height/2, Image.SCALE_FAST);
-		this.iform = Sprite.getFormSprite().getScaledInstance(width/2, height/2, Image.SCALE_FAST);;
+		this.button = Sprite.getButtonSprite();
+		this.form = Sprite.getFormSprite();
+		
+		this.ibutton = button.getScaledInstance(width, height/2, Image.SCALE_FAST);
+		this.iform = form.getScaledInstance(width/2, height/2, Image.SCALE_FAST);
+		
+		repaint();
+		
+		
+		this.addComponentListener(new ComponentAdapter() {
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				Dimension scr_dim = getSize();
+				width = (int) scr_dim.getWidth();
+				height = (int) scr_dim.getHeight();
+				font = new Font("UglyPoker", Font.TRUETYPE_FONT, 5);
+				ibutton = button.getScaledInstance(width, height/2, Image.SCALE_FAST);
+				iform = form.getScaledInstance(width/2, height/2, Image.SCALE_FAST);
+				
+			}
+			
+		});
 		
 		
 		this.addMouseListener(new MouseAdapter() {
@@ -104,21 +130,22 @@ public class StartPanel extends JPanel {
 	
 	
 	public void paintComponent(Graphics g) {
-		System.out.println("hey connected # is " + this.connected);
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setBackground(Color.black);
+		g2d.setColor(Color.black);
+		g2d.fillRect(0, 0, width, height);
 		g2d.drawImage(ibutton, 0, 0, this);
 		g2d.drawImage(iform, 0, height/2, this);
 		g2d.drawImage(iform, width/2, height/2, this);
 		
 		FontMetrics metrics = g2d.getFontMetrics(this.font);
+		g2d.setFont(this.font);
 		
+		g2d.setColor(Color.LIGHT_GRAY);
+		g2d.drawString(this.connected + " players connected", width/2 - metrics.stringWidth(this.connected + " players connected")/2, height/4 - metrics.getHeight()/2);
+		g2d.drawString("Cancel", width/4 - metrics.stringWidth("Cancel")/2, 3 * height/4 - metrics.getHeight()/2);
+		g2d.drawString("Start", 3 * width/4 - metrics.stringWidth("Start")/2, 3 * height/4 - metrics.getHeight()/2);
 		
-		g2d.drawString(this.connected + " players connected", width/2 - metrics.stringWidth(this.connected + " players connected")/2, height/4 - metrics.getHeight());
-		g2d.drawString("Cancel", width/4 - metrics.stringWidth("Cancel")/2, 3 * height/4 - metrics.getHeight());
-		g2d.drawString("Start", 3 * width/4 - metrics.stringWidth("Start")/2, 3 * height/4 - metrics.getHeight());
-		
-		
+		Toolkit.getDefaultToolkit().sync();
 	
 	}
 }	
