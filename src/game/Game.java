@@ -1,10 +1,13 @@
+package game;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import netwrk.Server;
 
 /**
  * Game is our class representation of our poker game
  * It holds all our poker components and handles rounds
- * 
+ *
  */
 public class Game
 {
@@ -45,7 +48,7 @@ public class Game
 
     /**
      * Checking process for going around the table in a stage
-     * 
+     *
      * @param queue queue of the players
      * @param pot current pot
      * @return returns current pot with added bets

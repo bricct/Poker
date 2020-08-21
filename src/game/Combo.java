@@ -1,20 +1,21 @@
-
+package game;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.HashMap;
+
 
 /**
  * Combo is a class that finds and holds the best combo
  * among a 7 card hand
  */
 public class Combo implements Comparable<Combo>
-{   
+{
     ArrayList<Card> playHand;
     ArrayList<Card> fullHand;
     HashSet<Card> cards;
     HashMap<Integer, Integer> vals;
-    ArrayList<Card> comboHand; 
+    ArrayList<Card> comboHand;
     int bestCombo = 1; //1 = high card, 2 = pair, 3 = two pair, 4 = three of a kind, 5 = straight, 6 = flush, 7 = full house, 8 = four of a kind, 9 = straight flush, 10 = royal flush
 
     //Straight properties
@@ -49,7 +50,7 @@ public class Combo implements Comparable<Combo>
             cards.add(playerHand.get(i));
             playHand.add(playerHand.get(i));
         }
-        
+
         Collections.sort(playerHand);
 
         for(int i=0;i<community.size();i++)
@@ -166,7 +167,7 @@ public class Combo implements Comparable<Combo>
                 start = 2;
                 for(int i=start;i<start+4;i++)
                 {
-                    
+
                     if(fullHand.contains(new Card(cardIt, fiveSuit)))
                     {
                         count++;
@@ -177,7 +178,7 @@ public class Combo implements Comparable<Combo>
             {
                 for(int i=start;i<start+5;i++)
                 {
-                    
+
                     if(fullHand.contains(new Card(cardIt, fiveSuit)))
                     {
                         count++;
@@ -330,7 +331,7 @@ public class Combo implements Comparable<Combo>
                         fullHand.remove(i);
                         break;
                     }
-                   
+
                 }
                 start = 2;
                 for(int i=0;i<fullHand.size();i++)
@@ -460,7 +461,7 @@ public class Combo implements Comparable<Combo>
                         }
                     }
                 }
-                //Impossible to have two people with straight flush of different suit                
+                //Impossible to have two people with straight flush of different suit
             }else if(this.bestCombo == 7)
             {
                 if(this.biggestNumVal > other.biggestNumVal)

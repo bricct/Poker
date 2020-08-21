@@ -1,11 +1,15 @@
+package ui;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import game.Card;
+
 /**
  * Main graphic class for all the graphics of the game.
- * 
+ *
  * This class includes all custom card graphics, fonts,
  * board ui, and chips.
  */
@@ -20,7 +24,7 @@ public class Sprite {
     private static final int OX_SIZE = 186;
     private static final int OY_SIZE = 84;
     private static final int OX_SMALL_SIZE = 18;
-    
+
     /**
      * Loads a sprite image and returns it as a buffered image
      * @return buffered image of the sprite
@@ -38,7 +42,7 @@ public class Sprite {
 
         return sprite;
     }
-    
+
     /**
      * Loads a asset image and returns it as a buffered image
      * @return buffered image of the asset
@@ -81,11 +85,11 @@ public class Sprite {
      * @return buffered image of the card
      */
     public static BufferedImage getSprite(Card card) {
-    	
+
     	int xGrid = 14-card.value();
     	int yGrid = card.suit()-1;
-    	
-    	
+
+
         if (spriteSheet == null) {
             spriteSheet = loadSprite();
         }
@@ -97,64 +101,64 @@ public class Sprite {
      * @return buffered image of the back of the card
      */
     public static BufferedImage getBackSprite() {
-    	
+
     	int xGrid = 1;
     	int yGrid = 4;
-    	
-    	
+
+
         if (spriteSheet == null) {
             spriteSheet = loadSprite();
         }
 
         return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, Y_SIZE);
     }
-    
+
     /**
      * @return buffered image of the deck sleeve
      */
     public static BufferedImage getDeckSprite() {
-    	
+
     	int xGrid = 0;
     	int yGrid = 4;
-    	
-    	
+
+
         if (spriteSheet == null) {
             spriteSheet = loadSprite();
         }
 
         return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, Y_SIZE);
     }
-    
+
     /**
      * @return buffered image of the icon
      */
     public static BufferedImage getIconSprite() {
-    	
+
     	int xGrid = 2;
     	int yGrid = 4;
-    	
-    	
+
+
         if (spriteSheet == null) {
             spriteSheet = loadSprite();
         }
 
         return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, X_SIZE);
     }
-    
+
     /**
      * @param chip value of chips
      * @return buffered image of the that is the value
      */
     public static BufferedImage getChipSprite(int chip) {
-    	
+
     	while (chip < 0) chip += 6;
-    	
+
     	while (chip > 5) chip -= 6;
-    	
+
     	int xGrid = 3+chip;
     	int yGrid = 4;
-    	
-    	
+
+
         if (spriteSheet == null) {
             spriteSheet = loadSprite();
         }
@@ -167,230 +171,230 @@ public class Sprite {
      * @return buffered image of the volume sprite in font
      */
 	public static BufferedImage getVolumeSprite(int i) {
-		
+
 		int xGrid = 11 + i;
     	int yGrid = 4;
-    	
-    	
+
+
         if (spriteSheet == null) {
             spriteSheet = loadSprite();
         }
 
         return spriteSheet.getSubimage(xGrid * X_SIZE, yGrid * Y_SIZE, X_SIZE, X_SIZE);
-		
-		
+
+
 	}
-	
+
 	/**
      * @return buffered image of the button
      */
 	public static BufferedImage getButtonSprite() {
-		
+
 		int xGrid = 0;
     	int yGrid = 1;
-    	
-    	
+
+
         if (assetSheet == null) {
             assetSheet = loadAssets();
         }
 
         return assetSheet.getSubimage(xGrid * AX_SIZE, yGrid * AY_SIZE, AX_SIZE, AY_SIZE);
-		
-		
+
+
 	}
-	
+
 	/**
      * @return buffered image of the big button
      */
 	public static BufferedImage getBigButtonSprite() {
-		
+
 		int xGrid = 1;
     	int yGrid = 1;
-    	
-    	
+
+
         if (assetSheet == null) {
             assetSheet = loadAssets();
         }
 
         return assetSheet.getSubimage(xGrid * AX_SIZE, yGrid * AY_SIZE, AX_BIG, AY_SIZE);
-		
-		
+
+
 	}
-    
+
 	/**
      * @return buffered image of the music sprite
      */
 	public static BufferedImage getMusicOnSprite() {
-			
+
 		int xGrid = 2;
     	int yGrid = 0;
-    	
-    	
+
+
         if (assetSheet == null) {
             assetSheet = loadAssets();
         }
 
         return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
-			
-			
+
+
 		}
-    
+
     /**
      * @return buffered image of the music off sprite
      */
 	public static BufferedImage getMusicOffSprite() {
-		
+
 		int xGrid = 3;
     	int yGrid = 0;
-    	
-    	
+
+
         if (assetSheet == null) {
             assetSheet = loadAssets();
         }
 
         return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
-		
-		
+
+
 	}
-    
+
     /**
      * @return buffered image of the options icon
      */
 	public static BufferedImage getOptionsSprite() {
-		
+
 		int xGrid = 1;
     	int yGrid = 0;
-    	
-    	
+
+
         if (assetSheet == null) {
             assetSheet = loadAssets();
         }
 
         return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
-		
-		
+
+
 	}
-    
+
     /**
      * @return buffered image of the close icon
      */
 	public static BufferedImage getCloseSprite() {
-		
+
 		int xGrid = 0;
     	int yGrid = 0;
-    	
-    	
+
+
         if (assetSheet == null) {
             assetSheet = loadAssets();
         }
 
         return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
-		
-		
+
+
 	}
-    
+
     /**
      * @return buffered image of the save icon
      */
 	public static BufferedImage getSaveSprite() {
-		
+
 		int xGrid = 4;
     	int yGrid = 0;
-    	
-    	
+
+
         if (assetSheet == null) {
             assetSheet = loadAssets();
         }
 
         return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
-		
-		
+
+
 	}
-	
+
 	/**
      * @return buffered image of the return icon
      */
 	public static BufferedImage getReturnSprite() {
-		
+
 		int xGrid = 5;
     	int yGrid = 0;
-    	
-    	
+
+
         if (assetSheet == null) {
             assetSheet = loadAssets();
         }
 
         return assetSheet.getSubimage(xGrid  * AY_SIZE, yGrid * AY_SIZE, AY_SIZE, AY_SIZE);
-		
-		
+
+
 	}
-    
+
 	/**
-     * @return buffered image of the form 
+     * @return buffered image of the form
      */
 	public static BufferedImage getFormSprite() {
-			
+
 		int xGrid = 0;
     	int yGrid = 0;
-    	
-    	
+
+
         if (optionsSheet == null) {
         	optionsSheet = loadOptionsAssets();
         }
 
         return optionsSheet.getSubimage(xGrid * OX_SIZE, yGrid * OY_SIZE, OX_SIZE, OY_SIZE);
-			
-			
+
+
 	}
-    
+
     /**
      * @return buffered image of the colon
      */
 	public static BufferedImage getColonSprite() {
-		
+
 		int xGrid = 1;
 		int yGrid = 0;
-		
-		
+
+
 	    if (optionsSheet == null) {
 	    	optionsSheet = loadOptionsAssets();
 	    }
-	
+
 	    return optionsSheet.getSubimage((xGrid - 1) * OX_SMALL_SIZE + OX_SIZE, yGrid * AY_SIZE, OX_SMALL_SIZE, OY_SIZE);
 	}
-	
+
     /**
      * @return buffered image of the Up Arrow
      */
 	public static BufferedImage getArrowUpSprite() {
-		
+
 		int xGrid = 2;
 		int yGrid = 0;
-		
-		
+
+
 	    if (optionsSheet == null) {
 	    	optionsSheet = loadOptionsAssets();
 	    }
-	
+
 	    return optionsSheet.getSubimage((xGrid - 1) * OX_SMALL_SIZE + OX_SIZE, yGrid * AY_SIZE, OX_SMALL_SIZE, OX_SMALL_SIZE);
 	}
-	
+
     /**
      * @return buffered image of the Down Arrow
      */
 	public static BufferedImage getArrowDownSprite() {
-		
+
 		int xGrid = 3;
 		int yGrid = 0;
-		
-		
+
+
 	    if (optionsSheet == null) {
 	    	optionsSheet = loadOptionsAssets();
 	    }
-	
+
 	    return optionsSheet.getSubimage((xGrid - 1) * OX_SMALL_SIZE + OX_SIZE, yGrid * AY_SIZE, OX_SMALL_SIZE, OX_SMALL_SIZE);
 	}
-    
+
     public static BufferedImage getWin() {
     	if (youWin == null);
 
@@ -403,7 +407,7 @@ public class Sprite {
 
         return youWin;
     }
-    
+
     public static BufferedImage getLose() {
     	if (youLose == null);
 
@@ -416,9 +420,9 @@ public class Sprite {
 
         return youLose;
     }
-	
-	
-	
-	
-	
+
+
+
+
+
 }

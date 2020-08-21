@@ -1,3 +1,5 @@
+package ui.frames;
+
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -5,6 +7,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
+
+import ui.panels.TitlePanel;
 
 /**
  * Testing class for testing the title panel class
@@ -14,7 +18,7 @@ public class TestTitle extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private TitlePanel panel;
 	private boolean control, shift, c;
-	
+
 	/**
 	 * Constructor for testing the panel
 	 */
@@ -26,14 +30,14 @@ public class TestTitle extends JFrame {
 		this.c = false;
 		this.panel = new TitlePanel();
 		this.add(this.panel);
-		
+
 		this.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mousePressed(MouseEvent e) {
-            	
-            	
-            	
+
+
+
                 repaint();
             }
 
@@ -42,7 +46,7 @@ public class TestTitle extends JFrame {
             	game(true);
             }
         });
-		
+
 		this.addKeyListener(new KeyListener() {
 
 			@Override
@@ -51,13 +55,13 @@ public class TestTitle extends JFrame {
 
 			    if (keys == KeyEvent.VK_CONTROL) {
 			        control = true;
-			    } 
+			    }
 			    if (keys == KeyEvent.VK_SHIFT) {
 			    	shift = true;
 			    }
 			    if (keys == KeyEvent.VK_C) {
 			        c = true;
-			    } 
+			    }
 			}
 
 
@@ -66,23 +70,23 @@ public class TestTitle extends JFrame {
 				if (control && shift && c) {
 					game(false);
 				} else {
-				
+
 					game(true);
 				}
 				return;
-				
+
 			}
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				return;
-				
+
 			}
-		
+
 		});
-		
+
 	}
-	
+
 	/**
 	 * Creates a game object for the test class
 	 */
@@ -97,6 +101,6 @@ public class TestTitle extends JFrame {
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		dispose();
 	}
-	
-	
+
+
 }

@@ -1,9 +1,9 @@
-
+package game;
 import java.util.ArrayList;
 
 /**
  * Player is a class representation for a poker player
- * 
+ *
  * The class player composes of its hand and the amount of money they have
  */
 public class Player {
@@ -32,7 +32,7 @@ public class Player {
 
     /**
      * Adds a card to the hand if the player has 0 or 1 cards, and returns true
-     * 
+     *
      * @param card card to be added
      * @return returns false if card was not added, true if it was
      */
@@ -54,7 +54,7 @@ public class Player {
     {
         hand.clear();
     }
-    
+
     /**
      * Adds money to the player's hand
      */
@@ -84,23 +84,23 @@ public class Player {
     {
         return money;
     }
-    
-    
+
+
     public int getid() {
     	return id;
     }
-    
+
     public String getName() {
     	return name;
     }
-    
-    
+
+
     /**
      * Gets first card of the hand
      * @return first card
      */
     public Card firstCard()
-    {	
+    {
     	if (hand.size() < 1) return null;
         return hand.get(0);
     }
@@ -117,22 +117,22 @@ public class Player {
 
 	public void setMoney(int money) {
 		this.money = money;
-		
+
 	}
-    
+
     public void allin() {
     	allin = true;
     }
-    
+
     public boolean isAllin() {
     	return allin;
     }
 
 	public void notAllin() {
 		allin = false;
-		
+
 	}
-    
-    
-    
+
+
+
 }

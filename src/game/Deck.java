@@ -1,10 +1,10 @@
-
+package game;
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
  * Deck is a class representation of a standard poker deck.
- * 
+ *
  * It has standard deck operations such as drawing and shuffling.
  */
 public class Deck {
@@ -36,7 +36,7 @@ public class Deck {
     /**
      * Draws a card and returns the card and removes it from
      * the deck
-     * 
+     *
      * @return card that is drawn
      */
     public Card draw()

@@ -1,8 +1,10 @@
+package sound;
+
 import java.io.*;
 import javax.sound.sampled.*;
 
 /** Houses the sounf effects for the game and allows them to be played
- * 
+ *
  */
 public enum SoundEffects {
    DRAW("draw.wav"),   // explosion
@@ -53,7 +55,7 @@ public enum SoundEffects {
    }
 
    // Optional static method to pre-load all the sound files.
-   static void init() {
+   public static void init() {
       values(); // calls the constructor for all the elements
    }
 }

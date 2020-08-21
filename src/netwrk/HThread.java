@@ -1,5 +1,10 @@
+package netwrk;
+
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import ui.StartThread;
+import ui.frames.TestMenu;
 
 
 /**
@@ -13,7 +18,7 @@ public class HThread extends Thread {
 	private AtomicInteger status;
 	private TestMenu master;
 	private StartThread t;
-	
+
 	/** Creates a thread to create and control when a server starts
 	 * @param port The port the server will be hosted on
 	 * @param starting_cash Starting cash of the players
@@ -27,17 +32,17 @@ public class HThread extends Thread {
 		this.master = master;
 		this.status = new AtomicInteger(0);
 	}
-	
-	
+
+
 	/**
 	 * Creates a server and a frame to control the server
 	 */
 	public void run() {
-		
+
 		t = new StartThread(this);
 		t.start();
-		
-		
+
+
 		try {
 			new Server(max_connected, starting_cash, bblind, port, this, this.status);
 			System.out.println("serverConstruction finished");
@@ -45,40 +50,40 @@ public class HThread extends Thread {
 		} catch (IOException | InterruptedException e) {
 			System.out.println("ERROR: Server Failure");
 		}
-		
-		
-		
+
+
+
 	}
-	
+
 	/** Starts the server and joins the host
-	 * 
+	 *
 	 */
 	public void sendStart() {
 		this.status.incrementAndGet();
 		System.out.println("updating status to start");
 		master.game(true);
 	}
-	
+
 	/** Cancels the server
-	 * 
+	 *
 	 */
 	public void sendStop() {
 		this.status.decrementAndGet();
 		master.game(true);
 	}
-	
+
 	/** Updates the number of people connected to the server
 	 * @param val The number of connections to the server
 	 */
 	public void updateConnected(int val) {
 		this.connected = val;
 	}
-	
+
 	/** Returns the number of connections to the server
 	 * @return The number of connections to the server
 	 */
 	public int getConnected () {
 		return this.connected;
 	}
-	
+
 }

@@ -1,3 +1,5 @@
+package ui.frames;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -8,6 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+
+import game.Card;
+import game.Player;
+import netwrk.User;
+import ui.Sprite;
+import ui.panels.TestPanel;
 
 /**
  * @author Trey Briccetti
@@ -25,7 +33,7 @@ public class TestBoard extends JFrame {
 	private JSpinner raise_spinner;
 	/** Creates a Frame that holds The game display UI
 	 * @param master The Main Menu
-	 * @param user The User 
+	 * @param user The User
 	 * @param id Unique identifier of the user used in networking
 	 */
 	public TestBoard(TestMenu master, User user, int id) {
@@ -117,7 +125,7 @@ public class TestBoard extends JFrame {
 
 
 	/** Tells the panel to fold the current hand
-	 * 
+	 *
 	 */
 	public void fold() {
 		System.out.println("folding");
@@ -206,7 +214,7 @@ public class TestBoard extends JFrame {
 	public void setWinnings(int id, int pot) {
 		this.panel.winHand(id, pot);
 	}
-	
+
 	/** Updates the display to show whose turn it is
 	 * @param id
 	 */
@@ -215,7 +223,7 @@ public class TestBoard extends JFrame {
 	}
 
 	/** Resets the panel ui for the next hand
-	 * 
+	 *
 	 */
 	public void resetHand() {
 		table_cards = new Card[5];
@@ -236,7 +244,7 @@ public class TestBoard extends JFrame {
 	 */
 	public void sendLoss() {
 		this.panel.lose();
-		
+
 	}
 
 
@@ -248,7 +256,7 @@ public class TestBoard extends JFrame {
 	 */
 	public void sendFold(int id) {
 		this.panel.fold(id);
-		
+
 	}
 
 
@@ -257,7 +265,7 @@ public class TestBoard extends JFrame {
 	 */
 	public void sendDisconnect(int id) {
 		this.panel.dc(id);
-		
+
 	}
 
 
@@ -266,7 +274,7 @@ public class TestBoard extends JFrame {
 	 */
 	public void sendCheck(int id) {
 		this.panel.check(id);
-		
+
 	}
 
 
@@ -276,9 +284,9 @@ public class TestBoard extends JFrame {
 	 */
 	public void sendRaise(int id, int bet) {
 		this.panel.raise(id, bet);
-		
+
 	}
-	
+
 	/** Reveals the cards of another player in the game
 	 * @param id The player in question
  	 * @param value1 The value of the first card
@@ -288,17 +296,17 @@ public class TestBoard extends JFrame {
 	 */
 	public void sendPlayerCards(int id, int value1, int suit1, int value2, int suit2) {
 		this.panel.setPlayerCards(id, new Card(value1, suit1), new Card(value2, suit2));
-		
+
 	}
 
 
 
 	/** Tells the display to show the you win screen
-	 * 
+	 *
 	 */
 	public void sendWin() {
 		this.panel.win();
-		
+
 	}
 
 
@@ -308,21 +316,21 @@ public class TestBoard extends JFrame {
 	 */
 	public void sendAllin(int id, int bet) {
 		this.panel.sendAllin(id, bet);
-		
+
 	}
 
 
 	/** Tells the display to show the leave game option
-	 * 
+	 *
 	 */
 	public void sendGameEnd() {
 		this.panel.gameEnd();
-		
+
 	}
 
 
 	/** Exits the game frame and returns to the main menu
-	 * 
+	 *
 	 */
 	public void exit() {
 		this.master.menu();
@@ -330,10 +338,10 @@ public class TestBoard extends JFrame {
 		this.master.setLocationRelativeTo(this);
 		this.master.setSize(this.getWidth(), this.getHeight());
 		this.dispose();
-		
+
 	}
 
 
-	
+
 
 }

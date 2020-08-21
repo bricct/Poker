@@ -1,3 +1,5 @@
+package netwrk;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -5,7 +7,7 @@ import java.net.Socket;
 import java.util.PriorityQueue;
 
 class CThread extends Thread {
-	
+
 private Socket s;
 DataInputStream infromClient;
 DataOutputStream outToClient;
@@ -13,7 +15,7 @@ private int id;
 private PriorityQueue<String> cmds;
 
 	CThread() throws IOException{}
-	
+
 	/** Creates a thread to listen for message from a particular client
 	 * @param s The socket
 	 * @param id The id of the particular client
@@ -30,18 +32,18 @@ private PriorityQueue<String> cmds;
 		/** Sends an id to the player and then Constantly polls for messages from the user
 		 *
 		 */
-		public void run(){  
-			
-			
+		public void run(){
+
+
 	        try {
 				outToClient.writeUTF(Integer.toString(id));
 				//System.out.println("just wrote " + id + " to client");
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			
-			
-			
+
+
+
 			while(true) {
 				try {
 			        this.readCommand();
@@ -58,20 +60,20 @@ private PriorityQueue<String> cmds;
 				try {
 					sleep(50);
 				} catch (InterruptedException e) {
-					
+
 					e.printStackTrace();
 					break;
 				}
 			}
-			
+
 		}
-		
-		
-		private synchronized void readCommand() throws IOException { 
+
+
+		private synchronized void readCommand() throws IOException {
 			String msg = infromClient.readUTF();
 	        this.cmds.add(msg);
 		}
-		
+
 		/** Sends a message to the user
 		 * @param msg The message to be sent from the server to the client
 		 * @throws IOException
@@ -79,6 +81,6 @@ private PriorityQueue<String> cmds;
 		public void sendMessage(String msg) throws IOException {
 			outToClient.writeUTF(msg);
 		}
-	
-	
+
+
 }

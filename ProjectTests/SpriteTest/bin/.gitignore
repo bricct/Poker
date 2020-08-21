@@ -1,6 +1,12 @@
 /Card.class
 /Chips.class
 /Deck.class
+/HostPanel$1.class
+/HostPanel$2.class
+/HostPanel.class
+/JoinPanel$1.class
+/JoinPanel$2.class
+/JoinPanel.class
 /MenuPanel$1.class
 /MenuPanel$2.class
 /MenuPanel.class
@@ -11,6 +17,9 @@
 /OptionsPanel$2.class
 /OptionsPanel.class
 /Player.class
+/PortPanel$1.class
+/PortPanel$2.class
+/PortPanel.class
 /SoundEffects$Volume.class
 /SoundEffects.class
 /Sprite.class
@@ -32,12 +41,3 @@
 /TestTitle.class
 /TitlePanel$1.class
 /TitlePanel.class
-/HostPanel.class
-/HostPanel$1.class
-/HostPanel$2.class
-/PortPanel.class
-/PortPanel$1.class
-/PortPanel$2.class
-/JoinPanel$1.class
-/JoinPanel$2.class
-/JoinPanel.class

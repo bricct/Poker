@@ -1,3 +1,5 @@
+package ui.panels;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,6 +18,15 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import game.Card;
+import game.Player;
+import sound.MusicController;
+import sound.SoundEffects;
+import ui.Chips;
+import ui.Sprite;
+import ui.frames.TestBoard;
+import ui.frames.TestMenu;
 
 /**
  * @author Trey Briccetti
@@ -54,7 +65,7 @@ public class TestPanel extends JPanel {
 	 * @param id Client id used in networking
 	 */
 	public TestPanel(TestBoard master, Card card1, Card card2, int id) {
-		
+
 		//set some initial values for the display
 		this.setSize(900, 480);
 		this.card1 = null;
@@ -62,16 +73,16 @@ public class TestPanel extends JPanel {
 		this.money = 0;
 		this.pot = 0;
 		this.to_add = 0;
-		
+
 		//create list of players and add self
 		this.players = new ArrayList<>();
 		players.add(new Player(id, TestMenu.name, 0));
-		
+
 		//initialize some display strings;
 		this.player_moves = new ArrayList<>();
 		player_moves.add("");
 		this.turn_win = "";
-		
+
 		//initialize array that holds the flop turn and river boolean values (dealt or not dealt)
 		this.card_set = new boolean[5];
 		for (int i = 0; i < 5; i++) {
@@ -82,14 +93,14 @@ public class TestPanel extends JPanel {
 		this.timer = new Timer(15, animator);
 		this.timer.start();
 
-		
+
 		//Initialize all necessary sprites and the custom font
 		Dimension scr_dim = getSize();
 		width = (int) scr_dim.getWidth() - 16;
 		height = (int) scr_dim.getHeight() - 39;
 
 		font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
-		
+
 		back_reg = Sprite.getBackSprite();
 		deck_reg = Sprite.getDeckSprite();
 		volume_on = Sprite.getVolumeSprite(0);
@@ -108,18 +119,18 @@ public class TestPanel extends JPanel {
 		}
 
 		itable = TestMenu.table;
-		
+
 		chip_spr = new Image[6];
 		itable_cards = new Image[5];
 		iplayer_cards = new Image[8];
 
-		
+
 		for (int i = 0; i < 6; i++) {
 			chip_spr[i] = Sprite.getChipSprite(i);
 		}
-		
-		
-		
+
+
+
 		//initialize table card array for holding cards for flop turn and river
 		this.table_cards = new Card[5];
 
@@ -127,23 +138,23 @@ public class TestPanel extends JPanel {
 			this.table_cards[i] = null;
 		}
 
-		
-		
+
+
 		//initialize sound controller audio clips and volume
 		SoundEffects.init();
 		SoundEffects.volume = SoundEffects.Volume.LOW;
-		
-		
+
+
 		//initialize some volume and game state booleans
 		this.vol_toggle = true;
 		this.vchanging = false;
-		
+
 		this.win = false;
 		this.lose = false;
 		this.gameOver = false;
 
-		
-		
+
+
 		//this resizes all images on the screen every time that the screen is resized
 		this.addComponentListener(new ComponentAdapter() {
 		    public void componentResized(ComponentEvent componentEvent) {
@@ -151,8 +162,8 @@ public class TestPanel extends JPanel {
 		    	updateSprites();
 		    }
 		});
-		
-		
+
+
 		//mouse listener to pick up mouse clicks on certain buttons
 		this.addMouseListener(new MouseAdapter() {
 
@@ -238,21 +249,21 @@ public class TestPanel extends JPanel {
 
 	}
 
-	
+
 	//updates all sprites according to size dimensions of screen
 	private void updateSprites() {
 		Dimension scr_dim = getSize();
 		width = (int) scr_dim.getWidth();
 		height = (int) scr_dim.getHeight();
-		
+
 		font = new Font("UglyPoker", Font.TRUETYPE_FONT, (height/150 + width/450));
 
 		itable = TestMenu.table.getScaledInstance(width, height, Image.SCALE_FAST);
 
 		c_width = (int) Math.floor((double)width/13.0 );
 		c_height = (int) Math.floor((double)height/5.0 );
-		
-		
+
+
 
 		b_width = (int) Math.floor(c_width * 0.7);
 		b_height = (int) Math.floor(c_height * 0.7);
@@ -271,15 +282,15 @@ public class TestPanel extends JPanel {
 			if (table_cards[i] == null) break;
 			itable_cards[i] = Sprite.getSprite(table_cards[i]).getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 		}
-		
+
 		for (int i = 0; i < 8; i ++) {
 			if (i/2 + 1 > players.size() - 1) break;
 			Player p = players.get(i/2 + 1);
 			if (p.firstCard() != null) iplayer_cards[i++] = Sprite.getSprite(p.firstCard()).getScaledInstance(b_width, b_height, Image.SCALE_FAST);
 			if (p.secCard() != null) iplayer_cards[i] = Sprite.getSprite(p.secCard()).getScaledInstance(b_width, b_height, Image.SCALE_FAST);
 		}
-			
-		
+
+
 		icard1 = card1_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 		icard2 = card2_reg.getScaledInstance(c_width, c_height, Image.SCALE_FAST);
 		iback = back_reg.getScaledInstance(b_width, b_height, Image.SCALE_FAST);
@@ -370,8 +381,8 @@ public class TestPanel extends JPanel {
 				}
 			}
 		}
-		
-		
+
+
 		SoundEffects.CHIP.play();
 		this.repaint();
 	}
@@ -380,14 +391,14 @@ public class TestPanel extends JPanel {
 	private void resetTurnWin() {
 		turn_win = "";
 		repaint();
-		
+
 	}
-	
+
 	/** Displays whose turn it is
 	 * @param id Networking unique identifier of the player in question
 	 */
 	public void turn(int id) {
-		
+
 		resetTurnWin();
 		if (id == players.get(0).getid()) {
 			turn_win = "Your turn";
@@ -398,10 +409,10 @@ public class TestPanel extends JPanel {
 				}
 			}
 		}
-		
+
 		this.repaint();
 	}
-	
+
 
 	/** Adds an amount of money to the pot
 	 * @param to_add the amount of money to add
@@ -469,7 +480,7 @@ public class TestPanel extends JPanel {
 		this.repaint();
 	}
 
-	
+
 	/** Update the pot display in the middle of the top of the panel
 	 * @param pot The amount of money in the pot
 	 */
@@ -479,9 +490,9 @@ public class TestPanel extends JPanel {
 		this.repaint();
 	}
 
-	
+
 	/** Resets the ui to the beginning of a new hand
-	 * 
+	 *
 	 */
 	public void reset() {
 		resetPlayerMoves();
@@ -502,16 +513,16 @@ public class TestPanel extends JPanel {
 		this.repaint();
 
 	}
-	
+
 	//erase other players previous move info when a new turn happens
 	private void resetPlayerMoves() {
 		for (int i = 0; i < player_moves.size(); i++) {
 			player_moves.set(i,"");
 		}
-		
+
 	}
-	
-	
+
+
 	/** Draw message saying if another play is all-in
 	 * @param id Networking unique identifier of the player in question
 	 * @param bet the amount of money the player has bet to go all-in
@@ -523,14 +534,14 @@ public class TestPanel extends JPanel {
 				player_moves.set(i,"All In " + bet);
 			}
 		}
-		
+
 	}
 
 
-	
+
 
 	/**Display winning screen briefly and then allow to disconnect
-	 * 
+	 *
 	 */
 	public void win() {
 		win = true;
@@ -544,7 +555,7 @@ public class TestPanel extends JPanel {
 		win = false;
 	}
 
-	
+
 	/** Display if another player raised
 	 * @param id Networking unique identifier of the player in question
 	 * @param bet the maount of money the player has just bet
@@ -556,11 +567,11 @@ public class TestPanel extends JPanel {
 				player_moves.set(i,"Raise " + bet);
 			}
 		}
-		
+
 	}
 
 	/** Display losing screen briefly and then allow to disconnect
-	 * 
+	 *
 	 */
 	public void lose() {
 		lose = true;
@@ -572,8 +583,8 @@ public class TestPanel extends JPanel {
 			e.printStackTrace();
 		}
 		lose = false;
-		
-		
+
+
 	}
 
 	/**Display if another player folded
@@ -586,9 +597,9 @@ public class TestPanel extends JPanel {
 				player_moves.set(i,"Fold");
 			}
 		}
-		
+
 	}
-	
+
 	/**reveal another players cards (at end of hand if it comes down to it)
 	 * @param id Networking unique identifier of the player in question
 	 * @param card1 The first card of the player in questions hand
@@ -603,9 +614,9 @@ public class TestPanel extends JPanel {
 		}
 		updateSprites();
 		repaint();
-		
+
 	}
-	
+
 
 	/** Doesn't do anything just yet
 	 * @param id Networking unique identifier of the player in question
@@ -613,8 +624,8 @@ public class TestPanel extends JPanel {
 	public void dc(int id) {
 	}
 
-	
-	
+
+
 	/** Displays if another person has checked
 	 * @param id Networking unique identifier of the player in question
 	 */
@@ -625,12 +636,12 @@ public class TestPanel extends JPanel {
 				player_moves.set(i,"Check");
 			}
 		}
-		
+
 	}
 
 
 	/** Displays a button allowing the player to easily disconnect and go back to the menu
-	 * 
+	 *
 	 */
 	public void gameEnd() {
 		this.gameOver = true;
@@ -639,7 +650,7 @@ public class TestPanel extends JPanel {
 	}
 
 
-	
+
 	//single action listener responsible for controlling the various animations of the display
 	private ActionListener animator = new ActionListener() {
 
@@ -681,7 +692,7 @@ public class TestPanel extends JPanel {
 
 
 	};
-	
+
 
 
 
@@ -694,7 +705,7 @@ public class TestPanel extends JPanel {
 		//draw background image
 		g2d.drawImage(itable, 0, 0, this);
 
-		
+
 		//if cards are null draw backs of cards otherwise draw the cards
 		if (this.card1 == null || this.card2 == null) {
 			card1_reg = back_reg;
@@ -704,26 +715,26 @@ public class TestPanel extends JPanel {
 			card2_reg = Sprite.getSprite(this.card2);
 		}
 
-		
-		
+
+
 		//Animate player cards
 		if (anim_select == 0) g2d.drawImage(icard1, (width/2) - c_width , height - (height/4) + ((20-c_anim) * (height/24)), this);
 		else g2d.drawImage(icard1, (width/2) - c_width , height - (height/4), this);
 		if (anim_select == 1) g2d.drawImage(icard2, (width/2) + 5, height - (height/4) + ((20-c_anim) * (height/24)), this);
 		else if (anim_select > 1) g2d.drawImage(icard2, (width/2) + 5, height - (height/4), this);
 
-		
+
 		//set font & color for drawing some info strings
 		g2d.setColor(Color.white);
 		g2d.setFont(this.font);
-		
+
 		FontMetrics metrics = g2d.getFontMetrics(font);
 
 
 		//g2d.drawString("You",(int) Math.floor( width/2 + 1.2 * c_width), 6* height/8);
 		g2d.drawString("Cash $" + this.money , width/2 - c_width, height - (height/4) - (2 * ch_size/3));
 
-		
+
 
 		//draw table cards
 		for (int i = 0; i < 5; i++) {
@@ -764,7 +775,7 @@ public class TestPanel extends JPanel {
 		g2d.drawString("Your name is " + players.get(0).getName(), width/2 + width/4 - metrics.stringWidth("Your name is " + players.get(0).getName())/2, height/4 - 2 * ch_size + metrics.getHeight());
 		g2d.drawString(turn_win , width/7, height/4 - 2 * ch_size + metrics.getHeight());
 
-		
+
 		//animate chips sliding across table on a raise
 		if (anim_select == 3) {
 			int[] to_add = Chips.getChips(this.to_add);
@@ -777,7 +788,7 @@ public class TestPanel extends JPanel {
 		}
 
 
-		
+
 
 
 		//draw other player's cards, names, and cash
@@ -813,7 +824,7 @@ public class TestPanel extends JPanel {
 		//p4
 		if (players.size() > 3) {
 			if (players.get(1).firstCard() == null || players.get(1).secCard() == null) {
-		
+
 				g2d.drawImage(iback, (width/8) - b_width, height/2 - (b_height/2), this);
 				g2d.drawImage(iback, (width/8) + 5, height/2 - (b_height/2), this);
 			} else {
@@ -829,7 +840,7 @@ public class TestPanel extends JPanel {
 		//p5
 		if (players.size() > 4) {
 			if (players.get(1).firstCard() == null || players.get(1).secCard() == null) {
-		
+
 				g2d.drawImage(iback, 7 * (width/8) - b_width, height/2 - (b_height/2), this);
 				g2d.drawImage(iback, 7 * (width/8) + 5 , height/2 - (b_height/2), this);
 			} else {
@@ -847,50 +858,50 @@ public class TestPanel extends JPanel {
 		//draw music and volume icons in top corners
 		g2d.drawImage(imusic, 2, 5, this);
 		g2d.drawImage(ivolume, width - (2*ch_size) - 2, 5, this);
-		
-		
+
+
 		//display winning or losing screens/disconnect buttons when warranted
 		if (this.win) {
 			g2d.drawImage(youWin.getScaledInstance(width,  height, Image.SCALE_FAST), 0, 0, this);
 			g2d.setColor(Color.yellow);
 			g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, width/100));
 			FontMetrics winMetrics = g2d.getFontMetrics(font);
-			
+
 			g2d.drawString("You Win", width/2 - winMetrics.stringWidth("You Win"), height - height/4 - 5 * winMetrics.getHeight()/2);
-			
+
 			g2d.setColor(Color.white);
 			g2d.setFont(this.font);
-			
+
 		} else if (this.lose) {
 			g2d.drawImage(youLose.getScaledInstance(width,  height, Image.SCALE_FAST), 0, 0, this);
 			g2d.setColor(Color.red);
 			g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, width/100));
 			FontMetrics winMetrics = g2d.getFontMetrics(font);
-			
+
 			g2d.drawString("You Lose", width/2 - winMetrics.stringWidth("You Lose"), height - height/4 - 5 * winMetrics.getHeight()/2);
-			
+
 			g2d.setColor(Color.white);
 			g2d.setFont(this.font);
-			
+
 		}
-		
+
 		if (gameOver) {
 			g2d.drawImage(Sprite.getButtonSprite().getScaledInstance(width/4, height/4, Image.SCALE_FAST), 3 * width/8, 3 * height/4, this);
 			g2d.setColor(Color.LIGHT_GRAY);
 			g2d.setFont(new Font("UglyPoker", Font.TRUETYPE_FONT, width/150));
 			FontMetrics exitMetrics = g2d.getFontMetrics(font);
-			
+
 			g2d.drawString("Leave Game", width/2 - exitMetrics.stringWidth("Leave Game")/2, height - height/8 - exitMetrics.getHeight()/2);
-			
+
 			g2d.setFont(this.font);
 		}
-		
-		
+
+
 
 		//idk what this does but someone on the internet said its important
 		Toolkit.getDefaultToolkit().sync();
 	}
-	
+
 
 
 }

@@ -1,3 +1,5 @@
+package ui.frames;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -5,6 +7,14 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import netwrk.User;
+import sound.MusicController;
+import ui.panels.HostPanel;
+import ui.panels.JoinPanel;
+import ui.panels.MenuPanel;
+import ui.panels.OptionsPanel;
+import ui.panels.PortPanel;
 
 /**
  * Menu class for the game
@@ -161,7 +171,7 @@ public class TestMenu extends JFrame {
 			TestMenu.ip[3] = 1;
 		}
 		new User(this);
-		
+
 		// TestBoard board = new TestBoard(this, new User());
 		// Dimension scr_dim = getSize();
 		// int width = (int) scr_dim.getWidth();
@@ -172,9 +182,9 @@ public class TestMenu extends JFrame {
 		// board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// this.setVisible(false);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Triggers the actual menu ui
 	 * @param mus_toggle

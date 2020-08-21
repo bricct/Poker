@@ -1,7 +1,11 @@
+package netwrk;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+
+import ui.frames.TestMenu;
 
 /**
  * Client is our class representation of our clients that will
@@ -26,41 +30,41 @@ public class Client {
 		this.ip = ip;
 		this.port = port;
 	}
-	
+
 	/**
 	 * Connect function to connect to the server
 	 * @return returns id of the connection if connects correctly
 	 */
 	public int connect() {
 		try {
-			
+
 			socketConnection = new Socket(this.ip, this.port);
-			
-			
+
+
 			//QUERY PASSING
 			outToServer = new DataOutputStream(socketConnection.getOutputStream());
 			inFromServer = new DataInputStream(socketConnection.getInputStream());
-			
-			
+
+
 			try {
-				
+
 				this.client_id = Integer.parseInt(getMessage());
-				
+
 				//outToServer.writeUTF(this.client_id + " connected");
 				sendMessage(this.client_id + " " + TestMenu.name);
 				return this.client_id;
-			} catch (NumberFormatException e) { 
+			} catch (NumberFormatException e) {
 				System.out.println("Oopsies something went wrong");
 			}
-			
-			
+
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
+
 		return -1;
 	}
-	
+
 	/**
 	 * Send a message to the server
 	 * @param msg the message to send
@@ -70,7 +74,7 @@ public class Client {
 		System.out.println("sending message from client " + this.client_id + " to server class -> " + msg);
 		outToServer.writeUTF(msg);
 	}
-	
+
 	/**
 	 * Pulls message from the server
 	 * @return The message that was pulled
@@ -81,7 +85,7 @@ public class Client {
 		if (msg.equals("game-end -1")) socketConnection.shutdownOutput();
 		return msg;
 	}
-	
+
 	/**
 	 * Sends a message to a user
 	 * @param msg the message to send
@@ -95,7 +99,7 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Disconnects the user from the server
 	 */

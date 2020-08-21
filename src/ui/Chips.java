@@ -1,5 +1,5 @@
-
-/** 
+ package ui;
+/**
  * @author Trey Briccetti
  * @version 1.0
  */
@@ -11,7 +11,7 @@ public class Chips {
 	 * @return Array representing how many chips of each type need to be drawn to display an amount of money
 	 */
 	public static int[] getChips(int _amt) {
-		
+
 		int[] chips = new int[6];
 		chips[5] = _amt / 1000;
 		_amt %= 1000;
@@ -24,10 +24,10 @@ public class Chips {
 		chips[1] = _amt / 5;
 		_amt %= 5;
 		chips[0] = _amt / 1;
-	
+
 		return chips;
-	
+
 	}
-	
-	
+
+
 }

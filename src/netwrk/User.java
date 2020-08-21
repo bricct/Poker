@@ -1,6 +1,13 @@
+package netwrk;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+
+import game.Card;
+import game.Player;
+import ui.frames.TestBoard;
+import ui.frames.TestMenu;
 
 /**
  * @author Trey Briccetti
@@ -21,13 +28,13 @@ public class User {
 	 */
 	public User(TestMenu master) {
 		//PriorityQueue<String> commands = new PriorityQueue<>();
-		
+
 		String ip = "";
 		ip += TestMenu.ip[0];
 		ip += "."+ TestMenu.ip[1];
 		ip += "." + TestMenu.ip[2];
 		ip += "." + TestMenu.ip[3];
-		
+
 
 
 		System.out.println(ip);
@@ -65,7 +72,7 @@ public class User {
 	/**
 	 * Sends message to server
 	 * @param msg The message to send
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void sendMessage(String msg) throws Exception {
 
@@ -111,7 +118,7 @@ public class User {
 
 		} else if (args[0].equals("money")) {
 
-			
+
 				int id = Integer.parseInt(args[1]);
 				int money = Integer.parseInt(args[2]);
 
@@ -123,7 +130,7 @@ public class User {
 				int num_players = Integer.parseInt(args[1]);
 				int starting_money = Integer.parseInt(args[2]);
 				ArrayList<Player> players = new ArrayList<>();
-				
+
 				int itr = 1;
 				int i = 3;
 				while (itr < num_players) {
@@ -132,7 +139,7 @@ public class User {
 					itr++;
 					players.add(new Player(id, name, starting_money));
 				}
-				
+
 
 				this.board.setPlayers(players);
 
@@ -165,9 +172,9 @@ public class User {
 
 		} else if (args[0].equals("all-in")) {
 			board.sendAllin(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
-			
+
 		} else if (args[0].equals("flop")) {
-		
+
 
 			if (args.length < 7) throw new IOException("bad flop");
 
@@ -216,7 +223,7 @@ public class User {
 
 
 		} else if (args[0].equals("winnings")) {
-			
+
 			this.board.setWinnings(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 
 
@@ -229,7 +236,7 @@ public class User {
 		} else if (args[0].equals("you-lose")) {
 			this.board.sendLoss();
 		} else if (args[0].equals("reset-hand")) {
-		
+
 			this.board.resetHand();
 
 		} else if (args[0].equals("game-end")) {
