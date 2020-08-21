@@ -10,6 +10,9 @@ A Texas Hold 'em Application in Java
 
 Additional Folders:
 -bin: For containing all class files
+-ProjectTest: Just a folder with a our testing
+-Resources: Our library just to manage all our media
+-Development Design Documentation: Documentation for code structure
 
 Coding Environment during Development:
 -Windows 10 Pro 64-bit

@@ -1,3 +1,3 @@
 cd ..
 cd ..
-java -cp "bin" TestRun
+java -cp "bin" ui.Run
