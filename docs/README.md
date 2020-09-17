@@ -1,7 +1,7 @@
 #Texas Hold 'em
 A Texas Hold 'em Application in Java
 
-Visual Demo: 
+#Visual Demo:
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/ypuJo7nV3tk/0.jpg)](https://www.youtube.com/watch?v=ypuJo7nV3tk)
 
 1. Start the game by running the game launcher script thats with your respective operating system.
